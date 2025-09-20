@@ -1,6 +1,6 @@
 package ru.alltime.dogovoraalltime.domain.models;
 
-enum Roles {
+public enum Roles {
     MANAGER,
     OWNED,
     ADMIN
