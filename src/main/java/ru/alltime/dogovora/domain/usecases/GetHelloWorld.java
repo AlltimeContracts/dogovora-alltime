@@ -1,4 +1,4 @@
-package ru.alltime.dogovoraalltime.domain.usecases;
+package ru.alltime.dogovora.domain.usecases;
 
 public class GetHelloWorld {
 

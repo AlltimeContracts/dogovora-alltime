@@ -1,4 +1,4 @@
-package ru.alltime.dogovoraalltime.infrastructure.api.web;
+package ru.alltime.dogovora.infrastructure.api.web;
 
 
 import org.springframework.stereotype.Controller;

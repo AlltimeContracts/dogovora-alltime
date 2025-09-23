@@ -1,8 +1,8 @@
-package ru.alltime.dogovoraalltime.infrastructure.api.rest;
+package ru.alltime.dogovora.infrastructure.api.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.alltime.dogovoraalltime.domain.usecases.GetHelloWorld;
+import ru.alltime.dogovora.domain.usecases.GetHelloWorld;
 
 @RestController
 public class HelloController {
