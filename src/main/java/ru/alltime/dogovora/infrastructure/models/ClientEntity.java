@@ -14,8 +14,9 @@ import java.util.List;
 public class ClientEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false, updatable = false)
-    private String id; // используем строковый UUID, генерируй в сервисе или тут
+    private Long id; // используем строковый UUID, генерируй в сервисе или тут
 
     @Enumerated(EnumType.STRING)
     @Column(name = "organizational_legal_form")

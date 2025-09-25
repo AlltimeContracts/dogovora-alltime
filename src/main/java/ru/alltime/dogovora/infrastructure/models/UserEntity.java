@@ -6,12 +6,17 @@ import ru.alltime.dogovora.domain.models.Roles;
 
 @Entity
 @Table(name = "users")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserEntity {
 
     @Id
-    @Column(name = "id", nullable = false, updatable = false)
-    private String id;
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long  id;
 
     @Column(name = "is_active", nullable = false)
     private boolean active;
