@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,15 +29,12 @@ public class User {
     @Column(nullable = false)
     private String secondName;
 
-
     private String thirdName;
 
     @Column(nullable = false, unique = true)
     private String login;
 
-
     private String position;
-
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -43,4 +42,6 @@ public class User {
 
     private boolean isActive;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HistoryRecord> historyRecords;
 }
