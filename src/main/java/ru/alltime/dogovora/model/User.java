@@ -38,7 +38,7 @@ public class User {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role roles;
+    private Role roles;   //для зарегистрировавшихся пользователей выдавать роль - MANAGER
 
     private boolean isActive;
 

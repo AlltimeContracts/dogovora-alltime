@@ -36,6 +36,4 @@ public class Requisits {
 
     private String correspondentAccount; // Корреспондентский счет
 
-
-
 }
