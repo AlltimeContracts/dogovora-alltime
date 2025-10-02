@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class HistoryRecord { // HistoryRec
+public class HistoryRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

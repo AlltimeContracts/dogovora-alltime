@@ -1,12 +1,8 @@
 package ru.alltime.dogovora.service;
 
-
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;
-
 
 public interface UserService {
 
@@ -14,15 +10,14 @@ public interface UserService {
 
     User findUserByLogin(String login);
 
-    User findUserByRole(String role);
+    User findUserByRoles(String roles);
 
     User findUserByFirstName(String firstName);
 
     User createUser(User user);
 
-    void deleteUser(String login);
+    void deleteByLogin(String login);
 
     User updateUser(User user);
-
 
 }

@@ -21,7 +21,7 @@ public class Contract {
     private UUID id;
 
     @Column(nullable = false)
-    private String contractNum; // todo По документации String,  хочется Integer
+    private String contractNum; // todo По документации String, хочется Integer (бывают буквы, смирись Илья!)
 
     @Column(nullable = false)
     private boolean isActive;
@@ -34,7 +34,7 @@ public class Contract {
     private UUID clientId;
 
     @Column(nullable = false)
-    private List<UUID> managerIdList; // todo по документации List<String> и managerId в виду массива!
+    private List<UUID> managerIdList; // todo по документации List<String> и managerId в виду массива! (на здоровье!)
 
     private String descriptionText;
     

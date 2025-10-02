@@ -16,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class User {
 
     @Id
@@ -38,7 +39,7 @@ public class User {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role roles;   //для зарегистрировавшихся пользователей выдавать роль - MANAGER
+    private Roles roles;   // для зарегистрировавшихся пользователей выдавать роль - MANAGER
 
     private boolean isActive;
 
