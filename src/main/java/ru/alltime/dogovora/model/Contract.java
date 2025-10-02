@@ -38,7 +38,7 @@ public class Contract {
 
     private String descriptionText;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_id")
     private List<HistoryRecord> historyList;
 
