@@ -12,6 +12,8 @@ public interface ClientService {
 
     List<Client> findAllClients();
 
+    Client findClientById(UUID id);
+
     Client findClientByFullName(String fullName);
 
     Client findClientByBusinessForm(BusinessForm businessForm);

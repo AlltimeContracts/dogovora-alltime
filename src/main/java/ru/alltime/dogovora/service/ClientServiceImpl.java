@@ -24,6 +24,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Client findClientById(UUID id) {
+        return clientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
     public Client findClientByFullName(String fullName) {
         return clientRepository.findClientByFullName(fullName).orElseThrow(() -> new EntityNotFoundException());
     }

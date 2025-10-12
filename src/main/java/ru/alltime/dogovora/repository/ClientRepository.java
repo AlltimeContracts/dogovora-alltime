@@ -13,6 +13,7 @@ import java.util.UUID;
 
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
+
     Optional<Client> findClientByFullName(String fullName); // Метод для поиска клиента по имени
 
     Optional<Client> findClientByIsActive(boolean isActive); // Метод для фильтрации по активности
