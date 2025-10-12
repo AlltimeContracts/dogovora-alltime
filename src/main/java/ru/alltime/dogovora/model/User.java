@@ -43,6 +43,7 @@ public class User {
 
     private boolean isActive;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HistoryRecord> historyRecords;
 }
+   /* @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HistoryRecord> historyRecords; // быть не должно
+*/

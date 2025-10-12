@@ -2,6 +2,7 @@ package ru.alltime.dogovora.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.UUID;
 
 @Entity

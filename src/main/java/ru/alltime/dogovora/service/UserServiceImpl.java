@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByRoles(String roles) {
-        return userRepository.findByRoles(roles).orElseThrow(() -> new EntityNotFoundException());
+    public List<User> findUsersByRoles(String roles) {
+        return userRepository.findUsersByRoles(roles);
     }
 
     @Override
-    public User findUserByFirstName(String firstName) {
-        return userRepository.findByFirstName(firstName).orElseThrow(() -> new EntityNotFoundException());
+    public  List<User> findUsersByFirstName(String firstName) {
+        return userRepository.findUsersByFirstName(firstName);
     }
 
     @Override

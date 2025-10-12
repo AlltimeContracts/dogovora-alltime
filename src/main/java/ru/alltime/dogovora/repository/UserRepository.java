@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.alltime.dogovora.model.User;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,9 +12,9 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<User> findByFirstName(String firstName); // Метод для фильтрации по имени
+    List<User> findUsersByFirstName(String firstName); // Метод для фильтрации по имени
 
-    Optional<User> findByRoles(String roles); // Метод для фильтрации по роли
+    List<User> findUsersByRoles(String roles); // Метод для фильтрации по роли
 
     Optional<User> findUserByLogin(String login);
 

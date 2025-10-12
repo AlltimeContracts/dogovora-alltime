@@ -29,6 +29,11 @@ public class ContractServiceImpl implements ContractService {
         return contractRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException());
     }
 
+    @Override
+    public Contract findContractByContractNum(String contractNum) {
+        return contractRepository.findContractByContractNum(contractNum);
+    }
+
 
     @Override
     public List<Contract> findContractsByIsActive(boolean isActive) {

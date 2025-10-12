@@ -11,9 +11,9 @@ public interface ContractService {
 
     Contract findContractById(UUID uuid);
 
-    //Contract findContractByContractNum(String contractNum);
+    Contract findContractByContractNum(String contractNum);
 
-   List<Contract> findContractsByIsActive(boolean isActive);
+    List<Contract> findContractsByIsActive(boolean isActive);
 
     Contract createContract(Contract contract);
 

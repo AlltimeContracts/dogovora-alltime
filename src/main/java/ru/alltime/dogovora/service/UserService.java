@@ -10,9 +10,9 @@ public interface UserService {
 
     User findUserByLogin(String login);
 
-    User findUserByRoles(String roles);
+    List<User> findUsersByRoles(String roles);
 
-    User findUserByFirstName(String firstName);
+    List<User> findUsersByFirstName(String firstName);
 
     User createUser(User user);
 
