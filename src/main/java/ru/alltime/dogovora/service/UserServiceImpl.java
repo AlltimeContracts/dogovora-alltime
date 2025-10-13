@@ -15,7 +15,6 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
-
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
@@ -23,17 +22,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByLogin(String login) {
-        return userRepository.findUserByLogin(login).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return userRepository.findUserByLogin(login).orElseThrow(() -> new EntityNotFoundException());
     }
 
     @Override
-    public User findUserByRole(String role) {
-        return userRepository.findByRole(role).orElseThrow(() -> new EntityNotFoundException());
+    public List<User> findUsersByRoles(String roles) {
+        return userRepository.findUsersByRoles(roles);
     }
 
     @Override
-    public User findUserByFirstName(String firstName) {
-        return userRepository.findByFirstName(firstName).orElseThrow(() -> new EntityNotFoundException());
+    public  List<User> findUsersByFirstName(String firstName) {
+        return userRepository.findUsersByFirstName(firstName);
     }
 
     @Override
@@ -44,8 +43,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String login) {
-        userRepository.delete(login);
+    public void deleteByLogin(String login) {
+        userRepository.deleteByLogin(login);
     }
 
     @Override

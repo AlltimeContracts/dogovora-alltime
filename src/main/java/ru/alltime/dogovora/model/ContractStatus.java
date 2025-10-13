@@ -1,6 +1,6 @@
 package ru.alltime.dogovora.model;
 
-public enum ContractStatus {  //  todo Поставил единичное число, потому-что по нейминг конвенции, исправить в документации?
+public enum ContractStatus {
     ACTIVE, // Активный
     EXPIRED, // Истек
     DRAFT, // Черновик
@@ -9,5 +9,5 @@ public enum ContractStatus {  //  todo Поставил единичное чи�
     SIGNED, // Подписан
     HOLD, // Приостановлен
     TERMINATED, // Расторгнут
-    CANCELED // Аннулирован todo Исправил грамматическую ошибку в документации, надо справить в документации её
+    CANCELED // Аннулирован
 }

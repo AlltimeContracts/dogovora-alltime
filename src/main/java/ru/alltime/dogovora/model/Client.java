@@ -2,6 +2,7 @@ package ru.alltime.dogovora.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.UUID;
 
 @Entity
@@ -18,14 +19,14 @@ public class Client {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "organozation_and_legal_form")
-    private OrganizationalAndLegalForm organizationalAndLegalForm;
+    @Column(name = "business_form")
+    private BusinessForm businessForm; // todo подумать над сокращённым названием
 
     @Column(nullable = false)
     private String fullName;
 
     @OneToOne
-    private Requisits requisits;
+    private ClientDetails clientDetails;
 
     private String contractList;
 
