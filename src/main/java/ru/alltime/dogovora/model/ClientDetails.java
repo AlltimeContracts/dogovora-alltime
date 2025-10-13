@@ -6,15 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
-@Table(name = "requisits")
+@Table(name = "client_details")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Requisits {
+public class ClientDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

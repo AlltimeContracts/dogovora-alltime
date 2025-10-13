@@ -1,6 +1,6 @@
 package ru.alltime.dogovora.model;
 
-public enum OrganizationalAndLegalForm {
+public enum BusinessForm {
     ИП, // Индивидуальный предприниматель
     ООО, // Общество с ограниченной ответственностью
     АО, // Акционерное общество
