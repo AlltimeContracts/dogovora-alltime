@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+           http://www.liquibase.org/xml/ns/dbchangelog
+           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <!-- 1) Создание таблицы client_details (пропускаем, если уже есть) -->
+    <changeSet id="create-client-details-table" author="Alexander" runOnChange="false" runAlways="false">
+        <preConditions onFail="MARK_RAN" onError="HALT">
+            <not>
+                <tableExists tableName="client_details"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="client_details">
+            <!-- Long + GenerationType.IDENTITY -->
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="ogrn_ogrnip" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="inn" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="kpp" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="legal_address" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="actual_address" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="current_account" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="correspondent_account" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- 2) Индексы по частым атрибутам (создаём только если их ещё нет) -->
+    <changeSet id="idx-client-details-inn" author="Alexander">
+        <preConditions onFail="MARK_RAN" onError="HALT">
+            <tableExists tableName="client_details"/>
+            <not>
+                <indexExists tableName="client_details" indexName="idx_client_details_inn"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="client_details" indexName="idx_client_details_inn">
+            <column name="inn"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="idx-client-details-ogrn-ogrnip" author="Alexander">
+        <preConditions onFail="MARK_RAN" onError="HALT">
+            <tableExists tableName="client_details"/>
+            <not>
+                <indexExists tableName="client_details" indexName="idx_client_details_ogrn_ogrnip"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="client_details" indexName="idx_client_details_ogrn_ogrnip">
+            <column name="ogrn_ogrnip"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

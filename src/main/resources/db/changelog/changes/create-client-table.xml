@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+           http://www.liquibase.org/xml/ns/dbchangelog
+           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <!-- 1) Создание таблицы client (пропускаем, если уже есть) -->
+    <changeSet id="create-client-table" author="Alexander" runOnChange="false" runAlways="false">
+        <preConditions onFail="MARK_RAN" onError="HALT">
+            <not>
+                <tableExists tableName="client"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="client">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="client_pkey"/>
+            </column>
+
+            <column name="business_form" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="client_details_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="contract_list" type="TEXT">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- 2) Индекс по внешнему ключу (тоже идемпотентно) -->
+    <changeSet id="idx-client-client_details" author="Alexander">
+        <preConditions onFail="MARK_RAN" onError="HALT">
+            <tableExists tableName="client"/>
+            <not>
+                <indexExists tableName="client" indexName="idx_client_client_details"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="client" indexName="idx_client_client_details">
+            <column name="client_details_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- 3) Добавление внешнего ключа на client_details, если обе таблицы есть и FK ещё не создан -->
+    <changeSet id="fk-client-client_details" author="Alexander">
+        <preConditions onFail="MARK_RAN" onError="HALT">
+            <tableExists tableName="client"/>
+            <tableExists tableName="client_details"/>
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_client_details"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint
+                baseTableName="client"
+                baseColumnNames="client_details_id"
+                referencedTableName="client_details"
+                referencedColumnNames="id"
+                constraintName="fk_client_details"
+                onDelete="SET NULL"/>
+    </changeSet>
+
+</databaseChangeLog>

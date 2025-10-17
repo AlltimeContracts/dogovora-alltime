@@ -3,6 +3,8 @@ package ru.alltime.dogovora.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.alltime.dogovora.dto.UserResponseDTO;
+import ru.alltime.dogovora.mapper.UserMapper;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.repository.UserRepository;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private UserMapper userMapper;
 
     @Override
     public List<User> findAllUsers() {
@@ -21,13 +24,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByLogin(String login) {
-        return userRepository.findUserByLogin(login).orElseThrow(() -> new EntityNotFoundException());
+    public UserResponseDTO findUserByLogin(String login) {
+       User user =  userRepository.findUserByLogin(login).orElseThrow(() -> new EntityNotFoundException());
+        return userMapper.toResponseDto(user);
     }
 
     @Override
-    public List<User> findUsersByRoles(String roles) {
-        return userRepository.findUsersByRoles(roles);
+    public List<UserResponseDTO> findUsersByRoles(String roles) {
+        return userRepository.findUsersByRoles(roles)
+                .stream()
+                .map(userMapper::toResponseDto)
+                .toList();
     }
 
     @Override

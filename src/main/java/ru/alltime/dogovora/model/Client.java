@@ -20,7 +20,7 @@ public class Client {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "business_form")
-    private BusinessForm businessForm; // todo подумать над сокращённым названием
+    private BusinessForm businessForm;
 
     @Column(nullable = false)
     private String fullName;

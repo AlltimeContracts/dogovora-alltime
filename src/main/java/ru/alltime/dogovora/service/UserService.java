@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.service;
 
+import ru.alltime.dogovora.dto.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;
@@ -8,9 +9,9 @@ public interface UserService {
 
     List<User> findAllUsers();
 
-    User findUserByLogin(String login);
+    UserResponseDTO findUserByLogin(String login);
 
-    List<User> findUsersByRoles(String roles);
+    List<UserResponseDTO> findUsersByRoles(String roles);
 
     List<User> findUsersByFirstName(String firstName);
 
