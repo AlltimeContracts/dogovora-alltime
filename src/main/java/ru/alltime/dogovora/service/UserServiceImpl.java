@@ -1,14 +1,17 @@
 package ru.alltime.dogovora.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.alltime.dogovora.dto.UserRequestDTO;
 import ru.alltime.dogovora.dto.UserResponseDTO;
 import ru.alltime.dogovora.mapper.UserMapper;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.repository.UserRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -38,15 +41,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  List<User> findUsersByFirstName(String firstName) {
-        return userRepository.findUsersByFirstName(firstName);
+    public  List<UserResponseDTO> findUsersByFirstName(String firstName) {
+        List<User> users =  userRepository.findUsersByFirstName(firstName);
+        return users.stream()
+                .map(userMapper::toResponseDto)
+                .toList();
     }
 
     @Override
-    public User createUser(User user) {
-        userRepository.save(user);
+    public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
+         User user = userRepository.save(userMapper.toEntity(userRequestDTO));
         log.info("User saved: {}", user);
-        return user;
+        return userMapper.toResponseDto(user);
     }
 
     @Override
@@ -55,7 +61,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    @Transactional
+    public UserResponseDTO updateUser(UserRequestDTO userRequestDTO) {
+        User existingUser =  userRepository.findUserByLogin(userRequestDTO.login()).orElseThrow(() -> new EntityNotFoundException());
+
+        existingUser.setFirstName(userRequestDTO.firstName());
+        existingUser.setSecondName(userRequestDTO.secondName());
+        existingUser.setThirdName(userRequestDTO.thirdName());
+        existingUser.setPosition(userRequestDTO.position());
+        existingUser.setLogin(userRequestDTO.login());
+
+        userRepository.save(existingUser);
+        log.info("User updated: {}", existingUser);
+        return userMapper.toResponseDto(existingUser);
     }
+
+
 }

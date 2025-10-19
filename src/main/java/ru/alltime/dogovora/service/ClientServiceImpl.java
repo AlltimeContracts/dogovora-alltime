@@ -3,13 +3,18 @@ package ru.alltime.dogovora.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.alltime.dogovora.dto.ClientRequestDTO;
+import ru.alltime.dogovora.dto.ClientResponseDTO;
+import ru.alltime.dogovora.mapper.ClientMapper;
 import ru.alltime.dogovora.model.BusinessForm;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
 import ru.alltime.dogovora.repository.ClientRepository;
 
+import javax.print.DocFlavor;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.RecursiveTask;
 
 @Service
 @Slf4j
@@ -17,6 +22,7 @@ import java.util.UUID;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
+    private ClientMapper clientMapper;
 
     @Override
     public List<Client> findAllClients() {
@@ -24,18 +30,28 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client findClientById(UUID id) {
-        return clientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public ClientResponseDTO findClientById(UUID id) {
+        Client existingClient = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+         return  clientMapper.toResponseDto(existingClient);
     }
 
     @Override
-    public Client findClientByFullName(String fullName) {
-        return clientRepository.findClientByFullName(fullName).orElseThrow(() -> new EntityNotFoundException());
+    public List<ClientResponseDTO> findClientByFullName(String fullName) {
+
+        List<Client> existingClients = clientRepository.findClientsByFullName(fullName);
+       return existingClients.stream()
+                                .map(clientMapper::toResponseDto)
+                                    .toList();
+
     }
 
     @Override
-    public Client findClientByBusinessForm(BusinessForm businessForm) {
-        return clientRepository.findClientByBusinessForm(businessForm).orElseThrow(() -> new EntityNotFoundException());
+    public List<ClientResponseDTO> findClientsByBusinessForm(String businessForm) {
+        List<Client> existingClients = clientRepository.findClientsByBusinessForm(businessForm);
+        return  existingClients.stream()
+                                    .map(clientMapper::toResponseDto)
+                                        .toList();
+
     }
 
     @Override
@@ -49,6 +65,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+
+    //  return List<ClientResponseDTO>)
     public Client findClientByIsActive(boolean isActive) {
         return clientRepository.findClientByIsActive(isActive).orElseThrow(() -> new EntityNotFoundException());
     }

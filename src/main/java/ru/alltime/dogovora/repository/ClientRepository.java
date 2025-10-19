@@ -6,6 +6,7 @@ import ru.alltime.dogovora.model.BusinessForm;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,11 +15,11 @@ import java.util.UUID;
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
 
-    Optional<Client> findClientByFullName(String fullName); // Метод для поиска клиента по имени
+    List<Client> findClientsByFullName(String fullName); // Метод для поиска клиента по имени
 
     Optional<Client> findClientByIsActive(boolean isActive); // Метод для фильтрации по активности
 
-    Optional<Client> findClientByBusinessForm(BusinessForm businessForm);
+    List<Client> findClientsByBusinessForm(String businessForm);
 
     Optional<Client> findClientByClientDetails(ClientDetails clientDetails);
 

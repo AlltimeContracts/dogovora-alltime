@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.service;
 
+import ru.alltime.dogovora.dto.ClientResponseDTO;
 import ru.alltime.dogovora.model.BusinessForm;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
@@ -12,11 +13,11 @@ public interface ClientService {
 
     List<Client> findAllClients();
 
-    Client findClientById(UUID id);
+    List<ClientResponseDTO> findClientById(UUID id);
 
-    Client findClientByFullName(String fullName);
+    List<ClientResponseDTO>  findClientsByFullName(String fullName);
 
-    Client findClientByBusinessForm(BusinessForm businessForm);
+    List<ClientResponseDTO>  findClientByBusinessForm(String businessForm);
 
     Client findClientByClientDetails(ClientDetails clientDetails);
 
