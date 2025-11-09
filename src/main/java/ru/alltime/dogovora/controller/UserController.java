@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.alltime.dogovora.dto.UserRequestDTO;
+import ru.alltime.dogovora.dto.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.service.UserServiceImpl;
 
@@ -25,25 +27,25 @@ public class UserController {
     }
 
     @GetMapping("{login}")
-    public ResponseEntity<User> getUserByLogin(@PathVariable String login) {
+    public ResponseEntity<UserResponseDTO> getUserByLogin(@PathVariable String login) {
         var user = userService.findUserByLogin(login);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/by-name/{firstName}")
-    public ResponseEntity<List<User>> getUserByFirstName(@PathVariable String firstName) {
+    public ResponseEntity<List<UserResponseDTO>> getUserByFirstName(@PathVariable String firstName) {
         var users = userService.findUsersByFirstName(firstName);
         return ResponseEntity.ok(users);
     }
 
     @PostMapping("/create-user")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO user) {
         var users = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(users);
     }
 
     @PutMapping("/update-user-info")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
+    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO user) {
         var updated = userService.updateUser(user);
         return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(updated);
     }

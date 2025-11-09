@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.alltime.dogovora.dto.ClientResponseDTO;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.service.ClientServiceImpl;
 
@@ -25,8 +26,8 @@ public class ClientController {
     }
 
     @GetMapping("/by-id/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable UUID id){
-        Client client = clientService.findClientById(id);
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable UUID id) {
+        ClientResponseDTO client = clientService.findClientById(id);
         return ResponseEntity.ok(client);
     }
 

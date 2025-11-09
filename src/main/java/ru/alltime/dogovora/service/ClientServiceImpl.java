@@ -3,18 +3,14 @@ package ru.alltime.dogovora.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.alltime.dogovora.dto.ClientRequestDTO;
 import ru.alltime.dogovora.dto.ClientResponseDTO;
 import ru.alltime.dogovora.mapper.ClientMapper;
-import ru.alltime.dogovora.model.BusinessForm;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
 import ru.alltime.dogovora.repository.ClientRepository;
 
-import javax.print.DocFlavor;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.RecursiveTask;
 
 @Service
 @Slf4j
@@ -36,7 +32,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientResponseDTO> findClientByFullName(String fullName) {
+    public List<ClientResponseDTO> findClientsByFullName(String fullName) {
 
         List<Client> existingClients = clientRepository.findClientsByFullName(fullName);
        return existingClients.stream()
