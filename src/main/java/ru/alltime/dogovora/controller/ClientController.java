@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.alltime.dogovora.dto.ClientRequestDTO;
+import ru.alltime.dogovora.dto.ClientResponseDTO;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.service.ClientServiceImpl;
 
@@ -25,20 +27,20 @@ public class ClientController {
     }
 
     @GetMapping("/by-id/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable UUID id){
-        Client client = clientService.findClientById(id);
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable UUID id){
+        ClientResponseDTO client = clientService.findClientById(id);
         return ResponseEntity.ok(client);
     }
 
     @PostMapping("/create-client")
-    public ResponseEntity<Client> createClient(@RequestBody Client client){
-        Client createdClient = clientService.createClient(client);
+    public ResponseEntity<ClientRequestDTO> createClient(@RequestBody ClientRequestDTO clientRequestDTO){
+        ClientRequestDTO createdClient = clientService.createClient(clientRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
     }
 
     @PutMapping("/update-clint-info")
-    public ResponseEntity<Client> updateClient(@RequestBody Client client){
-        Client updatedClient = clientService.updateClient(client);
+    public ResponseEntity<ClientRequestDTO> updateClient(@RequestBody ClientRequestDTO clientRequestDTO){
+        ClientRequestDTO updatedClient = clientService.updateClient(clientRequestDTO);
         return ResponseEntity.ok(updatedClient);
     }
 

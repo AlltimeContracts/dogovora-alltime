@@ -30,7 +30,4 @@ public class ContractController {
         var contract = contractService.findContractByContractNum(contractNum);
         return ResponseEntity.ok(contract);
     }
-
-
-
 }

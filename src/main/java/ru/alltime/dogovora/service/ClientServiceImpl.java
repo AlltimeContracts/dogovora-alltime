@@ -24,6 +24,8 @@ public class ClientServiceImpl implements ClientService {
     private ClientRepository clientRepository;
     private ClientMapper clientMapper;
 
+
+
     @Override
     public List<Client> findAllClients() {
         return clientRepository.findAll();
@@ -32,63 +34,67 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientResponseDTO findClientById(UUID id) {
         Client existingClient = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
-         return  clientMapper.toResponseDto(existingClient);
+        return clientMapper.toResponseDto(existingClient);
     }
 
     @Override
-    public List<ClientResponseDTO> findClientByFullName(String fullName) {
-
+    public List<ClientResponseDTO> findClientsByFullName(String fullName) {
         List<Client> existingClients = clientRepository.findClientsByFullName(fullName);
-       return existingClients.stream()
-                                .map(clientMapper::toResponseDto)
-                                    .toList();
+        return existingClients.stream()
+                .map(clientMapper::toResponseDto)
+                .toList();
 
     }
 
     @Override
     public List<ClientResponseDTO> findClientsByBusinessForm(String businessForm) {
         List<Client> existingClients = clientRepository.findClientsByBusinessForm(businessForm);
-        return  existingClients.stream()
-                                    .map(clientMapper::toResponseDto)
-                                        .toList();
+        return existingClients.stream()
+                .map(clientMapper::toResponseDto)
+                .toList();
 
     }
 
     @Override
-    public Client findClientByClientDetails(ClientDetails clientDetails) {
-        return clientRepository.findClientByClientDetails(clientDetails).orElseThrow(() -> new EntityNotFoundException());
+    public ClientResponseDTO findClientByClientDetails(ClientDetails clientDetails) {
+        Client client = clientRepository.findClientByClientDetails(clientDetails).orElseThrow(() -> new EntityNotFoundException());
+        return clientMapper.toResponseDto(client);
     }
 
     @Override
-    public Client findClientByContractList(String contractList) {
-        return clientRepository.findClientByContractList(contractList).orElseThrow(() -> new EntityNotFoundException());
+    public ClientResponseDTO findClientByContractList(String contractList) {  // todo ждем ответа
+        Client existingClient = clientRepository.findClientByContractList(contractList).orElseThrow(() -> new EntityNotFoundException());
+        return clientMapper.toResponseDto(existingClient);
     }
 
     @Override
+    public List<ClientResponseDTO> findClientsByIsActive(boolean isActive) {
+        List<Client> activeClients = clientRepository.findClientsByIsActive(isActive);
+        return activeClients.stream()
+                .map(clientMapper::toResponseDto)
+                .toList();
 
-    //  return List<ClientResponseDTO>)
-    public Client findClientByIsActive(boolean isActive) {
-        return clientRepository.findClientByIsActive(isActive).orElseThrow(() -> new EntityNotFoundException());
+    }
+
+
+    @Override
+    public ClientRequestDTO createClient(ClientRequestDTO clientRequestDTO) {
+        clientRepository.save(clientMapper.toEntity(clientRequestDTO));
+        log.info("Client saved: {}", clientRequestDTO);
+        return clientRequestDTO;
     }
 
     @Override
-    public Client createClient(Client client) {
-        clientRepository.save(client);
-        log.info("Client saved: {}", client);
-        return client;
-    }
-
-    @Override
-    public void deleteClientById(UUID id) {
+    public void deleteClientById(UUID id) {   //todo какая логика удаления?
         clientRepository.deleteClientById(id);
         log.info("Client deleted: {}", id);
     }
 
     @Override
-    public Client updateClient(Client client) {
-        clientRepository.save(client);
-        log.info("Update client: {}", client);
-        return client;
+    public ClientRequestDTO updateClient(ClientRequestDTO clientRequestDTO) {
+        clientRepository.save(clientMapper.toEntity(clientRequestDTO));
+        log.info("Update client: {}", clientRequestDTO);
+        return clientRequestDTO;
     }
 
 }
