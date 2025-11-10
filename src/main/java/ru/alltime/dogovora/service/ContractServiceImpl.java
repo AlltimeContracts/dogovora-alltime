@@ -4,6 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.alltime.dogovora.dto.ContractRequestDTO;
+import ru.alltime.dogovora.dto.ContractResponseDTO;
+import ru.alltime.dogovora.mapper.ContractMapper;
 import ru.alltime.dogovora.model.Contract;
 import ru.alltime.dogovora.repository.ContractRepository;
 
@@ -16,16 +19,19 @@ import java.util.UUID;
 public class ContractServiceImpl implements ContractService {
 
     private ContractRepository contractRepository;
-
+    private ContractMapper contractMapper;
 
     @Override
-    public List<Contract> findAllContracts() {
-        return contractRepository.findAll();
+    public List<ContractResponseDTO> findAllContracts() {
+        return contractRepository.findAll().stream()
+                .map(contractMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
-    public Contract findContractById(UUID uuid) {
-        return contractRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException());
+    public ContractResponseDTO findContractById(UUID uuid) {
+        var foundContract = contractRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException());
+        return contractMapper.toResponseDTO(foundContract);
     }
 
     @Override
@@ -35,22 +41,26 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<Contract> findContractsByIsActive(boolean isActive) {
-        return contractRepository.findContractsByIsActive(isActive);
+    public List<ContractResponseDTO> findContractsByIsActive(boolean isActive) {
+        return contractRepository.findContractsByIsActive(isActive).stream()
+                                                                         .map(contractMapper::toResponseDTO)
+                                                                             .toList();
     }
 
     @Override
-    public Contract createContract(Contract contract) {
-        contractRepository.save(contract);
-        log.info("Contract created: {}", contract);
-        return contract;
+    public ContractResponseDTO createContract(ContractRequestDTO contractRequestDTO) {
+        Contract createdContract = contractMapper.toEntity(contractRequestDTO);
+        contractRepository.save(createdContract);
+        log.info("Contract created: {}", createdContract);
+        return contractMapper.toResponseDTO(createdContract);
     }
 
     @Override
-    public Contract updateContract(Contract contract) {
-        contractRepository.save(contract);
-        log.info("Contract updated: {}", contract);
-        return contract;
+    public ContractResponseDTO updateContract(ContractRequestDTO contractRequestDTO) {
+        Contract updatedContract = contractMapper.toEntity(contractRequestDTO);
+        contractRepository.save(updatedContract);
+        log.info("Contract updated: {}", updatedContract);
+        return contractMapper.toResponseDTO(updatedContract);
     }
 
     @Override
