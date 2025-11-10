@@ -10,7 +10,6 @@ import ru.alltime.dogovora.repository.ContractRepository;
 import java.util.List;
 import java.util.UUID;
 
-
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -30,10 +29,10 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public Contract findContractByContractNum(String contractNum) {
-        return contractRepository.findContractByContractNum(contractNum);
+    public ContractResponseDTO findContractByContractNum(String contractNum) {
+        var foundNum = contractRepository.findContractByContractNum(contractNum);
+        return contractMapper.toResponseDTO(foundNum);
     }
-
 
     @Override
     public List<Contract> findContractsByIsActive(boolean isActive) {

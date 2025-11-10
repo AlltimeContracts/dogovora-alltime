@@ -30,4 +30,15 @@ public class ContractController {
         var contract = contractService.findContractByContractNum(contractNum);
         return ResponseEntity.ok(contract);
     }
+
+    @PostMapping("create-contract")
+    public ResponseEntity<ContractResponseDTO> createContract(ContractRequestDTO contractRequestDTO) {
+        var contract = contractService.createContract(contractRequestDTO);
+        return ResponseEntity.ok(contract);
+    }
+    @PutMapping("update-contract")
+    public ResponseEntity<ContractResponseDTO> updateContract(ContractRequestDTO contractRequestDTO) {
+        var contract = contractService.updateContract(contractRequestDTO);
+        return ResponseEntity.ok(contract);
+    }
 }

@@ -19,7 +19,6 @@ public class ClientController {
 
     private ClientServiceImpl clientService;
 
-
     @GetMapping
     public ResponseEntity<List<Client>> getAllClients(){
         List<Client> allClients =  clientService.findAllClients();
@@ -43,5 +42,4 @@ public class ClientController {
         ClientRequestDTO updatedClient = clientService.updateClient(clientRequestDTO);
         return ResponseEntity.ok(updatedClient);
     }
-
 }

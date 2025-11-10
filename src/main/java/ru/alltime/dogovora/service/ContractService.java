@@ -11,7 +11,7 @@ public interface ContractService {
 
     Contract findContractById(UUID uuid);
 
-    Contract findContractByContractNum(String contractNum);
+    ContractResponseDTO findContractByContractNum(String contractNum);
 
     List<Contract> findContractsByIsActive(boolean isActive);
 
