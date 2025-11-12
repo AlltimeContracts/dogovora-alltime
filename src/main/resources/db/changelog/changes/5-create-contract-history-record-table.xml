@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+           http://www.liquibase.org/xml/ns/dbchangelog
+           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
+
+    <changeSet id="11-create-contract-history-record-table" author="Alexander">
+        <createTable tableName="contract_history_record">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="contract_history_record_pkey"/>
+            </column>
+
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status_before" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_after" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="contract_before_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_after_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="12-idx-contract-history-record-user" author="Alexander">
+        <createIndex tableName="contract_history_record" indexName="idx_contract_history_record_user">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="13-idx-contract-history-record-contract-before" author="Alexander">
+        <createIndex tableName="contract_history_record" indexName="idx_contract_history_record_contract_before">
+            <column name="contract_before_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="14-idx-contract-history-record-contract-after" author="Alexander">
+        <createIndex tableName="contract_history_record" indexName="idx_contract_history_record_contract_after">
+            <column name="contract_after_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="15-fk-contract-history-record-user" author="Alexander">
+        <addForeignKeyConstraint
+                baseTableName="contract_history_record"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                constraintName="fk_contract_history_record_user"
+                onDelete="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="16-fk-contract-history-record-contract-before" author="Alexander">
+        <addForeignKeyConstraint
+                baseTableName="contract_history_record"
+                baseColumnNames="contract_before_id"
+                referencedTableName="contract"
+                referencedColumnNames="id"
+                constraintName="fk_contract_history_record_contract_before"
+                onDelete="RESTRICT"/>
+    </changeSet>
+
+    <changeSet id="17-fk-contract-history-record-contract-after" author="Alexander">
+        <addForeignKeyConstraint
+                baseTableName="contract_history_record"
+                baseColumnNames="contract_after_id"
+                referencedTableName="contract"
+                referencedColumnNames="id"
+                constraintName="fk_contract_history_record_contract_after"
+                onDelete="RESTRICT"/>
+    </changeSet>
+
+</databaseChangeLog>

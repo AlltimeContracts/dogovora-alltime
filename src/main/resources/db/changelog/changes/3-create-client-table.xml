@@ -4,16 +4,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="
            http://www.liquibase.org/xml/ns/dbchangelog
-           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
 
-    <!-- 1) Создание таблицы client (пропускаем, если уже есть) -->
-    <changeSet id="create-client-table" author="Alexander" runOnChange="false" runAlways="false">
-        <preConditions onFail="MARK_RAN" onError="HALT">
-            <not>
-                <tableExists tableName="client"/>
-            </not>
-        </preConditions>
-
+    <changeSet id="5-create-client-table" author="Alexander" runOnChange="false" runAlways="false">
         <createTable tableName="client">
             <column name="id" type="UUID">
                 <constraints primaryKey="true" nullable="false" primaryKeyName="client_pkey"/>
@@ -31,31 +24,19 @@
                 <constraints nullable="true"/>
             </column>
 
-            <column name="contract_list" type="TEXT">
-                <constraints nullable="true"/>
-            </column>
-
             <column name="is_active" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <!-- 2) Индекс по внешнему ключу (тоже идемпотентно) -->
-    <changeSet id="idx-client-client_details" author="Alexander">
-        <preConditions onFail="MARK_RAN" onError="HALT">
-            <tableExists tableName="client"/>
-            <not>
-                <indexExists tableName="client" indexName="idx_client_client_details"/>
-            </not>
-        </preConditions>
+    <changeSet id="6-idx-client-client_details" author="Alexander">
         <createIndex tableName="client" indexName="idx_client_client_details">
             <column name="client_details_id"/>
         </createIndex>
     </changeSet>
 
-    <!-- 3) Добавление внешнего ключа на client_details, если обе таблицы есть и FK ещё не создан -->
-    <changeSet id="fk-client-client_details" author="Alexander">
+    <changeSet id="7-fk-client-client_details" author="Alexander">
         <preConditions onFail="MARK_RAN" onError="HALT">
             <tableExists tableName="client"/>
             <tableExists tableName="client_details"/>
