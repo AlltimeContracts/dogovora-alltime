@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.service;
 
+import ru.alltime.dogovora.dto.ClientRequestDTO;
 import ru.alltime.dogovora.dto.ClientResponseDTO;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
@@ -15,17 +16,17 @@ public interface ClientService {
 
     List<ClientResponseDTO>  findClientsByFullName(String fullName);
 
-    List<ClientResponseDTO> findClientsByBusinessForm(String businessForm);
+    List<ClientResponseDTO>  findClientsByBusinessForm(String businessForm);
 
-    Client findClientByClientDetails(ClientDetails clientDetails);
+    ClientResponseDTO findClientByClientDetails(ClientDetails clientDetails);
 
-    Client findClientByContractList(String contractList);
+    ClientResponseDTO findClientByContractList(String contractList);
 
-    Client findClientByIsActive(boolean isActive);
+    List<ClientResponseDTO> findClientsByIsActive(boolean isActive);
 
-    Client createClient(Client client);
+    ClientRequestDTO createClient(ClientRequestDTO clientRequestDTO);
 
-    Client updateClient(Client client);
+    ClientRequestDTO updateClient(ClientRequestDTO clientRequestDTO);
 
     void deleteClientById(UUID id);
 

@@ -1,5 +1,7 @@
 package ru.alltime.dogovora.repository;
 
+import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.alltime.dogovora.model.BusinessForm;
@@ -17,7 +19,7 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
 
     List<Client> findClientsByFullName(String fullName); // Метод для поиска клиента по имени
 
-    Optional<Client> findClientByIsActive(boolean isActive); // Метод для фильтрации по активности
+    List<Client> findClientsByIsActive(boolean isActive);
 
     List<Client> findClientsByBusinessForm(String businessForm);
 

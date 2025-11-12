@@ -1,5 +1,7 @@
 package ru.alltime.dogovora.service;
 
+import ru.alltime.dogovora.dto.ContractRequestDTO;
+import ru.alltime.dogovora.dto.ContractResponseDTO;
 import ru.alltime.dogovora.model.Contract;
 
 import java.util.List;
@@ -7,17 +9,17 @@ import java.util.UUID;
 
 public interface ContractService {
 
-    List<Contract> findAllContracts();
+    List<ContractResponseDTO> findAllContracts();
 
-    Contract findContractById(UUID uuid);
+    ContractResponseDTO findContractById(UUID uuid);
 
-    Contract findContractByContractNum(String contractNum);
+    ContractResponseDTO findContractByContractNum(String contractNum);
 
-    List<Contract> findContractsByIsActive(boolean isActive);
+    List<ContractResponseDTO> findContractsByIsActive(boolean isActive);
 
-    Contract createContract(Contract contract);
+    ContractResponseDTO createContract(ContractRequestDTO contractRequestDTO);
 
-    Contract updateContract(Contract contract);
+    ContractResponseDTO updateContract(ContractRequestDTO contractRequestDTO);
 
     void deleteContractById(UUID uuid);
 

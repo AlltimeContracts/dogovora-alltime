@@ -28,8 +28,8 @@ public class UserController {
 
     @GetMapping("{login}")
     public ResponseEntity<UserResponseDTO> getUserByLogin(@PathVariable String login) {
-        var user = userService.findUserByLogin(login);
-        return ResponseEntity.ok(user);
+        var userRequestDTO = userService.findUserByLogin(login);
+        return ResponseEntity.ok(userRequestDTO);
     }
 
     @GetMapping("/by-name/{firstName}")
@@ -39,15 +39,15 @@ public class UserController {
     }
 
     @PostMapping("/create-user")
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO user) {
-        var users = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(users);
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+        var userCreateRequest = userService.createUser(userRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userCreateRequest);
     }
 
     @PutMapping("/update-user-info")
-    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO user) {
-        var updated = userService.updateUser(user);
-        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(updated);
+    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO userRequestDTO) {
+        var updatedUser = userService.updateUser(userRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedUser);
     }
 
     @DeleteMapping("delete-user/{login}")
@@ -56,5 +56,4 @@ public class UserController {
         userService.deleteByLogin(login);
         return ResponseEntity.ok("Delete user successfully");
     }
-
 }
