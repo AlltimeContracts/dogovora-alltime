@@ -24,9 +24,9 @@ public interface ClientService {
 
     List<ClientResponseDTO> findClientsByIsActive(boolean isActive);
 
-    ClientRequestDTO createClient(ClientRequestDTO clientRequestDTO);
+    ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO);
 
-    ClientRequestDTO updateClient(ClientRequestDTO clientRequestDTO);
+    ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO);
 
     void deleteClientById(UUID id);
 

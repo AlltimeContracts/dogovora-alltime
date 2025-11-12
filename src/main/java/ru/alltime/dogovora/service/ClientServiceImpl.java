@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.dto.ClientRequestDTO;
 import ru.alltime.dogovora.dto.ClientResponseDTO;
 import ru.alltime.dogovora.mapper.ClientMapper;
-import ru.alltime.dogovora.model.BusinessForm;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
 import ru.alltime.dogovora.repository.ClientRepository;
@@ -73,10 +72,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientRequestDTO createClient(ClientRequestDTO clientRequestDTO) {
-        clientRepository.save(clientMapper.toEntity(clientRequestDTO));
-        log.info("Client saved: {}", clientRequestDTO);
-        return clientRequestDTO;
+    public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO) {
+        Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
+        ClientResponseDTO responseDTO = clientMapper.toResponseDto(client);
+        log.info("Client saved: {}", responseDTO);
+        return responseDTO;
     }
 
     @Override
@@ -86,10 +86,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientRequestDTO updateClient(ClientRequestDTO clientRequestDTO) {
-        clientRepository.save(clientMapper.toEntity(clientRequestDTO));
-        log.info("Update client: {}", clientRequestDTO);
-        return clientRequestDTO;
+    public ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO) {
+        Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
+        ClientResponseDTO responseDTO = clientMapper.toResponseDto(client);
+        log.info("Updated client: {}", responseDTO);
+        return responseDTO;
     }
 
 }
