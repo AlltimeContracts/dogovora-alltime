@@ -32,14 +32,14 @@ public class ClientController {
     }
 
     @PostMapping("/create-client")
-    public ResponseEntity<ClientRequestDTO> createClient(@RequestBody ClientRequestDTO clientRequestDTO){
-        ClientRequestDTO createdClient = clientService.createClient(clientRequestDTO);
+    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        ClientResponseDTO createdClient = clientService.createClient(clientRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
     }
 
     @PutMapping("/update-clint-info")
-    public ResponseEntity<ClientRequestDTO> updateClient(@RequestBody ClientRequestDTO clientRequestDTO){
-        ClientRequestDTO updatedClient = clientService.updateClient(clientRequestDTO);
+    public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        ClientResponseDTO updatedClient = clientService.updateClient(clientRequestDTO);
         return ResponseEntity.ok(updatedClient);
     }
 }

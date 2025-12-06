@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -41,7 +39,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Roles roles;   // для зарегистрировавшихся пользователей выдавать роль - MANAGER
 
-    private boolean isActive;
+    private boolean active;
 
 }
    /* @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
