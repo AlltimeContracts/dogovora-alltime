@@ -9,5 +9,5 @@ public enum ContractStatus {
     SIGNED, // Подписан
     HOLD, // Приостановлен
     TERMINATED, // Расторгнут
-    CANCELED // Аннулирован
+    CANCELLED // Аннулирован
 }

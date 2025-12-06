@@ -1,4 +1,4 @@
-<!-- src/main/resources/db/changelog/changes/create-user-table.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -6,17 +6,10 @@
           http://www.liquibase.org/xml/ns/dbchangelog
           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.23.xsd">
 
-    <changeSet id="create-users-table" author="alexander.shekunov">
-        <!-- Если таблица уже есть в public — помечаем changeSet как выполненный -->
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="users" schemaName="public"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="users" schemaName="public">
+    <changeSet id="1-create-users-table" author="alexander.shekunov">
+        <createTable tableName="users">
             <column name="id" type="UUID">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true" nullable="false" primaryKeyName="users_pkey"/>
             </column>
             <column name="first_name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -34,7 +27,5 @@
             </column>
             <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
         </createTable>
-
-        <!-- НЕ делаем UNIQUE(id): PK и так уникален -->
     </changeSet>
 </databaseChangeLog>
