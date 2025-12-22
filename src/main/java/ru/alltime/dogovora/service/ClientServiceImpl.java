@@ -1,6 +1,7 @@
 package ru.alltime.dogovora.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.dto.ClientRequestDTO;
@@ -15,7 +16,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-
+@AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;

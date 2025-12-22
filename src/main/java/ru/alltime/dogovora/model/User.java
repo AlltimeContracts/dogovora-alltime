@@ -39,7 +39,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Roles roles;   // для зарегистрировавшихся пользователей выдавать роль - MANAGER
 
-    private boolean active;
+    private boolean isActive;
 
 }
    /* @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

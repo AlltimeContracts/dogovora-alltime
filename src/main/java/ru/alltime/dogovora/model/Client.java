@@ -28,6 +28,7 @@ public class Client {
     @OneToOne
     private ClientDetails clientDetails;
 
+
     private String contractList;
 
     @Column(nullable = false)
