@@ -18,6 +18,7 @@ public class HistoryRecord {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // eсли один пользователь может иметь несколько записей истории
     private User user; // todo связь с пользователем, инициировавшим изменения !! поменяли на user
@@ -30,11 +31,11 @@ public class HistoryRecord {
     @Enumerated(EnumType.STRING)
     private ContractStatus statusAfter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contract_before_id", nullable = false)
     Contract contractBefore;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contract_after_id", nullable = false)
     Contract contractAfter;
 }

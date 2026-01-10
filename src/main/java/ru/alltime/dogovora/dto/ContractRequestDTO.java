@@ -9,12 +9,13 @@ import java.util.UUID;
 
 public record ContractRequestDTO(
         @NotBlank String contractNum,
-        @NotEmpty boolean isActive,
+        @NotNull Boolean isActive,
         @PastOrPresent LocalDate contractDateFrom,
         @Future LocalDate contractDateTo,
         @NotNull UUID clientId,
         @NotEmpty List<UUID> managerList,
         @Size(max = 700) String descriptionText,
         @NotNull ContractStatus contractStatus
+
 ) {
 }

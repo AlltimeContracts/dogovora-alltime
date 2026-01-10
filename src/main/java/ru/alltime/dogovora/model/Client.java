@@ -3,6 +3,7 @@ package ru.alltime.dogovora.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +26,7 @@ public class Client {
     @Column(nullable = false)
     private String fullName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ClientDetails clientDetails;
 
 
@@ -33,5 +34,8 @@ public class Client {
 
     @Column(nullable = false)
     private boolean isActive;
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    private List<Contract> contracts;
 
 }
