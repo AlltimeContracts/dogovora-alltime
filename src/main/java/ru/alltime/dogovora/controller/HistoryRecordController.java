@@ -15,9 +15,9 @@ public class HistoryRecordController {
 
     private HistoryRecordService historyRecordService;
 
-   /* public ResponseEntity<List<HistoryRecordResponseDTO>> findAllRecords(){
+   public ResponseEntity<List<HistoryRecordResponseDTO>> findAllRecords(){
         return  historyRecordService.findAllRecords();
-    }*/
+    }
 
 
 
