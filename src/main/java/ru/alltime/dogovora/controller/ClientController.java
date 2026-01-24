@@ -20,13 +20,13 @@ public class ClientController {
     private ClientServiceImpl clientService;
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients(){
-        List<Client> allClients =  clientService.findAllClients();
+    public ResponseEntity<List<Client>> getAllClients() {
+        List<Client> allClients = clientService.findAllClients();
         return ResponseEntity.ok(allClients);
     }
 
     @GetMapping("/by-id/{id}")
-    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable UUID id){
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable UUID id) {
         ClientResponseDTO client = clientService.findClientById(id);
         return ResponseEntity.ok(client);
     }
@@ -41,5 +41,13 @@ public class ClientController {
     public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody ClientRequestDTO clientRequestDTO) {
         ClientResponseDTO updatedClient = clientService.updateClient(clientRequestDTO);
         return ResponseEntity.ok(updatedClient);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteClient(@PathVariable UUID id) {
+        var clientForDelete = clientService.findClientById(id);
+        clientService.deleteClientById(id);
+        return ResponseEntity.ok("Client with id: " + id + " successfully deleted.");
+
     }
 }

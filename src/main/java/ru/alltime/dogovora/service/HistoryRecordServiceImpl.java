@@ -4,6 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.alltime.dogovora.dto.HistoryRecordRequestDTO;
+import ru.alltime.dogovora.dto.HistoryRecordResponseDTO;
+import ru.alltime.dogovora.mapper.HistoryRecordMapper;
 import ru.alltime.dogovora.model.HistoryRecord;
 import ru.alltime.dogovora.repository.HistoryRecordRepository;
 
@@ -17,27 +20,33 @@ import java.util.UUID;
 public class HistoryRecordServiceImpl implements HistoryRecordService {
 
     private HistoryRecordRepository historyRecordRepository;
+    private HistoryRecordMapper recordMapper;
 
 
     @Override
-    public List<HistoryRecord> findAllRecords() {
-        return historyRecordRepository.findAll();
+    public List<HistoryRecordResponseDTO> findAllRecords() {
+        return historyRecordRepository.findAll().stream().map(recordMapper::toResponseDTO).toList();
     }
 
     @Override
-    public HistoryRecord findHistoryRecordById(UUID uuid) {
-        return historyRecordRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Record not found"));
+    public HistoryRecordResponseDTO findHistoryRecordById(UUID uuid) {
+        var record = historyRecordRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Record not found"));
+        return recordMapper.toResponseDTO(record);
     }
 
     @Override
-    public HistoryRecord createHistoryRecord(HistoryRecord historyRecord) {
-         historyRecordRepository.save(historyRecord);
-         log.info("History record created: {}", historyRecord);
-         return   historyRecord;
+    public HistoryRecordResponseDTO createHistoryRecord(HistoryRecordRequestDTO historyRecordRequestDTO) {
+        var createdRecord = recordMapper.toEntity(historyRecordRequestDTO);
+        historyRecordRepository.save(createdRecord);
+        log.info("History record created: {}", createdRecord);
+        return recordMapper.toResponseDTO(createdRecord);
+
     }
 
     @Override
-    public HistoryRecord updateHistoryRecord(HistoryRecord historyRecord) {
+    public HistoryRecordResponseDTO updateHistoryRecord(HistoryRecordRequestDTO historyRecordRequestDTO) {
+
+
         historyRecordRepository.save(historyRecord);
         log.info("Update history record: {}", historyRecord);
         return historyRecord;

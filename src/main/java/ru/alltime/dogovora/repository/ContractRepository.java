@@ -14,7 +14,7 @@ public interface ContractRepository extends JpaRepository<Contract, UUID> {
 
     List<Contract> findContractsByCurrentStatus(ContractStatus status);// Метод для фильтрации по статусу
 
-    Contract findContractByContractNum(String contractNum);
+    List<Contract> findContractsByContractNum(String contractNum);
 
     List<Contract> findContractsByIsActive(boolean isActive);
 

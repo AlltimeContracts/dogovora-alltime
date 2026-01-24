@@ -10,7 +10,7 @@ import java.util.UUID;
 public record ContractResponseDTO(
         @Null UUID id,
         @NotBlank String contractNum,
-        @NotNull Boolean isActive,
+        @NotEmpty boolean isActive,
         @PastOrPresent LocalDate contractDateFrom,
         @Future LocalDate contractDateTo,
         @NotNull UUID clientId,
