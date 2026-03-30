@@ -4,20 +4,29 @@ const message = document.getElementById('message');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const login = form.login.value;     // если поле называется login
+  const login = form.login.value;
   const password = form.password.value;
+  const response = await fetch('http://localhost:3000/login', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({ login, password })
+  });
+  const data = await response.json();
 
   console.log('Данные для входа:', { login, password });
 
   message.textContent = 'Попытка входа...';
 
-  await new Promise((resolve) => setTimeout(resolve, 1000)); // ждем 1 секунду
+  if (data.success) {
+    message.textContent = data.message
+    let token = data.token
+    localStorage.setItem('token', token);
+    window.location.href = 'contracts.html';
 
-  // Здесь можно прописать условие для имитации ошибки, например:
-  if (login === 'admin' && password === '1234') {
-    message.textContent = 'Успешный вход!';
-    console.log('Токен: fake-jwt-token');
   } else {
-    message.textContent = 'Неверный логин или пароль';
+    message.textContent = data.message
   }
+
 });
