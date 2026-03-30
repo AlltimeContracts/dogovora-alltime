@@ -38,3 +38,7 @@ out/
 
 ### Environment Variables ###
 .env
+
+### Frontend Mock ###
+.DS_Store
+node_modules/
