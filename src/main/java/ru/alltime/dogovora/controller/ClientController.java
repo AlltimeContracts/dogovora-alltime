@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,14 @@ public class ClientController {
         return ResponseEntity.ok(client);
     }
 
+    /**
+     *
+     * @param clientRequestDTO Создание пользователья!!!!
+     * @return
+     */
+
     @PostMapping("/create-client")
-    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Parameter(description = "передается DTO для создания клиента") ClientRequestDTO clientRequestDTO) {
         ClientResponseDTO createdClient = clientService.createClient(clientRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
     }
