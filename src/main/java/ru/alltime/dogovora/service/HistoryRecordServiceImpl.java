@@ -45,11 +45,10 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
 
     @Override
     public HistoryRecordResponseDTO updateHistoryRecord(HistoryRecordRequestDTO historyRecordRequestDTO) {
-
-
-        historyRecordRepository.save(historyRecord);
-        log.info("Update history record: {}", historyRecord);
-        return historyRecord;
+        var updatableRecord = recordMapper.toEntity(historyRecordRequestDTO);
+        historyRecordRepository.save(updatableRecord);
+        log.info("Update history record: {}", updatableRecord);
+        return recordMapper.toResponseDTO(updatableRecord);
     }
 
     @Override

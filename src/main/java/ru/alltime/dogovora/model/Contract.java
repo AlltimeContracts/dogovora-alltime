@@ -30,8 +30,9 @@ public class Contract {
 
     private LocalDate contractDateTo;
 
-    @Column(nullable = false)
-    private UUID clientId;
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
     @Column(nullable = false)
     private List<UUID> managerIdList; // todo по документации List<String> и managerId в виду массива! (на здоровье!)
