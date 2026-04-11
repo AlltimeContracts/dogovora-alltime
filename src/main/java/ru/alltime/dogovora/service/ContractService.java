@@ -4,6 +4,7 @@ import ru.alltime.dogovora.dto.ContractRequestDTO;
 import ru.alltime.dogovora.dto.ContractResponseDTO;
 import ru.alltime.dogovora.model.Contract;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ public interface ContractService {
 
     ContractResponseDTO findContractById(UUID uuid);
 
-    ContractResponseDTO findContractByContractNum(String contractNum);
+    List<ContractResponseDTO> findContractsByContractNum(String contractNum);
 
     List<ContractResponseDTO> findContractsByIsActive(boolean isActive);
 
@@ -22,5 +23,8 @@ public interface ContractService {
     ContractResponseDTO updateContract(ContractRequestDTO contractRequestDTO);
 
     void deleteContractById(UUID uuid);
+
+    // Contract uploadContractFile(File contract);
+
 
 }
