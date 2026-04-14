@@ -77,16 +77,16 @@ Swagger UI доступен по адресу: `http://localhost:8080/swagger-ui
 
 ```bash
 # Просмотр логов
-docker-compose logs -f postgres
+docker-compose logs -f alltimeDb
 
 # Доступ к CLI PostgreSQL
-docker-compose exec postgres psql -U alltime -d dogovora_db
+docker-compose exec alltimeDb psql -U alltime -d dogovora_db
 
 # Перезапуск базы данных
-docker-compose restart postgres
+docker-compose restart alltimeDb
 
 # Проверка работоспособности базы данных
-docker-compose exec postgres pg_isready -U alltime -d dogovora_db
+docker-compose exec alltimeDb pg_isready -U alltime -d dogovora_db
 ```
 
 ## Разработка
