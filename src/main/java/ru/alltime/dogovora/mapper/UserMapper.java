@@ -1,23 +1,28 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.*;
-import ru.alltime.dogovora.dto.UserRequestDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
-import ru.alltime.dogovora.model.User;
+import lombok.*;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.UserDTO;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
-    // ---- Request → Entity ----
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", constant = "MANAGER") // при регистрации всем назначаем MANAGER
-    @Mapping(target = "active", constant = "true") // при создании пользователь активен
-    User toEntity(UserRequestDTO dto);
+import java.util.List;
 
-    // ---- Entity → Response ----
-    UserResponseDTO toResponseDto(User entity);
+@Component
+@RequiredArgsConstructor
+public class UserMapper {
 
-    // ---- Обновление сущности из DTO (опционально) ----
-    // используется для patch/update
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUserFromDto(UserRequestDTO dto, @MappingTarget User entity);
+    public UserDTO toDto(UserEntity userEntity) {
+
+        return UserDTO.builder()
+                .id(userEntity.getId().toString())
+                .firstName(userEntity.getFirstName())
+                .secondName(userEntity.getSecondName())
+                .thirdName(userEntity.getThirdName())
+                .position(userEntity.getPosition())
+                .login(userEntity.getLogin())
+                .isActive(userEntity.getIsActive())
+                .build();
+    }
+    public List<UserDTO> toDto(List<UserEntity> userEntities) {
+        return userEntities.stream().map(this::toDto).toList();
+    }
 }

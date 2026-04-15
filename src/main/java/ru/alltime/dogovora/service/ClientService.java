@@ -1,7 +1,6 @@
 package ru.alltime.dogovora.service;
 
-import ru.alltime.dogovora.dto.ClientRequestDTO;
-import ru.alltime.dogovora.dto.ClientResponseDTO;
+import ru.alltime.dogovora.dto.ClientDTO;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
 
@@ -24,9 +23,9 @@ public interface ClientService {
 
     List<ClientResponseDTO> findClientsByIsActive(boolean isActive);
 
-    ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO);
+    ClientResponseDTO createClient(ClientDTO clientRequestDTO);
 
-    ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO);
+    ClientResponseDTO updateClient(ClientDTO clientRequestDTO);
 
     void deleteClientById(UUID id);
 

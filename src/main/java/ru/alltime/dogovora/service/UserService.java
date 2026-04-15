@@ -1,7 +1,6 @@
 package ru.alltime.dogovora.service;
 
-import ru.alltime.dogovora.dto.UserRequestDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;
@@ -16,10 +15,10 @@ public interface UserService {
 
     List<UserResponseDTO> findUsersByFirstName(String firstName);
 
-    UserResponseDTO createUser(UserRequestDTO userRequestDTO);
+    UserResponseDTO createUser(UserDTO userRequestDTO);
 
     void deleteByLogin(String login);
 
-    UserResponseDTO updateUser(UserRequestDTO userRequestDTO);
+    UserResponseDTO updateUser(UserDTO userRequestDTO);
 
 }

@@ -4,10 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.alltime.dogovora.dto.HistoryRecordRequestDTO;
-import ru.alltime.dogovora.dto.HistoryRecordResponseDTO;
+import ru.alltime.dogovora.dto.HistoryRecordDTO;
 import ru.alltime.dogovora.mapper.HistoryRecordMapper;
-import ru.alltime.dogovora.model.HistoryRecord;
 import ru.alltime.dogovora.repository.HistoryRecordRepository;
 
 import java.util.List;
@@ -35,7 +33,7 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
     }
 
     @Override
-    public HistoryRecordResponseDTO createHistoryRecord(HistoryRecordRequestDTO historyRecordRequestDTO) {
+    public HistoryRecordResponseDTO createHistoryRecord(HistoryRecordDTO historyRecordRequestDTO) {
         var createdRecord = recordMapper.toEntity(historyRecordRequestDTO);
         historyRecordRepository.save(createdRecord);
         log.info("History record created: {}", createdRecord);
@@ -44,7 +42,7 @@ public class HistoryRecordServiceImpl implements HistoryRecordService {
     }
 
     @Override
-    public HistoryRecordResponseDTO updateHistoryRecord(HistoryRecordRequestDTO historyRecordRequestDTO) {
+    public HistoryRecordResponseDTO updateHistoryRecord(HistoryRecordDTO historyRecordRequestDTO) {
         var updatableRecord = recordMapper.toEntity(historyRecordRequestDTO);
         historyRecordRepository.save(updatableRecord);
         log.info("Update history record: {}", updatableRecord);

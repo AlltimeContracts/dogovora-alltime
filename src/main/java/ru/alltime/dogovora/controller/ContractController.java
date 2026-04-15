@@ -3,9 +3,7 @@ package ru.alltime.dogovora.controller;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alltime.dogovora.dto.ContractRequestDTO;
-import ru.alltime.dogovora.dto.ContractResponseDTO;
-import ru.alltime.dogovora.model.Contract;
+import ru.alltime.dogovora.dto.ContractDTO;
 import ru.alltime.dogovora.service.ContractServiceImpl;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public class ContractController {
 
 
     @GetMapping()
-    public ResponseEntity<List<ContractResponseDTO>> getContractList() { // paging via requestParam
+    public ResponseEntity<List<ContractDTO>> getContractList() { // paging via requestParam
         var contracts = contractService.findAllContracts();
         return ResponseEntity.ok(contracts);
     }
@@ -32,20 +30,20 @@ public class ContractController {
 
 
     @GetMapping("get-contracts-by-num")
-    public ResponseEntity<List<ContractResponseDTO>> getContract(@RequestParam(required = true) String contractNum) {
-        List<ContractResponseDTO> contracts = contractService.findContractsByContractNum(contractNum);
+    public ResponseEntity<List<ContractDTO>> getContract(@RequestParam(required = true) String contractNum) {
+        List<ContractDTO> contracts = contractService.findContractsByContractNum(contractNum);
         return ResponseEntity.ok(contracts);
     }
 
     @PostMapping("create-contract")
-    public ResponseEntity<ContractResponseDTO> createContract(@RequestBody ContractRequestDTO contractRequestDTO) {
-        var contract = contractService.createContract(contractRequestDTO);
+    public ResponseEntity<ContractDTO> createContract(@RequestBody ContractDTO contractDTO) {
+        var contract = contractService.createContract(contractDTO);
         return ResponseEntity.ok(contract);
     }
 
     @PutMapping("update-contract-info")
-    public ResponseEntity<ContractResponseDTO> updateContract(@RequestBody ContractRequestDTO contractRequestDTO) {
-        var contract = contractService.updateContract(contractRequestDTO);
+    public ResponseEntity<ContractDTO> updateContract(@RequestBody ContractDTO contractDTO) {
+        var contract = contractService.updateContract(contractDTO);
         return ResponseEntity.ok(contract);
     }
 

@@ -4,8 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.alltime.dogovora.dto.ClientRequestDTO;
-import ru.alltime.dogovora.dto.ClientResponseDTO;
+import ru.alltime.dogovora.dto.ClientDTO;
 import ru.alltime.dogovora.mapper.ClientMapper;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
@@ -73,7 +72,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO) {
+    public ClientResponseDTO createClient(ClientDTO clientRequestDTO) {
         Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
         ClientResponseDTO responseDTO = clientMapper.toResponseDto(client);
         log.info("Client saved: {}", responseDTO);
@@ -87,7 +86,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO) {
+    public ClientResponseDTO updateClient(ClientDTO clientRequestDTO) {
         Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
         ClientResponseDTO responseDTO = clientMapper.toResponseDto(client);
         log.info("Updated client: {}", responseDTO);

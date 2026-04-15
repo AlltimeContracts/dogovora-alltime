@@ -1,47 +1,29 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import ru.alltime.dogovora.dto.ClientDetailsRequestDTO;
-import ru.alltime.dogovora.dto.ClientDetailsResponseDTO;
-import ru.alltime.dogovora.model.ClientDetails;
+import lombok.*;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.ClientDetailsDTO;
 
 import java.util.List;
 
-@Mapper(
-        componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
-public interface ClientDetailsMapper {
+@Component
+@RequiredArgsConstructor
+public class ClientDetailsMapper {
 
-    /**
-     * DTO-запрос -> сущность.
-     * Используется при создании новых реквизитов.
-     * ID игнорируем — генерируется БД.
-     */
-    @Mapping(target = "id", ignore = true)
-    ClientDetails toEntity(ClientDetailsRequestDTO dto);
+    public ClientDetailsDTO toDto(ClientDetailsEntity clientDetailsEntity){
 
-    /**
-     * Сущность -> DTO-ответ.
-     * Используется при возврате данных наружу.
-     */
-    ClientDetailsResponseDTO toResponseDto(ClientDetails entity);
-
-    /**
-     * Частичное обновление существующей сущности из DTO-запроса.
-     * null-поля в DTO НЕ затирают существующие значения.
-     * Удобно для PATCH/частичного PUT.
-     */
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntityFromDto(ClientDetailsRequestDTO dto, @MappingTarget ClientDetails entity);
-
-    /**
-     * Маппинг списков (напр., для выдачи коллекций).
-     */
-    List<ClientDetailsResponseDTO> toResponseDtoList(List<ClientDetails> entities);
+        return ClientDetailsDTO.builder()
+                .id(clientDetailsEntity.getId().toString())
+                .ogrnOgrnip(clientDetailsEntity.getOgrnOgrnip())
+                .inn(clientDetailsEntity.getInn())
+                .kpp(clientDetailsEntity.getKpp())
+                .legalAddress(clientDetailsEntity.getLegalAddress())
+                .actualAddress(clientDetailsEntity.getActualAddress())
+                .currentAccount(clientDetailsEntity.getCurrentAccount())
+                .correspondentAccount(clientDetailsEntity.getCorrespondentAccount())
+                .build();
+    }
+    public List<ClientDetailsDTO> toDto(List<ClientDetailsEntity> clientDetailsEntities){
+        return clientDetailsEntities.stream().map(this::toDto).toList();
+    }
 }

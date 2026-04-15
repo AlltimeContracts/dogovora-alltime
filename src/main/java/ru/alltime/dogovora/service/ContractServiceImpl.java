@@ -4,8 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.alltime.dogovora.dto.ContractRequestDTO;
-import ru.alltime.dogovora.dto.ContractResponseDTO;
+import ru.alltime.dogovora.dto.ContractDTO;
 import ru.alltime.dogovora.mapper.ContractMapper;
 import ru.alltime.dogovora.model.Contract;
 import ru.alltime.dogovora.repository.ContractRepository;
@@ -48,7 +47,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public ContractResponseDTO createContract(ContractRequestDTO contractRequestDTO) {
+    public ContractResponseDTO createContract(ContractDTO contractRequestDTO) {
         Contract createdContract = contractMapper.toEntity(contractRequestDTO);
         contractRepository.save(createdContract);
         log.info("Contract created: {}", createdContract);
@@ -56,7 +55,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public ContractResponseDTO updateContract(ContractRequestDTO contractRequestDTO) {
+    public ContractResponseDTO updateContract(ContractDTO contractRequestDTO) {
         Contract updatedContract = contractMapper.toEntity(contractRequestDTO);
         contractRepository.save(updatedContract);
         log.info("Contract updated: {}", updatedContract);

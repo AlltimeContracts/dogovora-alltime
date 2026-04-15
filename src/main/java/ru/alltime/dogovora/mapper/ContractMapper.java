@@ -1,39 +1,31 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.*;
-import ru.alltime.dogovora.dto.ContractRequestDTO;
-import ru.alltime.dogovora.dto.ContractResponseDTO;
-import ru.alltime.dogovora.model.Contract;
+import lombok.*;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.ContractDTO;
 
 import java.util.List;
 
-@Mapper(
-        componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
-public interface ContractMapper {
+@Component
+@RequiredArgsConstructor
+public class ContractMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
-    @Mapping(target = "historyList", ignore = true)
-    @Mapping(target = "active", source = "isActive")
-    @Mapping(target = "contractNum", source = "contractNum")
-    Contract toEntity(ContractRequestDTO dto);
+    public ContractDTO toDto(ContractEntity contractEntity) {
 
-    @Mapping(target = "contractStatus", source = "currentStatus")
-    @Mapping(target = "managerList", source = "managerIdList")
-    @Mapping(target = "isActive", source = "active")
-    ContractResponseDTO toResponseDTO(Contract entity);
+        return ContractDTO.builder()
+                .id(contractEntity.getId().toString())
+                .contractNum(contractEntity.getContractNum())
+                .isActive(contractEntity.getIsActive())
+                .contractDateFrom(contractEntity.getContractDateFrom())
+                .contractDateTo(contractEntity.getContractDateTo())
+                .clientId(contractEntity.getClientId())
+                .managerList(contractEntity.getManagerList())
+                .descriptionText(contractEntity.getDescriptionText())
+                .contractStatus(contractEntity.getContractStatus())
+                .build();
+    }
+    public List<ContractDTO> toDto(List<ContractEntity> contractEntities){
+        return contractEntities.stream().map(this::toDto).toList();
+    }
 
-    List<ContractResponseDTO> toResponseDTOList(List<Contract> entities);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
-    @Mapping(target = "historyList", ignore = true)
-    @Mapping(target = "active", source = "isActive")
-    @Mapping(target = "contractNum", source = "contractNum")
-    void updateEntityFromDto(ContractRequestDTO dto, @MappingTarget Contract entity);
 }

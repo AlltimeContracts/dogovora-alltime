@@ -5,14 +5,12 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.alltime.dogovora.dto.UserRequestDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.mapper.UserMapper;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.repository.UserRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
+    public UserResponseDTO createUser(UserDTO userRequestDTO) {
          User user = userRepository.save(userMapper.toEntity(userRequestDTO));
         log.info("User saved: {}", user);
         return userMapper.toResponseDto(user);
@@ -63,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDTO updateUser(UserRequestDTO userRequestDTO) {
+    public UserResponseDTO updateUser(UserDTO userRequestDTO) {
         User existingUser =  userRepository.findUserByLogin(userRequestDTO.login()).orElseThrow(() -> new EntityNotFoundException());
 
         existingUser.setFirstName(userRequestDTO.firstName());
