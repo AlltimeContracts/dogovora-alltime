@@ -17,13 +17,13 @@ public interface ContractMapper {
     // ---- RequestDTO → Entity ----
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
+    @Mapping(target = "managerIds", source = "managerList")
     @Mapping(target = "historyList", ignore = true)
     Contract toEntity(ContractRequestDTO dto);
 
     // ---- Entity → ResponseDTO ----
     @Mapping(target = "contractStatus", source = "currentStatus")
-    @Mapping(target = "managerList", source = "managerIdList")
+    @Mapping(target = "managerList", source = "managerIds")
     ContractResponseDTO toResponseDTO(Contract entity);
 
     // ---- Маппинг списков ----
@@ -33,7 +33,7 @@ public interface ContractMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
+    @Mapping(target = "managerIds", source = "managerList")
     @Mapping(target = "historyList", ignore = true)
     void updateEntityFromDto(ContractRequestDTO dto, @MappingTarget Contract entity);
 }
