@@ -9,7 +9,7 @@ import ru.alltime.dogovora.model.User;
 public interface UserMapper {
     // ---- Request → Entity ----
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", constant = "MANAGER") // при регистрации всем назначаем MANAGER
+    @Mapping(target = "role", constant = "MANAGER") // при регистрации всем назначаем MANAGER
     @Mapping(target = "active", constant = "true") // при создании пользователь активен
     User toEntity(UserRequestDTO dto);
 

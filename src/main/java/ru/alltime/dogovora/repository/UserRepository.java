@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findUsersByFirstName(String firstName); // Метод для фильтрации по имени
 
-    List<User> findUsersByRoles(String roles); // Метод для фильтрации по роли
+    List<User> findUsersByRole(String roles); // Метод для фильтрации по роли
 
     Optional<User> findUserByLogin(String login);
 
