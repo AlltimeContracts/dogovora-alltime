@@ -16,6 +16,4 @@ CREATE TABLE client_details
 );
 
 -- TODO вставить комментарии
--- TODO разделить на файлы поменьше!
--- TODO переименовать таблицы и поля в Java
 -- TODO подумать, что делать с таблицами databasechangelog и databasechangeloglock!!

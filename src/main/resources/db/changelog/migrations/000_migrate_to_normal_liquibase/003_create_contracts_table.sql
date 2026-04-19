@@ -16,7 +16,7 @@ CREATE TYPE contract_status_enum AS ENUM(
 
 -- changeset sedub01:2
 
-CREATE TABLE contracts -- TODO за этой таблицей нужно в бровь да в глаз
+CREATE TABLE contracts
 (
     id UUID PRIMARY KEY,
     contract_num VARCHAR(255) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE contracts -- TODO за этой таблицей нужно в бр
     contract_date_from TIMESTAMP,
     contract_date_to TIMESTAMP,
     client_id UUID NOT NULL, -- TODO должен ли здесь быть FOREIGN KEY??
-    manager_ids uuid[] NOT NULL, -- TODO переименовать в Java
+    manager_ids uuid[] NOT NULL,
     description_text TEXT,
     current_status contract_status_enum
 );
