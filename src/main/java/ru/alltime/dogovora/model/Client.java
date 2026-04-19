@@ -2,6 +2,8 @@ package ru.alltime.dogovora.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.util.UUID;
 
@@ -18,8 +20,8 @@ public class Client {
     @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
 
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Enumerated(EnumType.STRING)
-    @Column(name = "business_form")
     private BusinessForm businessForm;
 
     @Column(nullable = false)
