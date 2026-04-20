@@ -14,7 +14,6 @@ CREATE TYPE business_form_enum AS ENUM(
 COMMENT ON TYPE business_form_enum IS 'Организационно-правовая форма';
 
 -- changeset sedub01:2
--- TODO создать индексы для внешних ключей
 
 CREATE TABLE clients
 (
@@ -25,3 +24,12 @@ CREATE TABLE clients
     contract_list VARCHAR(255),
     full_name VARCHAR(255) NOT NULL
 );
+
+CREATE INDEX ON clients(client_details_id);
+
+COMMENT ON TABLE clients IS '';
+COMMENT ON COLUMN clients.is_active IS '';
+COMMENT ON COLUMN clients.client_details_id IS '';
+COMMENT ON COLUMN clients.business_form IS '';
+COMMENT ON COLUMN clients.contract_list IS '';
+COMMENT ON COLUMN clients.full_name IS '';
