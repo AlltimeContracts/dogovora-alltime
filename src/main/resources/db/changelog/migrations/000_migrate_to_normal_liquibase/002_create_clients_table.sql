@@ -2,9 +2,6 @@
 
 -- changeset sedub01:1
 
--- TODO про стиль в енамах расписать в вики (будем использовать маленькие
--- буквы, типа НЕ SQL сущности!)
--- Также называем в единственном числе!
 CREATE TYPE business_form_enum AS ENUM(
     'SOLE_PROPRIETOR',
     'LLC',
@@ -14,8 +11,10 @@ CREATE TYPE business_form_enum AS ENUM(
     'FARM_ENTERPRISE'
 );
 
+COMMENT ON TYPE business_form_enum IS 'Организационно-правовая форма';
+
 -- changeset sedub01:2
--- TODO про это тоже расписать в ВИКИ
+-- TODO создать индексы для внешних ключей
 
 CREATE TABLE clients
 (

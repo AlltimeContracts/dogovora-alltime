@@ -1,7 +1,6 @@
 -- liquibase formatted sql
 
 -- changeset sedub01:1
--- TODO упомянуть в вики нейминг миграций!!
 
 CREATE TABLE client_details
 (
