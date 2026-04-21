@@ -6,11 +6,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Договора</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 
-<body>
-    <h1>Договора</h1>
-    <ul id="contracts-list"></ul>
+<body class="page-contracts">
+    <header class="header">
+        <a class='header__logo' href="index.html">
+            <img class='logo_image' src="./images/alltime-logo.png" alt="Alltime">
+        </a>
+        <button class="header__logout button" type="button">Выйти</button>
+    </header>
+    <h1 class="page-contracts__title">Договора</h1>
+    <table class='table' id="contracts-table">
+        <thead class='table__header'>
+            <tr class="table__row">
+                <th>ID</th>
+                <th>Название</th>
+                <th>Дата</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody class='table__body' id="contracts-table-body">
+        </tbody>
+    </table>
     <script src="scripts/contracts.js"></script>
 </body>
 
