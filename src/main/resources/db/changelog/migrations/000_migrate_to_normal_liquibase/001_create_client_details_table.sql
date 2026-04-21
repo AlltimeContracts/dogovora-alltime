@@ -14,14 +14,11 @@ CREATE TABLE client_details
     ogrn_ogrnip VARCHAR(255) NOT NULL
 );
 
-COMMENT ON TABLE client_details IS '';
-COMMENT ON COLUMN client_details.actual_address IS '';
-COMMENT ON COLUMN client_details.correspondent_account IS '';
-COMMENT ON COLUMN client_details.current_account IS '';
-COMMENT ON COLUMN client_details.inn IS '';
-COMMENT ON COLUMN client_details.kpp IS '';
-COMMENT ON COLUMN client_details.legal_address IS '';
-COMMENT ON COLUMN client_details.ogrn_ogrnip IS '';
-
--- TODO вставить комментарии
--- TODO подумать, что делать с таблицами databasechangelog и databasechangeloglock!!
+COMMENT ON TABLE client_details IS 'Клиентские данные';
+COMMENT ON COLUMN client_details.actual_address IS 'Фактический адрес';
+COMMENT ON COLUMN client_details.correspondent_account IS 'Корреспондентский счет';
+COMMENT ON COLUMN client_details.current_account IS 'Расчетные реквизиты';
+COMMENT ON COLUMN client_details.inn IS 'ИНН';
+COMMENT ON COLUMN client_details.kpp IS 'КПП';
+COMMENT ON COLUMN client_details.legal_address IS 'Юридический адрес';
+COMMENT ON COLUMN client_details.ogrn_ogrnip IS 'ОГРН/ОГРНИП';

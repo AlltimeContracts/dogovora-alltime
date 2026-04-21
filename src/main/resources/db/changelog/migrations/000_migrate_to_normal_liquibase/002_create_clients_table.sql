@@ -27,9 +27,9 @@ CREATE TABLE clients
 
 CREATE INDEX ON clients(client_details_id);
 
-COMMENT ON TABLE clients IS '';
-COMMENT ON COLUMN clients.is_active IS '';
-COMMENT ON COLUMN clients.client_details_id IS '';
-COMMENT ON COLUMN clients.business_form IS '';
-COMMENT ON COLUMN clients.contract_list IS '';
-COMMENT ON COLUMN clients.full_name IS '';
+COMMENT ON TABLE clients IS 'Список клиентов';
+COMMENT ON COLUMN clients.is_active IS 'Флаг активности клиента';
+COMMENT ON COLUMN clients.client_details_id IS 'Ссылка на клиентские данные';
+COMMENT ON COLUMN clients.business_form IS 'Вид организационно-правовой формы';
+COMMENT ON COLUMN clients.contract_list IS 'Список контактов';
+COMMENT ON COLUMN clients.full_name IS 'ФИО';

@@ -93,5 +93,4 @@ public class ClientServiceImpl implements ClientService {
         log.info("Updated client: {}", responseDTO);
         return responseDTO;
     }
-
 }

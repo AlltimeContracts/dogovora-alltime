@@ -14,7 +14,7 @@ CREATE TYPE contract_status_enum AS ENUM(
     'CANCELLED'
 );
 
-COMMENT ON TYPE contract_status_enum IS '';
+COMMENT ON TYPE contract_status_enum IS 'Статус договора';
 
 -- changeset sedub01:2
 
@@ -25,7 +25,7 @@ CREATE TABLE contracts
     is_active BOOLEAN NOT NULL,
     contract_date_from TIMESTAMP,
     contract_date_to TIMESTAMP,
-    client_id UUID NOT NULL, -- TODO должен ли здесь быть FOREIGN KEY??
+    client_id UUID NOT NULL REFERENCES clients (id) ON DELETE CASCADE,
     manager_ids uuid[] NOT NULL,
     description_text TEXT,
     current_status contract_status_enum
@@ -33,12 +33,12 @@ CREATE TABLE contracts
 
 CREATE INDEX ON contracts(client_id);
 
-COMMENT ON TABLE contracts IS '';
-COMMENT ON COLUMN contracts.contract_num IS '';
-COMMENT ON COLUMN contracts.is_active IS '';
-COMMENT ON COLUMN contracts.contract_date_from IS '';
-COMMENT ON COLUMN contracts.contract_date_to IS '';
-COMMENT ON COLUMN contracts.client_id IS '';
-COMMENT ON COLUMN contracts.manager_ids IS '';
-COMMENT ON COLUMN contracts.description_text IS '';
-COMMENT ON COLUMN contracts.current_status IS '';
+COMMENT ON TABLE contracts IS 'Список договоров';
+COMMENT ON COLUMN contracts.contract_num IS 'Номер договора';
+COMMENT ON COLUMN contracts.is_active IS 'Статус активности договора';
+COMMENT ON COLUMN contracts.contract_date_from IS 'Дата начала срока договора';
+COMMENT ON COLUMN contracts.contract_date_to IS 'Дата окончания срока договора';
+COMMENT ON COLUMN contracts.client_id IS 'Ссылка на клиента';
+COMMENT ON COLUMN contracts.manager_ids IS 'ХЗ что это, абсолютно';
+COMMENT ON COLUMN contracts.description_text IS 'Описание договора';
+COMMENT ON COLUMN contracts.current_status IS 'Текущий статус договора';
