@@ -1,6 +1,5 @@
 services:
   alltimeDb:
-    #TODO написать в чате "рекомендуется сделать docker rm -f dogovora-postgres (старое название)"
     image: postgres:18-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -23,14 +22,14 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com #это вставлять в логин
-      PGADMIN_DEFAULT_PASSWORD: admin #это в пароль # Эти два поля не нужны
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
       # Don't require the user to login
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - ./${POSTGRES_DB}/pgadmin:/var/lib/pgadmin
     ports:
-      - "5050:80" #TODO вставить переменную (надо ли)
+      - "5050:80"
     networks:
       - dogovora-network
     depends_on:

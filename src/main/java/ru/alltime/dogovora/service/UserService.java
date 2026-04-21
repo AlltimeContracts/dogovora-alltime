@@ -12,7 +12,7 @@ public interface UserService {
 
     UserResponseDTO findUserByLogin(String login);
 
-    List<UserResponseDTO> findUsersByRole(String roles);
+    List<UserResponseDTO> findUsersByRole(String role);
 
     List<UserResponseDTO> findUsersByFirstName(String firstName);
 
