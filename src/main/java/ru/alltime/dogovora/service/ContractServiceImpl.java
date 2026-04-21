@@ -35,9 +35,9 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public ContractResponseDTO findContractByContractNum(String contractNum) {
-        var foundNum = contractRepository.findContractByContractNum(contractNum);
-        return contractMapper.toResponseDTO(foundNum);
+    public List<ContractResponseDTO> findContractsByContractNum(String contractNum) {
+        List<Contract> contractsByContractNum = contractRepository.findContractsByContractNum(contractNum);
+        return contractsByContractNum.stream().map(contractMapper::toResponseDTO).toList();
     }
 
     @Override

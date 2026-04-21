@@ -2,6 +2,7 @@ package ru.alltime.dogovora.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.dto.UserRequestDTO;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;

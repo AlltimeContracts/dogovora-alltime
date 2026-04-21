@@ -4,7 +4,6 @@ package ru.alltime.dogovora.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -31,8 +30,9 @@ public class Contract {
 
     private LocalDateTime contractDateTo;
 
-    @Column(nullable = false)
-    private UUID clientId;
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
     @Column(nullable = false)
     private List<UUID> managerIds; // todo по документации List<String> и managerId в виду массива! (на здоровье!)
