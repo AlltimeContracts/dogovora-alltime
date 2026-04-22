@@ -7,21 +7,17 @@ import java.util.UUID;
 
 public interface ContractService {
 
-    List<ContractResponseDTO> findAllContracts();
+    List<ContractDTO> findAllContracts();
 
-    ContractResponseDTO findContractById(UUID uuid);
+    ContractDTO findContractById(UUID uuid);
 
-    List<ContractResponseDTO> findContractsByContractNum(String contractNum);
+    List<ContractDTO> findContractsByContractNum(String contractNum);
 
-    List<ContractResponseDTO> findContractsByIsActive(boolean isActive);
+    List<ContractDTO> findContractsByIsActive(boolean isActive);
 
-    ContractResponseDTO createContract(ContractDTO contractRequestDTO);
+    ContractDTO createContract(ContractDTO contractRequestDTO);
 
-    ContractResponseDTO updateContract(ContractDTO contractRequestDTO);
+    ContractDTO updateContract(ContractDTO contractRequestDTO);
 
     void deleteContractById(UUID uuid);
-
-    // Contract uploadContractFile(File contract);
-
-
 }

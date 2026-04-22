@@ -11,22 +11,21 @@ public interface ClientService {
 
     List<Client> findAllClients();
 
-    ClientResponseDTO findClientById(UUID id);
+    ClientDTO findClientById(UUID id);
 
-    List<ClientResponseDTO>  findClientsByFullName(String fullName);
+    List<ClientDTO> findClientsByFullName(String fullName);
 
-    List<ClientResponseDTO>  findClientsByBusinessForm(String businessForm);
+    List<ClientDTO> findClientsByBusinessForm(String businessForm);
 
-    ClientResponseDTO findClientByClientDetails(ClientDetails clientDetails);
+    ClientDTO findClientByClientDetails(ClientDetails clientDetails);
 
-    ClientResponseDTO findClientByContractList(String contractList);
+    ClientDTO findClientByContractList(String contractList);
 
-    List<ClientResponseDTO> findClientsByIsActive(boolean isActive);
+    List<ClientDTO> findClientsByIsActive(boolean isActive);
 
-    ClientResponseDTO createClient(ClientDTO clientRequestDTO);
+    ClientDTO createClient(ClientDTO clientRequestDTO);
 
-    ClientResponseDTO updateClient(ClientDTO clientRequestDTO);
+    ClientDTO updateClient(ClientDTO clientRequestDTO);
 
     void deleteClientById(UUID id);
-
 }

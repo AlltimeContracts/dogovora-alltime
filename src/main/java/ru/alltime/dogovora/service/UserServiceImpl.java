@@ -26,32 +26,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO findUserByLogin(String login) {
-       User user =  userRepository.findUserByLogin(login).orElseThrow(() -> new EntityNotFoundException());
-        return userMapper.toResponseDto(user);
+    public UserDTO findUserByLogin(String login) {
+        User user = userRepository.findUserByLogin(login).orElseThrow(EntityNotFoundException::new);
+        return userMapper.toDto(user);
     }
 
     @Override
-    public List<UserResponseDTO> findUsersByRoles(String roles) {
-        return userRepository.findUsersByRoles(roles)
-                .stream()
-                .map(userMapper::toResponseDto)
-                .toList();
+    public List<UserDTO> findUsersByRoles(String roles) {
+        return userRepository.findUsersByRoles(roles).stream().map(userMapper::toDto).toList();
     }
 
     @Override
-    public  List<UserResponseDTO> findUsersByFirstName(String firstName) {
-        List<User> users =  userRepository.findUsersByFirstName(firstName);
-        return users.stream()
-                .map(userMapper::toResponseDto)
-                .toList();
+    public List<UserDTO> findUsersByFirstName(String firstName) {
+        List<User> users = userRepository.findUsersByFirstName(firstName);
+        return users.stream().map(userMapper::toDto).toList();
     }
 
     @Override
-    public UserResponseDTO createUser(UserDTO userRequestDTO) {
-         User user = userRepository.save(userMapper.toEntity(userRequestDTO));
+    public UserDTO createUser(UserDTO userRequestDTO) {
+        User user = userRepository.save(userMapper.toEntity(userRequestDTO));
         log.info("User saved: {}", user);
-        return userMapper.toResponseDto(user);
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -61,19 +56,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDTO updateUser(UserDTO userRequestDTO) {
-        User existingUser =  userRepository.findUserByLogin(userRequestDTO.login()).orElseThrow(() -> new EntityNotFoundException());
+    public UserDTO updateUser(UserDTO userRequestDTO) {
+        User existingUser = userRepository.findUserByLogin(userRequestDTO.getLogin()).orElseThrow(EntityNotFoundException::new);
 
-        existingUser.setFirstName(userRequestDTO.firstName());
-        existingUser.setSecondName(userRequestDTO.secondName());
-        existingUser.setThirdName(userRequestDTO.thirdName());
-        existingUser.setPosition(userRequestDTO.position());
-        existingUser.setLogin(userRequestDTO.login());
+        existingUser.setFirstName(userRequestDTO.getFirstName());
+        existingUser.setSecondName(userRequestDTO.getSecondName());
+        existingUser.setThirdName(userRequestDTO.getThirdName());
+        existingUser.setPosition(userRequestDTO.getPosition());
+        existingUser.setLogin(userRequestDTO.getLogin());
+        existingUser.setActive(userRequestDTO.isActive());
 
         userRepository.save(existingUser);
         log.info("User updated: {}", existingUser);
-        return userMapper.toResponseDto(existingUser);
+        return userMapper.toDto(existingUser);
     }
-
-
 }

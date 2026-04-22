@@ -9,16 +9,15 @@ public interface UserService {
 
     List<User> findAllUsers();
 
-    UserResponseDTO findUserByLogin(String login);
+    UserDTO findUserByLogin(String login);
 
-    List<UserResponseDTO> findUsersByRoles(String roles);
+    List<UserDTO> findUsersByRoles(String roles);
 
-    List<UserResponseDTO> findUsersByFirstName(String firstName);
+    List<UserDTO> findUsersByFirstName(String firstName);
 
-    UserResponseDTO createUser(UserDTO userRequestDTO);
+    UserDTO createUser(UserDTO userRequestDTO);
 
     void deleteByLogin(String login);
 
-    UserResponseDTO updateUser(UserDTO userRequestDTO);
-
+    UserDTO updateUser(UserDTO userRequestDTO);
 }

@@ -21,51 +21,46 @@ public class ContractServiceImpl implements ContractService {
     private ContractMapper contractMapper;
 
     @Override
-    public List<ContractResponseDTO> findAllContracts() {
-        return contractRepository.findAll().stream()
-                .map(contractMapper::toResponseDTO)
-                .toList();
+    public List<ContractDTO> findAllContracts() {
+        return contractRepository.findAll().stream().map(contractMapper::toDto).toList();
     }
 
     @Override
-    public ContractResponseDTO findContractById(UUID uuid) {
-        var foundContract = contractRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException());
-        return contractMapper.toResponseDTO(foundContract);
+    public ContractDTO findContractById(UUID uuid) {
+        Contract foundContract = contractRepository.findById(uuid).orElseThrow(EntityNotFoundException::new);
+        return contractMapper.toDto(foundContract);
     }
 
     @Override
-    public List<ContractResponseDTO> findContractsByContractNum(String contractNum) {
+    public List<ContractDTO> findContractsByContractNum(String contractNum) {
         List<Contract> contractsByContractNum = contractRepository.findContractsByContractNum(contractNum);
-        return contractsByContractNum.stream().map(contractMapper::toResponseDTO).toList();
+        return contractsByContractNum.stream().map(contractMapper::toDto).toList();
     }
 
     @Override
-    public List<ContractResponseDTO> findContractsByIsActive(boolean isActive) {
-        return contractRepository.findContractsByIsActive(isActive).stream()
-                                                                         .map(contractMapper::toResponseDTO)
-                                                                             .toList();
+    public List<ContractDTO> findContractsByIsActive(boolean isActive) {
+        return contractRepository.findContractsByIsActive(isActive).stream().map(contractMapper::toDto).toList();
     }
 
     @Override
-    public ContractResponseDTO createContract(ContractDTO contractRequestDTO) {
+    public ContractDTO createContract(ContractDTO contractRequestDTO) {
         Contract createdContract = contractMapper.toEntity(contractRequestDTO);
         contractRepository.save(createdContract);
         log.info("Contract created: {}", createdContract);
-        return contractMapper.toResponseDTO(createdContract);
+        return contractMapper.toDto(createdContract);
     }
 
     @Override
-    public ContractResponseDTO updateContract(ContractDTO contractRequestDTO) {
+    public ContractDTO updateContract(ContractDTO contractRequestDTO) {
         Contract updatedContract = contractMapper.toEntity(contractRequestDTO);
         contractRepository.save(updatedContract);
         log.info("Contract updated: {}", updatedContract);
-        return contractMapper.toResponseDTO(updatedContract);
+        return contractMapper.toDto(updatedContract);
     }
 
     @Override
     public void deleteContractById(UUID uuid) {
         contractRepository.deleteById(uuid);
         log.info("Contract deleted: {}", uuid);
-
     }
 }

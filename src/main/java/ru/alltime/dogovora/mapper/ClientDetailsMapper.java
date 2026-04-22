@@ -1,8 +1,9 @@
 package ru.alltime.dogovora.mapper;
 
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.alltime.dogovora.dto.ClientDetailsDTO;
+import ru.alltime.dogovora.model.ClientDetails;
 
 import java.util.List;
 
@@ -10,20 +11,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientDetailsMapper {
 
-    public ClientDetailsDTO toDto(ClientDetailsEntity clientDetailsEntity){
-
+    public ClientDetailsDTO toDto(ClientDetails clientDetails) {
         return ClientDetailsDTO.builder()
-                .id(clientDetailsEntity.getId().toString())
-                .ogrnOgrnip(clientDetailsEntity.getOgrnOgrnip())
-                .inn(clientDetailsEntity.getInn())
-                .kpp(clientDetailsEntity.getKpp())
-                .legalAddress(clientDetailsEntity.getLegalAddress())
-                .actualAddress(clientDetailsEntity.getActualAddress())
-                .currentAccount(clientDetailsEntity.getCurrentAccount())
-                .correspondentAccount(clientDetailsEntity.getCorrespondentAccount())
+                .id(clientDetails.getId())
+                .ogrnOgrnip(clientDetails.getOgrnOgrnip())
+                .inn(clientDetails.getInn())
+                .kpp(clientDetails.getKpp())
+                .legalAddress(clientDetails.getLegalAddress())
+                .actualAddress(clientDetails.getActualAddress())
+                .currentAccount(clientDetails.getCurrentAccount())
+                .correspondentAccount(clientDetails.getCorrespondentAccount())
                 .build();
     }
-    public List<ClientDetailsDTO> toDto(List<ClientDetailsEntity> clientDetailsEntities){
-        return clientDetailsEntities.stream().map(this::toDto).toList();
+
+    public List<ClientDetailsDTO> toDto(List<ClientDetails> clientDetailsList) {
+        return clientDetailsList.stream().map(this::toDto).toList();
+    }
+
+    public ClientDetails toEntity(ClientDetailsDTO dto) {
+        ClientDetails clientDetails = new ClientDetails();
+        clientDetails.setId(dto.getId());
+        clientDetails.setOgrnOgrnip(dto.getOgrnOgrnip());
+        clientDetails.setInn(dto.getInn());
+        clientDetails.setKpp(dto.getKpp());
+        clientDetails.setLegalAddress(dto.getLegalAddress());
+        clientDetails.setActualAddress(dto.getActualAddress());
+        clientDetails.setCurrentAccount(dto.getCurrentAccount());
+        clientDetails.setCorrespondentAccount(dto.getCorrespondentAccount());
+        return clientDetails;
     }
 }

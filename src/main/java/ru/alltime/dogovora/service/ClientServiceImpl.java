@@ -27,70 +27,60 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientResponseDTO findClientById(UUID id) {
-        Client existingClient = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
-        return clientMapper.toResponseDto(existingClient);
+    public ClientDTO findClientById(UUID id) {
+        Client existingClient = clientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return clientMapper.toDto(existingClient);
     }
 
     @Override
-    public List<ClientResponseDTO> findClientsByFullName(String fullName) {
+    public List<ClientDTO> findClientsByFullName(String fullName) {
         List<Client> existingClients = clientRepository.findClientsByFullName(fullName);
-        return existingClients.stream()
-                .map(clientMapper::toResponseDto)
-                .toList();
-
+        return existingClients.stream().map(clientMapper::toDto).toList();
     }
 
     @Override
-    public List<ClientResponseDTO> findClientsByBusinessForm(String businessForm) {
+    public List<ClientDTO> findClientsByBusinessForm(String businessForm) {
         List<Client> existingClients = clientRepository.findClientsByBusinessForm(businessForm);
-        return existingClients.stream()
-                .map(clientMapper::toResponseDto)
-                .toList();
-
+        return existingClients.stream().map(clientMapper::toDto).toList();
     }
 
     @Override
-    public ClientResponseDTO findClientByClientDetails(ClientDetails clientDetails) {
-        Client client = clientRepository.findClientByClientDetails(clientDetails).orElseThrow(() -> new EntityNotFoundException());
-        return clientMapper.toResponseDto(client);
+    public ClientDTO findClientByClientDetails(ClientDetails clientDetails) {
+        Client client = clientRepository.findClientByClientDetails(clientDetails).orElseThrow(EntityNotFoundException::new);
+        return clientMapper.toDto(client);
     }
 
     @Override
-    public ClientResponseDTO findClientByContractList(String contractList) {  // todo ждем ответа
-        Client existingClient = clientRepository.findClientByContractList(contractList).orElseThrow(() -> new EntityNotFoundException());
-        return clientMapper.toResponseDto(existingClient);
+    public ClientDTO findClientByContractList(String contractList) {
+        Client existingClient = clientRepository.findClientByContractList(contractList).orElseThrow(EntityNotFoundException::new);
+        return clientMapper.toDto(existingClient);
     }
 
     @Override
-    public List<ClientResponseDTO> findClientsByIsActive(boolean isActive) {
+    public List<ClientDTO> findClientsByIsActive(boolean isActive) {
         List<Client> activeClients = clientRepository.findClientsByIsActive(isActive);
-        return activeClients.stream()
-                .map(clientMapper::toResponseDto)
-                .toList();
-
+        return activeClients.stream().map(clientMapper::toDto).toList();
     }
 
     @Override
-    public ClientResponseDTO createClient(ClientDTO clientRequestDTO) {
+    public ClientDTO createClient(ClientDTO clientRequestDTO) {
         Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
-        ClientResponseDTO responseDTO = clientMapper.toResponseDto(client);
+        ClientDTO responseDTO = clientMapper.toDto(client);
         log.info("Client saved: {}", responseDTO);
         return responseDTO;
     }
 
     @Override
-    public void deleteClientById(UUID id) {   //todo какая логика удаления?
+    public void deleteClientById(UUID id) {
         clientRepository.deleteClientById(id);
         log.info("Client deleted: {}", id);
     }
 
     @Override
-    public ClientResponseDTO updateClient(ClientDTO clientRequestDTO) {
+    public ClientDTO updateClient(ClientDTO clientRequestDTO) {
         Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
-        ClientResponseDTO responseDTO = clientMapper.toResponseDto(client);
+        ClientDTO responseDTO = clientMapper.toDto(client);
         log.info("Updated client: {}", responseDTO);
         return responseDTO;
     }
-
 }

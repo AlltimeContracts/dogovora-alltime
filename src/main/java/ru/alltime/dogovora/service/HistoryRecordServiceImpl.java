@@ -14,39 +14,36 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 @Slf4j
-
 public class HistoryRecordServiceImpl implements HistoryRecordService {
 
     private HistoryRecordRepository historyRecordRepository;
     private HistoryRecordMapper recordMapper;
 
-
     @Override
-    public List<HistoryRecordResponseDTO> findAllRecords() {
-        return historyRecordRepository.findAll().stream().map(recordMapper::toResponseDTO).toList();
+    public List<HistoryRecordDTO> findAllRecords() {
+        return historyRecordRepository.findAll().stream().map(recordMapper::toDto).toList();
     }
 
     @Override
-    public HistoryRecordResponseDTO findHistoryRecordById(UUID uuid) {
+    public HistoryRecordDTO findHistoryRecordById(UUID uuid) {
         var record = historyRecordRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Record not found"));
-        return recordMapper.toResponseDTO(record);
+        return recordMapper.toDto(record);
     }
 
     @Override
-    public HistoryRecordResponseDTO createHistoryRecord(HistoryRecordDTO historyRecordRequestDTO) {
+    public HistoryRecordDTO createHistoryRecord(HistoryRecordDTO historyRecordRequestDTO) {
         var createdRecord = recordMapper.toEntity(historyRecordRequestDTO);
         historyRecordRepository.save(createdRecord);
         log.info("History record created: {}", createdRecord);
-        return recordMapper.toResponseDTO(createdRecord);
-
+        return recordMapper.toDto(createdRecord);
     }
 
     @Override
-    public HistoryRecordResponseDTO updateHistoryRecord(HistoryRecordDTO historyRecordRequestDTO) {
+    public HistoryRecordDTO updateHistoryRecord(HistoryRecordDTO historyRecordRequestDTO) {
         var updatableRecord = recordMapper.toEntity(historyRecordRequestDTO);
         historyRecordRepository.save(updatableRecord);
         log.info("Update history record: {}", updatableRecord);
-        return recordMapper.toResponseDTO(updatableRecord);
+        return recordMapper.toDto(updatableRecord);
     }
 
     @Override

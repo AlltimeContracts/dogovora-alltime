@@ -7,15 +7,13 @@ import java.util.UUID;
 
 public interface HistoryRecordService {
 
-    List<HistoryRecordResponseDTO> findAllRecords();
+    List<HistoryRecordDTO> findAllRecords();
 
-    HistoryRecordResponseDTO findHistoryRecordById(UUID uuid);
+    HistoryRecordDTO findHistoryRecordById(UUID uuid);
 
-    HistoryRecordResponseDTO createHistoryRecord(HistoryRecordDTO historyRecordRequestDTO);
+    HistoryRecordDTO createHistoryRecord(HistoryRecordDTO historyRecordRequestDTO);
 
-    HistoryRecordResponseDTO updateHistoryRecord(HistoryRecordDTO historyRecordRequestDTO);
+    HistoryRecordDTO updateHistoryRecord(HistoryRecordDTO historyRecordRequestDTO);
 
     void deleteHistoryRecordById(UUID uuid);
-
-
 }
