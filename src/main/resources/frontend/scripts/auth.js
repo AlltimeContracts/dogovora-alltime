@@ -23,7 +23,7 @@ form.addEventListener('submit', async (e) => {
     message.textContent = data.message
     let token = data.token
     localStorage.setItem('token', token);
-    window.location.href = 'contracts.html';
+    window.location.href = 'home.html';
 
   } else {
     message.textContent = data.message

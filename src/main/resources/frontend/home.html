@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Главная</title>
+</head>
+<body>
+    <main class="dashboard-layout">
+    <header class="header">
+        <div class="header__links">
+            <a class="header__logo" href="home.html">
+                <img src="./images/alltime-logo.png" alt="Alltime" width="150" height="44">
+            </a>
+            <a class="header__link" href="contracts.html"><img src="./images/contracts-icon.png" alt="Договоры" width="40" height="40"><span class="header__link__text">Договоры</span></a>
+            <a class="header__link" href="clients.html"><img src="./images/clients-icon.png" alt="Клиенты" width="40" height="40"><span class="header__link__text">Клиенты</span></a>
+            <a class="header__link" href="users.html"><img src="./images/users-icon.png" alt="Пользователи" width="40" height="40"><span class="header__link__text">Пользователи</span></a>
+            <a class="header__link" href="profile.html"><img src="./images/settings_icon.png" alt="Профиль" width="40" height="40"><span class="header__link__text">Профиль</span></a>
+        </div>
+        <div class="header__buttons">
+            <button class="header__notifications button header__link header__link--vertical" type="button"><img src="./images/notification-icon.png" alt="Уведомления" width="40" height="40"><span class="header__link__text">Уведомления</span></button>
+            <button class="header__logout button header__link header__link--vertical" type="button" id="logout-button"><img src="./images/home-icon.png" alt="Выйти" width="40" height="40"><span class="header__link__text">Выйти</span></button>
+        </div>
+    </header>
+    <div class="dashboard-container">
+        <h2 class="dashboard-container__title">Добро пожаловать в AlltimeContracts!</h2>
+        <div class="notifications">
+            <ol class="notifications__list">
+                <li class="notifications__item"><a class="notifications__link" href="contracts.html"><img class="notifications__item__image" src="./images/notification-icon-new.png" alt="" width="40" height="40"><span class="notifications__item__text">Уведомление 1</span></a></li>
+                <li class="notifications__item"><a class="notifications__link" href="contracts.html"><img class="notifications__item__image" src="./images/notification-icon-new.png" alt="" width="40" height="40"><span class="notifications__item__text">Уведомление 2</span></a></li>
+                <li class="notifications__item"><a class="notifications__link" href="contracts.html"><img class="notifications__item__image" src="./images/notification-icon-new.png" alt="" width="40" height="40"><span class="notifications__item__text">Уведомление 3</span></a></li>
+                <li class="notifications__item"><a class="notifications__link" href="contracts.html"><img class="notifications__item__image" src="./images/notification-icon-new.png" alt="" width="40" height="40"><span class="notifications__item__text">Уведомление 4</span></a></li>
+                <li class="notifications__item"><a class="notifications__link" href="contracts.html"><img class="notifications__item__image" src="./images/notification-icon-new.png" alt="" width="40" height="40"><span class="notifications__item__text">Уведомление 5</span></a></li>
+            </ol>
+        </div>
+    </div>
+    </main>
+    <script src="scripts/check-auth.js" defer></script>
+    <script src="scripts/home.js" defer></script>
+</body>
+</html>
