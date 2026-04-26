@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.UUID;
@@ -8,11 +9,11 @@ import java.util.UUID;
 @Builder
 public class ClientDetailsDTO {
         private UUID id;
-        private String ogrnOgrnip;         // ОГРН или ОГРНИП (обязательно)
-        private String inn;                // ИНН (обязательно)
-        private String kpp;                          // КПП (опционально)
-        private String legalAddress;                 // Юридический адрес
-        private String actualAddress;                // Фактический адрес
-        private String currentAccount;               // Расчётный счёт
-        private String correspondentAccount;          // Корреспондентский счёт
+        @NotBlank private String ogrnOgrnip;
+        @NotBlank private String inn;
+        private String kpp;
+        private String legalAddress;
+        private String actualAddress;
+        private String currentAccount;
+        private String correspondentAccount;
 }

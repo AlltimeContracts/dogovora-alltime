@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import ru.alltime.dogovora.model.ContractStatus;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Builder
 public class ContractDTO{
         private UUID id;
-        private String contractNum;
+        @NotBlank private String contractNum;
         private boolean isActive;
         private LocalDate contractDateFrom;
         private LocalDate contractDateTo;

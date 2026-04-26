@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import ru.alltime.dogovora.model.BusinessForm;
 
@@ -9,9 +10,9 @@ import java.util.UUID;
 @Builder
 public class ClientDTO{
         private UUID id;
-        private BusinessForm businessForm;  // Организационно-правовая форма
-        private String fullName;       // Полное наименование клиента
-        private UUID clientDetailsId;   // ID связанных реквизитов (ClientDetails)
-        private String contractList;        // Список договоров (например, JSON или строка)
-        private boolean isActive;          // Активен ли клиент
+        @NotBlank private BusinessForm businessForm;
+        @NotBlank private String fullName;
+        private UUID clientDetailsId;
+        private String contractList;
+        private boolean isActive;
 }

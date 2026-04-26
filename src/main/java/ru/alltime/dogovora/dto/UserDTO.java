@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.UUID;
@@ -8,10 +9,10 @@ import java.util.UUID;
 @Builder
 public class UserDTO{
         private UUID id;
-        private String firstName;
-        private String secondName;
+        @NotBlank private String firstName;
+        @NotBlank private String secondName;
         private String thirdName;
-        private String position;
-        private String login;
+        @NotBlank private String position;
+        @NotBlank private String login;
         private boolean isActive;
 }
