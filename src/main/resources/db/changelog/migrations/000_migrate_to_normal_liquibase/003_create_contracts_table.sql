@@ -39,6 +39,6 @@ COMMENT ON COLUMN contracts.is_active IS 'Статус активности до
 COMMENT ON COLUMN contracts.contract_date_from IS 'Дата начала срока договора';
 COMMENT ON COLUMN contracts.contract_date_to IS 'Дата окончания срока договора';
 COMMENT ON COLUMN contracts.client_id IS 'Ссылка на клиента';
-COMMENT ON COLUMN contracts.manager_ids IS 'ХЗ что это, абсолютно';
+COMMENT ON COLUMN contracts.manager_ids IS 'Менеджеры, которые внесли изменения';
 COMMENT ON COLUMN contracts.description_text IS 'Описание договора';
 COMMENT ON COLUMN contracts.current_status IS 'Текущий статус договора';
