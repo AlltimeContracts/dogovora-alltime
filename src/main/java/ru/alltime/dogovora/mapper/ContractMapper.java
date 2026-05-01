@@ -15,14 +15,14 @@ public interface ContractMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
+    @Mapping(target = "managerIds", source = "managerList")
     @Mapping(target = "historyList", ignore = true)
     @Mapping(target = "active", source = "isActive")
     @Mapping(target = "contractNum", source = "contractNum")
     Contract toEntity(ContractRequestDTO dto);
 
     @Mapping(target = "contractStatus", source = "currentStatus")
-    @Mapping(target = "managerList", source = "managerIdList")
+    @Mapping(target = "managerList", source = "managerIds")
     @Mapping(target = "isActive", source = "active")
     ContractResponseDTO toResponseDTO(Contract entity);
 
@@ -31,7 +31,7 @@ public interface ContractMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
+    @Mapping(target = "managerIds", source = "managerList")
     @Mapping(target = "historyList", ignore = true)
     @Mapping(target = "active", source = "isActive")
     @Mapping(target = "contractNum", source = "contractNum")

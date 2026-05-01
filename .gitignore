@@ -38,3 +38,8 @@ out/
 
 ### Environment Variables ###
 .env
+
+#MacOS build
+.DS_Store
+#pgAdmin
+/dogovora_db

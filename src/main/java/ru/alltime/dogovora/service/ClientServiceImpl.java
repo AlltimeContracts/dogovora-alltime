@@ -1,7 +1,7 @@
 package ru.alltime.dogovora.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.dto.ClientRequestDTO;
@@ -16,11 +16,11 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
-    private ClientRepository clientRepository;
-    private ClientMapper clientMapper;
+    private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
     @Override
     public List<Client> findAllClients() {
@@ -93,5 +93,4 @@ public class ClientServiceImpl implements ClientService {
         log.info("Updated client: {}", responseDTO);
         return responseDTO;
     }
-
 }

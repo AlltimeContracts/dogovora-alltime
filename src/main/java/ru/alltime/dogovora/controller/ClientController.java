@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.alltime.dogovora.dto.ClientRequestDTO;
 import ru.alltime.dogovora.dto.ClientResponseDTO;
 import ru.alltime.dogovora.model.Client;
-import ru.alltime.dogovora.service.ClientServiceImpl;
+import ru.alltime.dogovora.service.ClientService;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,10 +18,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ClientController {
 
-    private ClientServiceImpl clientService;
+    private final ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients() {
+    public ResponseEntity<List<Client>> getAllClients(){
         List<Client> allClients = clientService.findAllClients();
         return ResponseEntity.ok(allClients);
     }
@@ -33,11 +33,9 @@ public class ClientController {
     }
 
     /**
-     *
-     * @param clientRequestDTO Создание пользователья!!!!
-     * @return
+        TODO после рефакторинга мапперов сделать обработку businessForm кириллическими названиями,
+        а не перечислениями из BusinessForm
      */
-
     @PostMapping("/create-client")
     public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Parameter(description = "передается DTO для создания клиента") ClientRequestDTO clientRequestDTO) {
         ClientResponseDTO createdClient = clientService.createClient(clientRequestDTO);
