@@ -1,16 +1,4 @@
 databaseChangeLog:
-  - include:
-      file: db/changelog/changes/1-create-user-table.xml
-      relativeToChangelogFile: false
-  - include:
-      file: db/changelog/changes/2-create-client-details-table.xml
-      relativeToChangelogFile: false
-  - include:
-      file: db/changelog/changes/3-create-client-table.xml
-      relativeToChangelogFile: false
-  - include:
-      file: db/changelog/changes/4-create-contract-table.xml
-      relativeToChangelogFile: false
-  - include:
-      file: db/changelog/changes/5-create-contract-history-record-table.xml
+  - includeAll:
+      path: db/changelog/migrations
       relativeToChangelogFile: false
