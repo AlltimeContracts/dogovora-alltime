@@ -12,16 +12,16 @@ import java.util.List;
 public class ClientDetailsMapper {
 
     public ClientDetailsDTO toDto(ClientDetails clientDetails) {
-        return ClientDetailsDTO.builder()
-                .id(clientDetails.getId())
-                .ogrnOgrnip(clientDetails.getOgrnOgrnip())
-                .inn(clientDetails.getInn())
-                .kpp(clientDetails.getKpp())
-                .legalAddress(clientDetails.getLegalAddress())
-                .actualAddress(clientDetails.getActualAddress())
-                .currentAccount(clientDetails.getCurrentAccount())
-                .correspondentAccount(clientDetails.getCorrespondentAccount())
-                .build();
+        return new ClientDetailsDTO(
+                clientDetails.getId(),
+                clientDetails.getOgrnOgrnip(),
+                clientDetails.getInn(),
+                clientDetails.getKpp(),
+                clientDetails.getLegalAddress(),
+                clientDetails.getActualAddress(),
+                clientDetails.getCurrentAccount(),
+                clientDetails.getCorrespondentAccount()
+        );
     }
 
     public List<ClientDetailsDTO> toDto(List<ClientDetails> clientDetailsList) {
@@ -30,14 +30,14 @@ public class ClientDetailsMapper {
 
     public ClientDetails toEntity(ClientDetailsDTO dto) {
         ClientDetails clientDetails = new ClientDetails();
-        clientDetails.setId(dto.getId());
-        clientDetails.setOgrnOgrnip(dto.getOgrnOgrnip());
-        clientDetails.setInn(dto.getInn());
-        clientDetails.setKpp(dto.getKpp());
-        clientDetails.setLegalAddress(dto.getLegalAddress());
-        clientDetails.setActualAddress(dto.getActualAddress());
-        clientDetails.setCurrentAccount(dto.getCurrentAccount());
-        clientDetails.setCorrespondentAccount(dto.getCorrespondentAccount());
+        clientDetails.setId(dto.id());
+        clientDetails.setOgrnOgrnip(dto.ogrnOgrnip());
+        clientDetails.setInn(dto.inn());
+        clientDetails.setKpp(dto.kpp());
+        clientDetails.setLegalAddress(dto.legalAddress());
+        clientDetails.setActualAddress(dto.actualAddress());
+        clientDetails.setCurrentAccount(dto.currentAccount());
+        clientDetails.setCorrespondentAccount(dto.correspondentAccount());
         return clientDetails;
     }
 }

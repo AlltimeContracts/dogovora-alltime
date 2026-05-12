@@ -13,17 +13,17 @@ import java.util.List;
 public class ContractMapper {
 
     public ContractDTO toDto(Contract contract) {
-        return ContractDTO.builder()
-                .id(contract.getId())
-                .contractNum(contract.getContractNum())
-                .isActive(contract.isActive())
-                .contractDateFrom(contract.getContractDateFrom())
-                .contractDateTo(contract.getContractDateTo())
-                .clientId(contract.getClient() != null ? contract.getClient().getId() : null)
-                .managerList(contract.getManagerIdList())
-                .descriptionText(contract.getDescriptionText())
-                .contractStatus(contract.getCurrentStatus())
-                .build();
+        return new ContractDTO(
+                contract.getId(),
+                contract.getContractNum(),
+                contract.isActive(),
+                contract.getContractDateFrom(),
+                contract.getContractDateTo(),
+                contract.getClient() != null ? contract.getClient().getId() : null,
+                contract.getManagerIdList(),
+                contract.getDescriptionText(),
+                contract.getCurrentStatus()
+        );
     }
 
     public List<ContractDTO> toDto(List<Contract> contracts) {
@@ -32,18 +32,18 @@ public class ContractMapper {
 
     public Contract toEntity(ContractDTO dto) {
         Contract contract = new Contract();
-        contract.setId(dto.getId());
-        contract.setContractNum(dto.getContractNum());
+        contract.setId(dto.id());
+        contract.setContractNum(dto.contractNum());
         contract.setActive(dto.isActive());
-        contract.setContractDateFrom(dto.getContractDateFrom());
-        contract.setContractDateTo(dto.getContractDateTo());
-        contract.setManagerIdList(dto.getManagerList());
-        contract.setDescriptionText(dto.getDescriptionText());
-        contract.setCurrentStatus(dto.getContractStatus());
+        contract.setContractDateFrom(dto.contractDateFrom());
+        contract.setContractDateTo(dto.contractDateTo());
+        contract.setManagerIdList(dto.managerList());
+        contract.setDescriptionText(dto.descriptionText());
+        contract.setCurrentStatus(dto.contractStatus());
 
-        if (dto.getClientId() != null) {
+        if (dto.clientId() != null) {
             Client client = new Client();
-            client.setId(dto.getClientId());
+            client.setId(dto.clientId());
             contract.setClient(client);
         }
 

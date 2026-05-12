@@ -57,13 +57,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO updateUser(UserDTO userRequestDTO) {
-        User existingUser = userRepository.findUserByLogin(userRequestDTO.getLogin()).orElseThrow(EntityNotFoundException::new);
+        User existingUser = userRepository.findUserByLogin(userRequestDTO.login()).orElseThrow(EntityNotFoundException::new);
 
-        existingUser.setFirstName(userRequestDTO.getFirstName());
-        existingUser.setSecondName(userRequestDTO.getSecondName());
-        existingUser.setThirdName(userRequestDTO.getThirdName());
-        existingUser.setPosition(userRequestDTO.getPosition());
-        existingUser.setLogin(userRequestDTO.getLogin());
+        existingUser.setFirstName(userRequestDTO.firstName());
+        existingUser.setSecondName(userRequestDTO.secondName());
+        existingUser.setThirdName(userRequestDTO.thirdName());
+        existingUser.setPosition(userRequestDTO.position());
+        existingUser.setLogin(userRequestDTO.login());
         existingUser.setActive(userRequestDTO.isActive());
 
         userRepository.save(existingUser);

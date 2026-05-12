@@ -14,14 +14,14 @@ import java.util.List;
 public class HistoryRecordMapper {
 
     public HistoryRecordDTO toDto(HistoryRecord historyRecord) {
-        return HistoryRecordDTO.builder()
-                .id(historyRecord.getId())
-                .userId(historyRecord.getUser() != null ? historyRecord.getUser().getId() : null)
-                .statusBefore(historyRecord.getStatusBefore())
-                .statusAfter(historyRecord.getStatusAfter())
-                .contractBeforeId(historyRecord.getContractBefore() != null ? historyRecord.getContractBefore().getId() : null)
-                .contractAfterId(historyRecord.getContractAfter() != null ? historyRecord.getContractAfter().getId() : null)
-                .build();
+        return new HistoryRecordDTO(
+                historyRecord.getId(),
+                historyRecord.getUser() != null ? historyRecord.getUser().getId() : null,
+                historyRecord.getStatusBefore(),
+                historyRecord.getStatusAfter(),
+                historyRecord.getContractBefore() != null ? historyRecord.getContractBefore().getId() : null,
+                historyRecord.getContractAfter() != null ? historyRecord.getContractAfter().getId() : null
+        );
     }
 
     public List<HistoryRecordDTO> toDto(List<HistoryRecord> historyRecords) {
@@ -30,25 +30,25 @@ public class HistoryRecordMapper {
 
     public HistoryRecord toEntity(HistoryRecordDTO dto) {
         HistoryRecord historyRecord = new HistoryRecord();
-        historyRecord.setId(dto.getId());
-        historyRecord.setStatusBefore(dto.getStatusBefore());
-        historyRecord.setStatusAfter(dto.getStatusAfter());
+        historyRecord.setId(dto.id());
+        historyRecord.setStatusBefore(dto.statusBefore());
+        historyRecord.setStatusAfter(dto.statusAfter());
 
-        if (dto.getUserId() != null) {
+        if (dto.userId() != null) {
             User user = new User();
-            user.setId(dto.getUserId());
+            user.setId(dto.userId());
             historyRecord.setUser(user);
         }
 
-        if (dto.getContractBeforeId() != null) {
+        if (dto.contractBeforeId() != null) {
             Contract contractBefore = new Contract();
-            contractBefore.setId(dto.getContractBeforeId());
+            contractBefore.setId(dto.contractBeforeId());
             historyRecord.setContractBefore(contractBefore);
         }
 
-        if (dto.getContractAfterId() != null) {
+        if (dto.contractAfterId() != null) {
             Contract contractAfter = new Contract();
-            contractAfter.setId(dto.getContractAfterId());
+            contractAfter.setId(dto.contractAfterId());
             historyRecord.setContractAfter(contractAfter);
         }
 
