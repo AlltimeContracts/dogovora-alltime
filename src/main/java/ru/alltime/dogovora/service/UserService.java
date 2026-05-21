@@ -11,8 +11,6 @@ public interface UserService {
 
     UserDTO findUserByLogin(String login);
 
-    List<UserDTO> findUsersByRoles(String roles);
-
     List<UserDTO> findUsersByFirstName(String firstName);
 
     UserDTO createUser(UserDTO userRequestDTO);
