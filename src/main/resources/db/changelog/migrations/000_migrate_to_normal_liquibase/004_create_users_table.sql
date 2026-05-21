@@ -20,6 +20,7 @@ CREATE TABLE users
     second_name VARCHAR(255) NOT NULL,
     third_name VARCHAR(255),
     login VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     "position" VARCHAR(255),
     role user_role_enum NOT NULL
 );
