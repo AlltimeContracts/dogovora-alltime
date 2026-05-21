@@ -20,7 +20,7 @@ public class ContractMapper {
                 contract.getContractDateFrom(),
                 contract.getContractDateTo(),
                 contract.getClient() != null ? contract.getClient().getId() : null,
-                contract.getManagerIdList(),
+                contract.getManagerIds(),
                 contract.getDescriptionText(),
                 contract.getCurrentStatus()
         );
@@ -37,7 +37,7 @@ public class ContractMapper {
         contract.setActive(dto.isActive());
         contract.setContractDateFrom(dto.contractDateFrom());
         contract.setContractDateTo(dto.contractDateTo());
-        contract.setManagerIdList(dto.managerList());
+        contract.setManagerIds(dto.managerList());
         contract.setDescriptionText(dto.descriptionText());
         contract.setCurrentStatus(dto.contractStatus());
 
