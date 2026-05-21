@@ -1,46 +1,46 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.*;
-import ru.alltime.dogovora.dto.*;
-import ru.alltime.dogovora.model.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.ClientDTO;
+import ru.alltime.dogovora.model.Client;
+import ru.alltime.dogovora.model.ClientDetails;
 
-import java.util.UUID;
+import java.util.List;
 
-/**
- * Маппер для преобразования между сущностью Client и DTO.
- * Использует вложенный маппер ClientDetailsMapper для реквизитов.
- */
-@Mapper(
-        componentModel = "spring",
-        uses = { ClientDetailsMapper.class },
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
-public interface ClientMapper {
+@Component
+@RequiredArgsConstructor
+public class ClientMapper {
 
-    /**
-     * Преобразование DTO-запроса → сущность.
-     * Используется при создании нового клиента.
-     */
-    @Mapping(target = "id", ignore = true) // ID генерируется в БД
-    @Mapping(target = "clientDetails", source = "clientDetailsId", qualifiedByName = "mapClientDetailsId")
-    Client toEntity(ClientRequestDTO dto);
+    public ClientDTO toDto(Client client) {
+        return new ClientDTO(
+                client.getId(),
+                client.getBusinessForm(),
+                client.getFullName(),
+                client.getClientDetails() != null ? client.getClientDetails().getId() : null,
+                client.getContractList(),
+                client.isActive()
+        );
+    }
 
-    /**
-     * Преобразование сущности → DTO-ответ.
-     * Используется при возврате данных пользователю.
-     */
-    @Mapping(target = "clientDetailsId", source = "clientDetails.id")
-    ClientResponseDTO toResponseDto(Client client);
+    public List<ClientDTO> toDto(List<Client> clients) {
+        return clients.stream().map(this::toDto).toList();
+    }
 
-    /**
-     * Дополнительный метод для конверсии UUID → ClientDetails.
-     * Используется только при маппинге ClientRequestDTO → Client.
-     */
-    @Named("mapClientDetailsId")
-    default ClientDetails mapClientDetailsId(UUID id) {
-        if (id == null) return null;
-        ClientDetails details = new ClientDetails();
-        details.setId(id);
-        return details;
+    public Client toEntity(ClientDTO dto) {
+        Client client = new Client();
+        client.setId(dto.id());
+        client.setBusinessForm(dto.businessForm());
+        client.setFullName(dto.fullName());
+        client.setContractList(dto.contractList());
+        client.setActive(dto.isActive());
+
+        if (dto.clientDetailsId() != null) {
+            ClientDetails clientDetails = new ClientDetails();
+            clientDetails.setId(dto.clientDetailsId());
+            client.setClientDetails(clientDetails);
+        }
+
+        return client;
     }
 }

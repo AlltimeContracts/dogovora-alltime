@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alltime.dogovora.dto.UserRequestDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.service.UserServiceImpl;
 
@@ -27,26 +26,26 @@ public class UserController {
     }
 
     @GetMapping("{login}")
-    public ResponseEntity<UserResponseDTO> getUserByLogin(@PathVariable String login) {
-        var userRequestDTO = userService.findUserByLogin(login);
-        return ResponseEntity.ok(userRequestDTO);
+    public ResponseEntity<UserDTO> getUserByLogin(@PathVariable String login) {
+        var userDTO = userService.findUserByLogin(login);
+        return ResponseEntity.ok(userDTO);
     }
 
     @GetMapping("/by-name/{firstName}")
-    public ResponseEntity<List<UserResponseDTO>> getUserByFirstName(@PathVariable String firstName) {
+    public ResponseEntity<List<UserDTO>> getUserByFirstName(@PathVariable String firstName) {
         var users = userService.findUsersByFirstName(firstName);
         return ResponseEntity.ok(users);
     }
 
     @PostMapping("/create-user")
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
-        var userCreateRequest = userService.createUser(userRequestDTO);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        var userCreateRequest = userService.createUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreateRequest);
     }
 
     @PutMapping("/update-user-info")
-    public ResponseEntity<UserResponseDTO> updateUser(@RequestBody UserRequestDTO userRequestDTO) {
-        var updatedUser = userService.updateUser(userRequestDTO);
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+        var updatedUser = userService.updateUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedUser);
     }
 

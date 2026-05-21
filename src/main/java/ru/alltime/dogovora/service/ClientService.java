@@ -1,7 +1,6 @@
 package ru.alltime.dogovora.service;
 
-import ru.alltime.dogovora.dto.ClientRequestDTO;
-import ru.alltime.dogovora.dto.ClientResponseDTO;
+import ru.alltime.dogovora.dto.ClientDTO;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
 
@@ -12,22 +11,21 @@ public interface ClientService {
 
     List<Client> findAllClients();
 
-    ClientResponseDTO findClientById(UUID id);
+    ClientDTO findClientById(UUID id);
 
-    List<ClientResponseDTO>  findClientsByFullName(String fullName);
+    List<ClientDTO> findClientsByFullName(String fullName);
 
-    List<ClientResponseDTO>  findClientsByBusinessForm(String businessForm);
+    List<ClientDTO> findClientsByBusinessForm(String businessForm);
 
-    ClientResponseDTO findClientByClientDetails(ClientDetails clientDetails);
+    ClientDTO findClientByClientDetails(ClientDetails clientDetails);
 
-    ClientResponseDTO findClientByContractList(String contractList);
+    ClientDTO findClientByContractList(String contractList);
 
-    List<ClientResponseDTO> findClientsByIsActive(boolean isActive);
+    List<ClientDTO> findClientsByIsActive(boolean isActive);
 
-    ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO);
+    ClientDTO createClient(ClientDTO clientRequestDTO);
 
-    ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO);
+    ClientDTO updateClient(ClientDTO clientRequestDTO);
 
     void deleteClientById(UUID id);
-
 }
