@@ -32,11 +32,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> findUsersByRoles(String roles) {
-        return userRepository.findUsersByRoles(roles).stream().map(userMapper::toDto).toList();
-    }
-
-    @Override
     public List<UserDTO> findUsersByFirstName(String firstName) {
         List<User> users = userRepository.findUsersByFirstName(firstName);
         return users.stream().map(userMapper::toDto).toList();
