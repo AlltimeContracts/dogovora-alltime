@@ -1,30 +1,23 @@
 package ru.alltime.dogovora.service;
 
-import ru.alltime.dogovora.dto.ContractRequestDTO;
-import ru.alltime.dogovora.dto.ContractResponseDTO;
-import ru.alltime.dogovora.model.Contract;
+import ru.alltime.dogovora.dto.ContractDTO;
 
-import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
 public interface ContractService {
 
-    List<ContractResponseDTO> findAllContracts();
+    List<ContractDTO> findAllContracts();
 
-    ContractResponseDTO findContractById(UUID uuid);
+    ContractDTO findContractById(UUID uuid);
 
-    List<ContractResponseDTO> findContractsByContractNum(String contractNum);
+    List<ContractDTO> findContractsByContractNum(String contractNum);
 
-    List<ContractResponseDTO> findContractsByIsActive(boolean isActive);
+    List<ContractDTO> findContractsByIsActive(boolean isActive);
 
-    ContractResponseDTO createContract(ContractRequestDTO contractRequestDTO);
+    ContractDTO createContract(ContractDTO contractRequestDTO);
 
-    ContractResponseDTO updateContract(ContractRequestDTO contractRequestDTO);
+    ContractDTO updateContract(ContractDTO contractRequestDTO);
 
     void deleteContractById(UUID uuid);
-
-    // Contract uploadContractFile(File contract);
-
-
 }

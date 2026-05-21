@@ -1,23 +1,41 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.*;
-import ru.alltime.dogovora.dto.UserRequestDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.model.User;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
-    // ---- Request → Entity ----
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "role", constant = "MANAGER") // при регистрации всем назначаем MANAGER
-    @Mapping(target = "active", constant = "true") // при создании пользователь активен
-    User toEntity(UserRequestDTO dto);
+import java.util.List;
 
-    // ---- Entity → Response ----
-    UserResponseDTO toResponseDto(User entity);
+@Component
+@RequiredArgsConstructor
+public class UserMapper {
 
-    // ---- Обновление сущности из DTO (опционально) ----
-    // используется для patch/update
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUserFromDto(UserRequestDTO dto, @MappingTarget User entity);
+    public UserDTO toDto(User user) {
+        return new UserDTO(
+                user.getId(),
+                user.getFirstName(),
+                user.getSecondName(),
+                user.getThirdName(),
+                user.getPosition(),
+                user.getLogin(),
+                user.isActive()
+        );
+    }
+
+    public List<UserDTO> toDto(List<User> users) {
+        return users.stream().map(this::toDto).toList();
+    }
+
+    public User toEntity(UserDTO dto) {
+        User user = new User();
+        user.setId(dto.id());
+        user.setFirstName(dto.firstName());
+        user.setSecondName(dto.secondName());
+        user.setThirdName(dto.thirdName());
+        user.setPosition(dto.position());
+        user.setLogin(dto.login());
+        user.setActive(dto.isActive());
+        return user;
+    }
 }

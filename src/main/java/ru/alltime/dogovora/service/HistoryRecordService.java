@@ -1,23 +1,19 @@
 package ru.alltime.dogovora.service;
 
-import ru.alltime.dogovora.dto.HistoryRecordRequestDTO;
-import ru.alltime.dogovora.dto.HistoryRecordResponseDTO;
-import ru.alltime.dogovora.model.HistoryRecord;
+import ru.alltime.dogovora.dto.HistoryRecordDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface HistoryRecordService {
 
-    List<HistoryRecordResponseDTO> findAllRecords();
+    List<HistoryRecordDTO> findAllRecords();
 
-    HistoryRecordResponseDTO findHistoryRecordById(UUID uuid);
+    HistoryRecordDTO findHistoryRecordById(UUID uuid);
 
-    HistoryRecordResponseDTO createHistoryRecord(HistoryRecordRequestDTO historyRecordRequestDTO);
+    HistoryRecordDTO createHistoryRecord(HistoryRecordDTO historyRecordRequestDTO);
 
-    HistoryRecordResponseDTO updateHistoryRecord(HistoryRecordRequestDTO historyRecordRequestDTO);
+    HistoryRecordDTO updateHistoryRecord(HistoryRecordDTO historyRecordRequestDTO);
 
     void deleteHistoryRecordById(UUID uuid);
-
-
 }
