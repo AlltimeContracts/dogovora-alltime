@@ -20,7 +20,7 @@ CREATE TABLE users
     second_name VARCHAR(255) NOT NULL,
     third_name VARCHAR(255),
     login VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
+    password TEXT NOT NULL,
     "position" VARCHAR(255),
     role user_role_enum NOT NULL
 );
@@ -31,5 +31,6 @@ COMMENT ON COLUMN users.first_name IS 'Имя';
 COMMENT ON COLUMN users.second_name IS 'Фамилия';
 COMMENT ON COLUMN users.third_name IS 'Отчество';
 COMMENT ON COLUMN users.login IS 'Логин';
+COMMENT ON COLUMN users.login IS 'Пароль в зашифрованном виде';
 COMMENT ON COLUMN users.position IS 'Должность пользователя';
 COMMENT ON COLUMN users.role IS 'Пользовательская роль';

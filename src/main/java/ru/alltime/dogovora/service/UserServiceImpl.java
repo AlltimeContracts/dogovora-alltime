@@ -3,7 +3,9 @@ package ru.alltime.dogovora.service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.mapper.UserMapper;
@@ -16,11 +18,12 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-    private UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Override
     public List<User> findAllUsers() {
@@ -48,7 +51,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(UserDTO userRequestDTO) {
         User userEntity = userMapper.toEntity(userRequestDTO);
+        //TODO исправить ошибки IDE (всё красное!)
         userEntity.setRole(Role.MANAGER);
+        userEntity.setPassword(encoder.encode(userEntity.getPassword()));
 
         User user = userRepository.save(userEntity);
         log.info("User saved: {}", user);
