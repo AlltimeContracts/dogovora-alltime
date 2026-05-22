@@ -19,6 +19,7 @@ public class UserMapper {
                 user.getThirdName(),
                 user.getPosition(),
                 user.getLogin(),
+                "TODO убрать", //TODO вообще-то, это надо убрать
                 user.isActive()
         );
     }
@@ -35,6 +36,7 @@ public class UserMapper {
         user.setThirdName(dto.thirdName());
         user.setPosition(dto.position());
         user.setLogin(dto.login());
+        user.setPassword(dto.password());
         user.setActive(dto.isActive());
         return user;
     }

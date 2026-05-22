@@ -1,58 +1,53 @@
 package ru.alltime.dogovora.controller;
 
-
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.model.User;
-import ru.alltime.dogovora.service.UserServiceImpl;
+import ru.alltime.dogovora.service.UserService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@AllArgsConstructor
-
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserServiceImpl userService;
+    private final UserService userService;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         var users = userService.findAllUsers();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("{login}")
-    public ResponseEntity<UserDTO> getUserByLogin(@PathVariable String login) {
-        var userDTO = userService.findUserByLogin(login);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserByLogin(@PathVariable UUID id) {
+        var userDTO = userService.findUserById(id);
         return ResponseEntity.ok(userDTO);
     }
 
-    @GetMapping("/by-name/{firstName}")
-    public ResponseEntity<List<UserDTO>> getUserByFirstName(@PathVariable String firstName) {
-        var users = userService.findUsersByFirstName(firstName);
-        return ResponseEntity.ok(users);
-    }
-
-    @PostMapping("/create-user")
+    /**
+     * Первичное создание пользователя (регистрация)
+     */
+    @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         var userCreateRequest = userService.createUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreateRequest);
     }
 
-    @PutMapping("/update-user-info")
+    @PutMapping
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
         var updatedUser = userService.updateUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedUser);
     }
 
-    @DeleteMapping("delete-user/{login}")
-    public ResponseEntity<String> deleteUserByLogin(@PathVariable String login) {
-        var user = userService.findUserByLogin(login);
-        userService.deleteByLogin(login);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUserByLogin(@PathVariable UUID id) {
+        userService.deleteById(id);
         return ResponseEntity.ok("Delete user successfully");
     }
 }

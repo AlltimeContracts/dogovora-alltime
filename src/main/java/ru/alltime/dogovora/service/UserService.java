@@ -4,10 +4,13 @@ import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
 
     List<User> findAllUsers();
+
+    UserDTO findUserById(UUID id);
 
     UserDTO findUserByLogin(String login);
 
@@ -15,7 +18,7 @@ public interface UserService {
 
     UserDTO createUser(UserDTO userRequestDTO);
 
-    void deleteByLogin(String login);
+    void deleteById(UUID id);
 
     UserDTO updateUser(UserDTO userRequestDTO);
 }

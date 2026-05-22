@@ -17,7 +17,4 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findUsersByRole(String role); // Метод для фильтрации по роли
 
     Optional<User> findUserByLogin(String login);
-
-    void deleteByLogin(String login);
-
 }

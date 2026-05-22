@@ -11,6 +11,7 @@ public record UserDTO(
         String thirdName,
         @NotBlank String position,
         @NotBlank String login,
+        @NotBlank String password,
         boolean isActive
 ) {
 }
