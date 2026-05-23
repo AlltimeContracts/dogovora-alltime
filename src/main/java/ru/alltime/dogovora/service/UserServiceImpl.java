@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public UserDTO updateUser(UserDTO userRequestDTO) {
         User existingUser = userRepository.findUserByLogin(userRequestDTO.login()).orElseThrow(EntityNotFoundException::new);
 
