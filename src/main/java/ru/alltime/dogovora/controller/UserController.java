@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserByLogin(@PathVariable UUID id) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable UUID id) {
         var userDTO = userService.findUserById(id);
         return ResponseEntity.ok(userDTO);
     }
@@ -33,10 +33,17 @@ public class UserController {
     /**
      * Первичное создание пользователя (регистрация)
      */
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         var userCreateRequest = userService.createUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreateRequest);
+    }
+
+    //TODO этого метода в итоговой версии быть не должно!
+    @PostMapping("/login")
+    public String login(@RequestBody UserDTO userDTO) {
+        //TODO возвращать не голую строку, а DTO
+        return userService.verify(userDTO);
     }
 
     @PutMapping
@@ -46,7 +53,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserByLogin(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteUserById(@PathVariable UUID id) {
         userService.deleteById(id);
         return ResponseEntity.ok("Delete user successfully");
     }

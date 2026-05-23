@@ -39,6 +39,10 @@ dependencies {
 
     implementation("com.cronutils:cron-utils:9.2.1")
 
+    //JWT Auth
+    implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.13.0'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.13.0' //TODO постараться удалить зависимость!
 }
 
 tasks.named('test') {

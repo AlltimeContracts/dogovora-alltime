@@ -21,4 +21,6 @@ public interface UserService {
     void deleteById(UUID id);
 
     UserDTO updateUser(UserDTO userRequestDTO);
+
+    String verify(UserDTO userDTO);
 }

@@ -5,6 +5,9 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.dto.UserDTO;
@@ -12,6 +15,7 @@ import ru.alltime.dogovora.mapper.UserMapper;
 import ru.alltime.dogovora.model.Role;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.repository.UserRepository;
+import ru.alltime.dogovora.security.JWTService;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +27,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final AuthenticationManager authManager;
+    private final JWTService jwtService;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Override
@@ -80,5 +86,17 @@ public class UserServiceImpl implements UserService {
         userRepository.save(existingUser);
         log.info("User updated: {}", existingUser);
         return userMapper.toDto(existingUser);
+    }
+
+    @Override
+    public String verify(UserDTO userDTO) {
+        Authentication authentication =
+                authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.login(), userDTO.password()));
+
+        if (authentication.isAuthenticated())
+            //TODO разрешить конфликт имен username <--> login
+            return jwtService.generateToken(userDTO.login());
+
+        return "Fail";
     }
 }
