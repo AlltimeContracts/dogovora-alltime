@@ -25,7 +25,7 @@ public class ClientController {
         return ResponseEntity.ok(allClients);
     }
 
-    @GetMapping("/by-id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ClientDTO> getClientById(@PathVariable UUID id) {
         ClientDTO client = clientService.findClientById(id);
         return ResponseEntity.ok(client);
@@ -35,19 +35,19 @@ public class ClientController {
         TODO после рефакторинга мапперов сделать обработку businessForm кириллическими названиями,
         а не перечислениями из BusinessForm
      */
-    @PostMapping("/create-client")
+    @PostMapping
     public ResponseEntity<ClientDTO> createClient(@RequestBody @Parameter(description = "передается DTO для создания клиента") ClientDTO clientDTO) {
         ClientDTO createdClient = clientService.createClient(clientDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
     }
 
-    @PutMapping("/update-client-info")
+    @PutMapping
     public ResponseEntity<ClientDTO> updateClient(@RequestBody ClientDTO clientDTO) {
         ClientDTO updatedClient = clientService.updateClient(clientDTO);
         return ResponseEntity.ok(updatedClient);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClient(@PathVariable UUID id) {
         var clientForDelete = clientService.findClientById(id);
         clientService.deleteClientById(id);

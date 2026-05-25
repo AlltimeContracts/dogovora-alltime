@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.alltime.dogovora.dto.JwtTokenDTO;
 import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.service.UserService;
@@ -42,9 +43,8 @@ public class UserController {
 
     //TODO этого метода в итоговой версии быть не должно!
     @PostMapping("/login")
-    public String login(@RequestBody UserDTO userDTO) {
-        //TODO возвращать не голую строку, а DTO
-        return userService.verify(userDTO);
+    public JwtTokenDTO login(@RequestBody UserDTO userDTO) {
+        return new JwtTokenDTO(userService.verify(userDTO));
     }
 
     @PutMapping

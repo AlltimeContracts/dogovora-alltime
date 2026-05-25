@@ -4,7 +4,7 @@ import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alltime.dogovora.dto.ContractDTO;
-import ru.alltime.dogovora.service.ContractServiceImpl;
+import ru.alltime.dogovora.service.ContractService;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ContractController {
 
 
-    private ContractServiceImpl contractService;
+    private ContractService contractService;
 
 
     @GetMapping()
