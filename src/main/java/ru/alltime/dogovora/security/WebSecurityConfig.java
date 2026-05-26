@@ -44,10 +44,6 @@ public class WebSecurityConfig {
                 .build();
     }
 
-    //TODO внести куда-нибудь, пока нельзя создавать пользователей
-//    INSERT INTO users (id, is_active, first_name, second_name, login, password, role)
-//    VALUES (gen_random_uuid(), true, '', '', 'admin', 'admin', 'ADMIN'::user_role_enum);
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         //TODO везде убрать использование deprecated методов

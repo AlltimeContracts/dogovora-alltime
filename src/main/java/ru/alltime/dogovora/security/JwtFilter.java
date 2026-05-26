@@ -23,13 +23,16 @@ public class JwtFilter extends OncePerRequestFilter {
     private final ApplicationContext context;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7); //TODO убрать магические числа!
+        final String prefix = "Bearer ";
+        if (authHeader != null && authHeader.startsWith(prefix)) {
+            token = authHeader.substring(prefix.length());
             username = jwtService.extractUsername(token);
         }
 
@@ -38,8 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
             UserDetails userDetails = context.getBean(UserDetailsServiceImpl.class).loadUserByUsername(username);
 
             if (jwtService.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
