@@ -47,7 +47,7 @@ public class UserController {
     //TODO этого метода в итоговой версии быть не должно!
     @PostMapping("/login")
     public JwtTokenDTO login(@RequestBody UserDTO userDTO) {
-        return new JwtTokenDTO(userService.verify(userDTO));
+        return new JwtTokenDTO(userService.verify(userDTO), null);
     }
 
     @PutMapping

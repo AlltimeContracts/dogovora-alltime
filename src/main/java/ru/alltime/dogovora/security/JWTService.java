@@ -22,7 +22,6 @@ import java.util.function.Function;
 public class JWTService {
 
     private final String secretKey;
-    //TODO продумать с сессией (спросить у гемини про использование refresh-token)
     private final static int accessTokenExpirationTime = 15;
 
     public JWTService() {
@@ -35,8 +34,6 @@ public class JWTService {
         }
     }
 
-
-    //TODO обновить постман, чтобы он вставлял это значение в переменную окружения
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
 

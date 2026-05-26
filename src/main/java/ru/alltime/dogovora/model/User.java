@@ -36,8 +36,6 @@ public class User {
     @StrictEmail
     private String login;
 
-    //TODO вставить в таблицу и написать в чат, чтобы снова удалили контейнеры, т.к.
-    //реальных данных пока что нет
     private String password;
 
     private String position;
