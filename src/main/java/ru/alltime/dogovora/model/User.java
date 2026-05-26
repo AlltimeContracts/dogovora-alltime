@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import ru.alltime.dogovora.security.validation.StrictEmail;
 
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ public class User {
     private String thirdName;
 
     @Column(nullable = false, unique = true)
+    @StrictEmail
     private String login;
 
     //TODO вставить в таблицу и написать в чат, чтобы снова удалили контейнеры, т.к.

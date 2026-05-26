@@ -22,6 +22,8 @@ import java.util.function.Function;
 public class JWTService {
 
     private final String secretKey;
+    //TODO продумать с сессией (спросить у гемини про использование refresh-token)
+    private final static int accessTokenExpirationTime = 15;
 
     public JWTService() {
         try {
@@ -33,6 +35,7 @@ public class JWTService {
         }
     }
 
+
     //TODO обновить постман, чтобы он вставлял это значение в переменную окружения
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
@@ -42,8 +45,7 @@ public class JWTService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                //TODO что-то он истекает очень быстро
-                .expiration(Date.from(Instant.now().plus(15, ChronoUnit.MINUTES))) //15 минут TODO внести в константу
+                .expiration(Date.from(Instant.now().plus(accessTokenExpirationTime, ChronoUnit.MINUTES)))
                 .and()
                 .signWith(getKey())
                 .compact();
