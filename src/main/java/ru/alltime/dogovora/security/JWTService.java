@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,7 +42,8 @@ public class JWTService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 15)) //15 минут TODO внести в константу
+                //TODO что-то он истекает очень быстро
+                .expiration(Date.from(Instant.now().plus(15, ChronoUnit.MINUTES))) //15 минут TODO внести в константу
                 .and()
                 .signWith(getKey())
                 .compact();

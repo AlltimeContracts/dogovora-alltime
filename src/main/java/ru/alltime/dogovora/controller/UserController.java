@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.alltime.dogovora.dto.JwtTokenDTO;
 import ru.alltime.dogovora.dto.UserDTO;
 import ru.alltime.dogovora.model.User;
+import ru.alltime.dogovora.security.AuthenticatedUserArgumentResolver.AuthenticatedUser;
 import ru.alltime.dogovora.service.UserService;
 
 import java.util.List;
@@ -48,14 +50,19 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO,
+                                              @AuthenticatedUser User user) {
         var updatedUser = userService.updateUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedUser);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable UUID id) {
+    public void deleteUserById(@PathVariable UUID id,
+                                                 @AuthenticatedUser User authenticatedUser) {
+        if (!id.equals(authenticatedUser.getId())) {
+            throw new ResponseStatusException(403, "Not allowed to delete other's profile", null);
+        }
+
         userService.deleteById(id);
-        return ResponseEntity.ok("Delete user successfully");
     }
 }

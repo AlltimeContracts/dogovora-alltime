@@ -15,8 +15,7 @@ import java.util.UUID;
 @Repository
 
 public interface ClientRepository extends JpaRepository<Client, UUID> {
-
-
+    
     List<Client> findClientsByFullName(String fullName); // Метод для поиска клиента по имени
 
     List<Client> findClientsByIsActive(boolean isActive);
