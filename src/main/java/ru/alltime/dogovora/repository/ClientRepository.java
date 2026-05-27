@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-
 public interface ClientRepository extends JpaRepository<Client, UUID> {
     
     List<Client> findClientsByFullName(String fullName); // Метод для поиска клиента по имени
@@ -27,5 +26,4 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     Optional<Client> findClientByContractList(String contractList);
 
     void deleteClientById(UUID id);
-
 }

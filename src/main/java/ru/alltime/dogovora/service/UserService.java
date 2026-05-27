@@ -8,7 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.alltime.dogovora.dto.UserDTO;
+import ru.alltime.dogovora.dto.UserRegisterDTO;
+import ru.alltime.dogovora.dto.UserResponseDTO;
 import ru.alltime.dogovora.mapper.UserMapper;
 import ru.alltime.dogovora.model.Role;
 import ru.alltime.dogovora.model.User;
@@ -33,22 +34,22 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserDTO findUserById(UUID id) {
+    public UserResponseDTO findUserById(UUID id) {
         User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return userMapper.toDto(user);
     }
 
-    public UserDTO findUserByLogin(String login) {
+    public UserResponseDTO findUserByLogin(String login) {
         User user = userRepository.findUserByLogin(login).orElseThrow(EntityNotFoundException::new);
         return userMapper.toDto(user);
     }
 
-    public List<UserDTO> findUsersByFirstName(String firstName) {
+    public List<UserResponseDTO> findUsersByFirstName(String firstName) {
         List<User> users = userRepository.findUsersByFirstName(firstName);
         return users.stream().map(userMapper::toDto).toList();
     }
 
-    public UserDTO createUser(UserDTO userRequestDTO) {
+    public UserResponseDTO createUser(UserRegisterDTO userRequestDTO) {
         User userEntity = userMapper.toEntity(userRequestDTO);
         userEntity.setRole(Role.MANAGER);
         userEntity.setPassword(encoder.encode(userEntity.getPassword()));
@@ -62,7 +63,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserDTO updateUser(UserDTO userRequestDTO) {
+    public UserResponseDTO updateUser(UserResponseDTO userRequestDTO) {
         User existingUser = userRepository.findUserByLogin(userRequestDTO.login()).orElseThrow(EntityNotFoundException::new);
 
         existingUser.setFirstName(userRequestDTO.firstName());
@@ -77,7 +78,7 @@ public class UserService {
         return userMapper.toDto(existingUser);
     }
 
-    public String verify(UserDTO userDTO) {
+    public String verify(UserRegisterDTO userDTO) {
         Authentication authentication =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.login(), userDTO.password()));
 

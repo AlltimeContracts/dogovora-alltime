@@ -10,7 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import ru.alltime.dogovora.dto.UserDTO;
+import ru.alltime.dogovora.dto.UserRegisterDTO;
+import ru.alltime.dogovora.dto.UserResponseDTO;
 
 import java.util.UUID;
 
@@ -35,32 +36,29 @@ class UserAuthIntegrationTest {
         String uniqueLogin = "flow-test-" + UUID.randomUUID() + "@alltime.ru";
         String password = "SuperSecurePassword123";
 
-        UserDTO registrationPayload = new UserDTO(
-                null,
+        UserRegisterDTO registrationPayload = new UserRegisterDTO(
+                uniqueLogin,
+                password,
                 "Алексей",
                 "Петров",
                 null,
-                "Разработчик",
-                uniqueLogin,
-                password,
-                true
+                "Разработчик"
         );
 
         // 1. Регистрация
         MvcResult registrationResult = mockMvc.perform(post("/api/v1/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registrationPayload)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.login").value(uniqueLogin))
                 .andReturn();
 
         String responseContent = registrationResult.getResponse().getContentAsString();
-        UserDTO registeredUser = objectMapper.readValue(responseContent, UserDTO.class);
+        UserResponseDTO registeredUser = objectMapper.readValue(responseContent, UserResponseDTO.class);
         UUID createdUserId = registeredUser.id();
 
         // 2. Логин
-        UserDTO loginPayload = new UserDTO(null, null, null, null, null,
-                uniqueLogin, password, true);
+        UserRegisterDTO loginPayload = new UserRegisterDTO(uniqueLogin, password, null, null, null, null);
 
         MvcResult loginResult = mockMvc.perform(post("/api/v1/users/login")
                         .contentType(MediaType.APPLICATION_JSON)

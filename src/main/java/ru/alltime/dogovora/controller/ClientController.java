@@ -2,11 +2,9 @@ package ru.alltime.dogovora.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alltime.dogovora.dto.ClientDTO;
-import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.service.ClientService;
 
 import java.util.List;
@@ -20,9 +18,8 @@ public class ClientController {
     private final ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients(){
-        List<Client> allClients = clientService.findAllClients();
-        return ResponseEntity.ok(allClients);
+    public List<ClientDTO> getAllClients(){
+        return clientService.findAllClients();
     }
 
     @GetMapping("/{id}")

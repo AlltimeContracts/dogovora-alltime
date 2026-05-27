@@ -1,13 +1,12 @@
 package ru.alltime.dogovora.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.alltime.dogovora.dto.JwtTokenDTO;
-import ru.alltime.dogovora.dto.UserDTO;
+import ru.alltime.dogovora.dto.UserRegisterDTO;
+import ru.alltime.dogovora.dto.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.security.AuthenticatedUserArgumentResolver.AuthenticatedUser;
 import ru.alltime.dogovora.service.UserService;
@@ -29,31 +28,28 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable UUID id) {
-        var userDTO = userService.findUserById(id);
-        return ResponseEntity.ok(userDTO);
+    public UserResponseDTO getUserById(@PathVariable UUID id) {
+        return userService.findUserById(id);
     }
 
     /**
      * Первичное создание пользователя (регистрация)
      */
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        var userCreateRequest = userService.createUser(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userCreateRequest);
+    public UserResponseDTO createUser(@RequestBody UserRegisterDTO userDTO) {
+        return userService.createUser(userDTO);
     }
 
     //TODO этого метода в итоговой версии быть не должно!
     @PostMapping("/login")
-    public JwtTokenDTO login(@RequestBody UserDTO userDTO) {
+    public JwtTokenDTO login(@RequestBody UserRegisterDTO userDTO) {
         return new JwtTokenDTO(userService.verify(userDTO), null);
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO,
+    public UserResponseDTO updateUser(@RequestBody UserResponseDTO userDTO,
                                               @AuthenticatedUser User user) {
-        var updatedUser = userService.updateUser(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updatedUser);
+        return userService.updateUser(userDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -21,8 +21,10 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
 
-    public List<Client> findAllClients() {
-        return clientRepository.findAll();
+    public List<ClientDTO> findAllClients() {
+        return clientRepository.findAll().stream()
+                .map(clientMapper::toDto)
+                .toList();
     }
 
     public ClientDTO findClientById(UUID id) {

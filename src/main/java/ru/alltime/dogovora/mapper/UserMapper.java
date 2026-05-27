@@ -2,7 +2,8 @@ package ru.alltime.dogovora.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.alltime.dogovora.dto.UserDTO;
+import ru.alltime.dogovora.dto.UserRegisterDTO;
+import ru.alltime.dogovora.dto.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;
@@ -11,33 +12,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserMapper {
 
-    public UserDTO toDto(User user) {
-        return new UserDTO(
+    public UserResponseDTO toDto(User user) {
+        return new UserResponseDTO(
                 user.getId(),
+                user.getLogin(),
                 user.getFirstName(),
                 user.getSecondName(),
                 user.getThirdName(),
                 user.getPosition(),
-                user.getLogin(),
-                "TODO убрать", //TODO вообще-то, это надо убрать
                 user.isActive()
         );
     }
 
-    public List<UserDTO> toDto(List<User> users) {
+    public List<UserResponseDTO> toDto(List<User> users) {
         return users.stream().map(this::toDto).toList();
     }
 
-    public User toEntity(UserDTO dto) {
+    public User toEntity(UserRegisterDTO dto) {
         User user = new User();
-        user.setId(dto.id());
         user.setFirstName(dto.firstName());
         user.setSecondName(dto.secondName());
         user.setThirdName(dto.thirdName());
         user.setPosition(dto.position());
         user.setLogin(dto.login());
         user.setPassword(dto.password());
-        user.setActive(dto.isActive());
         return user;
     }
 }
