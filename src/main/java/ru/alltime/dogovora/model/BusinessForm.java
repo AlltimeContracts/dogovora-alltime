@@ -1,5 +1,7 @@
 package ru.alltime.dogovora.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum BusinessForm {
 
     SOLE_PROPRIETOR("ИП"),      // Индивидуальный предприниматель
@@ -15,6 +17,7 @@ public enum BusinessForm {
         this.title = title;
     }
 
+    @JsonValue
     public String getTitle() {
         return title;
     }

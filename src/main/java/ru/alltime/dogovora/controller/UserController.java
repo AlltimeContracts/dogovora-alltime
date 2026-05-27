@@ -42,7 +42,6 @@ public class UserController {
         var userCreateRequest = userService.createUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreateRequest);
     }
-    //TODO надо реализовать запрос /refresh-token (для refresh, access токенов!)
 
     //TODO этого метода в итоговой версии быть не должно!
     @PostMapping("/login")

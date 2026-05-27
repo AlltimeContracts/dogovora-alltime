@@ -15,10 +15,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//TODO документация
+/**
+ * Глобальный класс конфигурации безопасности приложения (Spring Security)
+ */
 @Configuration
 @EnableWebSecurity //all default settings will be defined in this class
 @RequiredArgsConstructor
@@ -44,6 +47,10 @@ public class WebSecurityConfig {
                 .build();
     }
 
+    /**
+     * Провайдер аутентификации
+     * Определяет, откуда брать данные пользователя и как проверять его пароль
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         //TODO везде убрать использование deprecated методов

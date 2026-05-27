@@ -61,15 +61,15 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
     }
 
     private User getAuthenticatedUser() {
-        var username = getAuthenticatedUsername();
-        if (username == null) {
+        var login = getAuthenticatedLogin();
+        if (login == null) {
             return null;
         }
-        return userRepository.findUserByLogin(username).orElse(null);
+        return userRepository.findUserByLogin(login).orElse(null);
     }
 
     @Nullable
-    public String getAuthenticatedUsername() {
+    public String getAuthenticatedLogin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal() == null) {

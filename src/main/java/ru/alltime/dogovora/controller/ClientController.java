@@ -31,14 +31,9 @@ public class ClientController {
         return ResponseEntity.ok(client);
     }
 
-    /**
-        TODO после рефакторинга мапперов сделать обработку businessForm кириллическими названиями,
-        а не перечислениями из BusinessForm
-     */
     @PostMapping
-    public ResponseEntity<ClientDTO> createClient(@RequestBody @Parameter(description = "передается DTO для создания клиента") ClientDTO clientDTO) {
-        ClientDTO createdClient = clientService.createClient(clientDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
+    public ClientDTO createClient(@RequestBody @Parameter(description = "передается DTO для создания клиента") ClientDTO clientDTO) {
+        return clientService.createClient(clientDTO);
     }
 
     @PutMapping

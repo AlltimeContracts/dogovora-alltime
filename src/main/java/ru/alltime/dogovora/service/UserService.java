@@ -82,7 +82,6 @@ public class UserService {
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.login(), userDTO.password()));
 
         if (authentication.isAuthenticated())
-            //TODO разрешить конфликт имен username <--> login
             return jwtService.generateToken(userDTO.login());
 
         return "Fail";

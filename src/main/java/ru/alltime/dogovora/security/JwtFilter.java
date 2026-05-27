@@ -28,17 +28,17 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         String token = null;
-        String username = null;
+        String login = null;
 
         final String prefix = "Bearer ";
         if (authHeader != null && authHeader.startsWith(prefix)) {
             token = authHeader.substring(prefix.length());
-            username = jwtService.extractUsername(token);
+            login = jwtService.extractLogin(token);
         }
 
         //Если пользователь уже авторизован, не надо проверять
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = context.getBean(UserDetailsServiceImpl.class).loadUserByUsername(username);
+        if (login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = context.getBean(UserDetailsServiceImpl.class).loadUserByUsername(login);
 
             if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
