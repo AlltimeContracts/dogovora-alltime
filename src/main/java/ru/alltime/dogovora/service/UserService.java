@@ -40,7 +40,7 @@ public class UserService {
     }
 
     public UserResponseDTO findUserByLogin(String login) {
-        User user = userRepository.findUserByLogin(login).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findByLogin(login).orElseThrow(EntityNotFoundException::new);
         return userMapper.toDto(user);
     }
 
@@ -64,7 +64,7 @@ public class UserService {
     }
 
     public UserResponseDTO updateUser(UserResponseDTO userRequestDTO) {
-        User existingUser = userRepository.findUserByLogin(userRequestDTO.login()).orElseThrow(EntityNotFoundException::new);
+        User existingUser = userRepository.findByLogin(userRequestDTO.login()).orElseThrow(EntityNotFoundException::new);
 
         existingUser.setFirstName(userRequestDTO.firstName());
         existingUser.setSecondName(userRequestDTO.secondName());

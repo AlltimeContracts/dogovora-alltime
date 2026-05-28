@@ -14,8 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -30,14 +29,21 @@ public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtFilter jwtFilter;
 
+    /**
+     * Публичные эндпоинты, не требующие авторизации
+     */
+    private static final String[] PUBLIC_URLS = {
+            "/api/v1/users/register",
+            "/api/v1/users/login",
+            "/error",
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        //TODO уменьшить эти названия, если возможно
-                        //Возможно, это стоит вынести в отдельный контроллер (авторизации, либо на главную страницу)
-                        .requestMatchers("/api/v1/users/register", "/api/v1/users/login", "/error") //для этих URL не нужна авторизация
+                        .requestMatchers(PUBLIC_URLS)
                         .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults()) //TODO убрать после подключения фронта

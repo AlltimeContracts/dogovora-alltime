@@ -65,7 +65,7 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
         if (login == null) {
             return null;
         }
-        return userRepository.findUserByLogin(login).orElse(null);
+        return userRepository.findByLogin(login).orElse(null);
     }
 
     @Nullable

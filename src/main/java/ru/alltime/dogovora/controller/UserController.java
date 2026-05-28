@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -40,7 +40,6 @@ public class UserController {
         return userService.createUser(userDTO);
     }
 
-    //TODO этого метода в итоговой версии быть не должно!
     @PostMapping("/login")
     public JwtTokenDTO login(@RequestBody UserRegisterDTO userDTO) {
         return new JwtTokenDTO(userService.verify(userDTO), null);
@@ -48,13 +47,13 @@ public class UserController {
 
     @PutMapping
     public UserResponseDTO updateUser(@RequestBody UserResponseDTO userDTO,
-                                              @AuthenticatedUser User user) {
+                                      @AuthenticatedUser User user) {
         return userService.updateUser(userDTO);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable UUID id,
-                                                 @AuthenticatedUser User authenticatedUser) {
+                               @AuthenticatedUser User authenticatedUser) {
         if (!id.equals(authenticatedUser.getId())) {
             throw new ResponseStatusException(403, "Not allowed to delete other's profile", null);
         }

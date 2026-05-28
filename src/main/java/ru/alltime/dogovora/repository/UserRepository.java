@@ -16,6 +16,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findUsersByRole(String role); // Метод для фильтрации по роли
 
-    //TODO в chessGrinder возвращается только сам пользователь
-    Optional<User> findUserByLogin(String login);
+    Optional<User> findByLogin(String login);
 }
