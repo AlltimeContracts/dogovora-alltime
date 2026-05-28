@@ -22,6 +22,9 @@ import java.util.function.Function;
 public class JWTService {
 
     private final String secretKey;
+    /**
+     * Время существования accessToken в минутах
+     */
     private final static int accessTokenExpirationTime = 15;
 
     public JWTService() {

@@ -36,7 +36,7 @@ public class User {
     @StrictEmail
     private String login;
 
-    private String password;
+    private String password; //TODO в следующей задаче сделать валидацию пароля
 
     private String position;
 

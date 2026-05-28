@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * Глобальный класс конфигурации безопасности приложения (Spring Security)
  */
 @Configuration
-@EnableWebSecurity //all default settings will be defined in this class
+@EnableWebSecurity //говорит Spring, что настройки по умолчанию надо брать отсюда
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
