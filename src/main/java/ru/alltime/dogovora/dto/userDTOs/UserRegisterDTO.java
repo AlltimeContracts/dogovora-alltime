@@ -1,4 +1,4 @@
-package ru.alltime.dogovora.dto;
+package ru.alltime.dogovora.dto.userDTOs;
 
 import jakarta.validation.constraints.NotBlank;
 

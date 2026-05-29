@@ -1,4 +1,4 @@
-package ru.alltime.dogovora.security;
+package ru.alltime.dogovora.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

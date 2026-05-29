@@ -2,8 +2,8 @@ package ru.alltime.dogovora.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.alltime.dogovora.dto.UserRegisterDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;

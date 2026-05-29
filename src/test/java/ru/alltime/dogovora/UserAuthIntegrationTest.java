@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import ru.alltime.dogovora.dto.UserRegisterDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 
 import java.util.UUID;
 

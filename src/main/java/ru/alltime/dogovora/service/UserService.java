@@ -8,13 +8,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.alltime.dogovora.dto.UserRegisterDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.mapper.UserMapper;
 import ru.alltime.dogovora.model.Role;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.repository.UserRepository;
-import ru.alltime.dogovora.security.JWTService;
+import ru.alltime.dogovora.security.jwt.JWTService;
 
 import java.util.List;
 import java.util.UUID;
