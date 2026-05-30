@@ -46,7 +46,7 @@ class UserAuthIntegrationTest {
         );
 
         // 1. Регистрация
-        MvcResult registrationResult = mockMvc.perform(post("/api/v1/users/register")
+        MvcResult registrationResult = mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registrationPayload)))
                 .andExpect(status().isOk())
@@ -60,7 +60,7 @@ class UserAuthIntegrationTest {
         // 2. Логин
         UserRegisterDTO loginPayload = new UserRegisterDTO(uniqueLogin, password, null, null, null, null);
 
-        MvcResult loginResult = mockMvc.perform(post("/api/v1/users/login")
+        MvcResult loginResult = mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginPayload)))
                 .andExpect(status().isOk())

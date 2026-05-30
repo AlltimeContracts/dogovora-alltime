@@ -36,7 +36,9 @@ public class User {
     @StrictEmail
     private String login;
 
-    private String password; //TODO в следующей задаче сделать валидацию пароля
+    //TODO в следующей задаче сделать валидацию пароля
+    //Если пароль слишком простой или несоответствует ТЗ, выдавать 400 ошибку с сообщением, всё!
+    private String password;
 
     private String position;
 

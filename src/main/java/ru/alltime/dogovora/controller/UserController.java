@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.alltime.dogovora.dto.JwtTokenDTO;
-import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
 import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 import ru.alltime.dogovora.security.AuthenticatedUserArgumentResolver.AuthenticatedUser;
@@ -32,22 +30,13 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    /**
-     * Первичное создание пользователя (регистрация)
-     */
-    @PostMapping("/register")
-    public UserResponseDTO createUser(@RequestBody UserRegisterDTO userDTO) {
-        return userService.createUser(userDTO);
-    }
-
-    @PostMapping("/login")
-    public JwtTokenDTO login(@RequestBody UserRegisterDTO userDTO) {
-        return new JwtTokenDTO(userService.verify(userDTO), null);
-    }
-
     @PutMapping
     public UserResponseDTO updateUser(@RequestBody UserResponseDTO userDTO,
-                                      @AuthenticatedUser User user) {
+                                      @AuthenticatedUser User authenticatedUser) {
+        if (!userDTO.id().equals(authenticatedUser.getId())) {
+            throw new ResponseStatusException(403, "Not allowed to update other's profile", null);
+        }
+
         return userService.updateUser(userDTO);
     }
 

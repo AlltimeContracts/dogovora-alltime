@@ -34,8 +34,7 @@ public class WebSecurityConfig {
      * Публичные эндпоинты, не требующие авторизации
      */
     private static final String[] PUBLIC_URLS = {
-            "/api/v1/users/register",
-            "/api/v1/users/login",
+            "/api/v1/auth/**",
             "/error",
     };
 
