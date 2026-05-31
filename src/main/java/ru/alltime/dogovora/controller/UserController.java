@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        var users = userService.findAllUsers();
-        return ResponseEntity.ok(users);
+    public List<UserResponseDTO> getAllUsers() {
+        return userService.findAllUsers();
     }
 
     @GetMapping("/{id}")
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping
-    public UserResponseDTO updateUser(@RequestBody UserResponseDTO userDTO,
+    public UserResponseDTO updateUser(@Valid @RequestBody UserResponseDTO userDTO,
                                       @AuthenticatedUser User authenticatedUser) {
         if (!userDTO.id().equals(authenticatedUser.getId())) {
             throw new ResponseStatusException(403, "Not allowed to update other's profile", null);

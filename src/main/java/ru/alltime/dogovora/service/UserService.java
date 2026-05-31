@@ -3,11 +3,14 @@ package ru.alltime.dogovora.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
 import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.mapper.UserMapper;
@@ -30,8 +33,8 @@ public class UserService {
     private final JWTService jwtService;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> findAllUsers() {
+        return userRepository.findAll().stream().map(userMapper::toDto).toList();
     }
 
     public UserResponseDTO findUserById(UUID id) {
@@ -64,7 +67,7 @@ public class UserService {
     }
 
     public UserResponseDTO updateUser(UserResponseDTO userRequestDTO) {
-        User existingUser = userRepository.findByLogin(userRequestDTO.login()).orElseThrow(EntityNotFoundException::new);
+        User existingUser = userRepository.findById(userRequestDTO.id()).orElseThrow(EntityNotFoundException::new);
 
         existingUser.setFirstName(userRequestDTO.firstName());
         existingUser.setSecondName(userRequestDTO.secondName());
@@ -79,12 +82,11 @@ public class UserService {
     }
 
     public String verify(UserRegisterDTO userDTO) {
-        Authentication authentication =
-                authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.login(), userDTO.password()));
-
-        if (authentication.isAuthenticated())
+        try {
+            authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.login(), userDTO.password()));
             return jwtService.generateToken(userDTO.login());
-
-        return "Fail";
+        } catch (AuthenticationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        }
     }
 }

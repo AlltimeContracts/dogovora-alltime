@@ -1,5 +1,6 @@
 package ru.alltime.dogovora.security.jwt;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,11 @@ public class JwtFilter extends OncePerRequestFilter {
         final String prefix = "Bearer ";
         if (authHeader != null && authHeader.startsWith(prefix)) {
             token = authHeader.substring(prefix.length());
-            login = jwtService.extractLogin(token);
+            try {
+                login = jwtService.extractLogin(token);
+            } catch (JwtException e) {
+                // невалидный токен — просто продолжаем без аутентификации
+            }
         }
 
         //Если пользователь уже авторизован, не надо проверять

@@ -21,6 +21,7 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
+    //TODO хранить где-то на диске, а не в оперативной памяти, на случай падения сервиса
     private final String secretKey;
     /**
      * Время существования accessToken в минутах
