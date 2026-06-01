@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import ru.alltime.dogovora.security.validation.StrictEmail;
 
 import java.util.UUID;
 
@@ -30,13 +33,19 @@ public class User {
     private String thirdName;
 
     @Column(nullable = false, unique = true)
+    @StrictEmail
     private String login;
+
+    //TODO в следующей задаче сделать валидацию пароля
+    //Если пароль слишком простой или несоответствует ТЗ, выдавать 400 ошибку с сообщением, всё!
+    private String password;
 
     private String position;
 
     @Column(nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Enumerated(EnumType.STRING)
-    private Roles role;   // для зарегистрировавшихся пользователей выдавать роль - MANAGER
+    private Role role;
 
     private boolean isActive;
 

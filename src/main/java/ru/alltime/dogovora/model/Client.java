@@ -31,7 +31,6 @@ public class Client {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ClientDetails clientDetails;
 
-
     private String contractList;
 
     @Column(nullable = false)

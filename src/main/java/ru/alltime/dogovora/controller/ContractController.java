@@ -4,19 +4,19 @@ import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alltime.dogovora.dto.ContractDTO;
-import ru.alltime.dogovora.service.ContractServiceImpl;
+import ru.alltime.dogovora.service.ContractService;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/contracts")
+@RequestMapping("/contracts")
 @AllArgsConstructor
 
 public class ContractController {
 
 
-    private ContractServiceImpl contractService;
+    private ContractService contractService;
 
 
     @GetMapping()

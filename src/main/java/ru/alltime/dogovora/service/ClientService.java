@@ -1,31 +1,78 @@
 package ru.alltime.dogovora.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.dto.ClientDTO;
+import ru.alltime.dogovora.mapper.ClientMapper;
 import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.ClientDetails;
+import ru.alltime.dogovora.repository.ClientRepository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface ClientService {
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class ClientService {
 
-    List<Client> findAllClients();
+    private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
-    ClientDTO findClientById(UUID id);
+    public List<ClientDTO> findAllClients() {
+        return clientRepository.findAll().stream()
+                .map(clientMapper::toDto)
+                .toList();
+    }
 
-    List<ClientDTO> findClientsByFullName(String fullName);
+    public ClientDTO findClientById(UUID id) {
+        Client existingClient = clientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return clientMapper.toDto(existingClient);
+    }
 
-    List<ClientDTO> findClientsByBusinessForm(String businessForm);
+    public List<ClientDTO> findClientsByFullName(String fullName) {
+        List<Client> existingClients = clientRepository.findClientsByFullName(fullName);
+        return existingClients.stream().map(clientMapper::toDto).toList();
+    }
 
-    ClientDTO findClientByClientDetails(ClientDetails clientDetails);
+    public List<ClientDTO> findClientsByBusinessForm(String businessForm) {
+        List<Client> existingClients = clientRepository.findClientsByBusinessForm(businessForm);
+        return existingClients.stream().map(clientMapper::toDto).toList();
+    }
 
-    ClientDTO findClientByContractList(String contractList);
+    public ClientDTO findClientByClientDetails(ClientDetails clientDetails) {
+        Client client = clientRepository.findClientByClientDetails(clientDetails).orElseThrow(EntityNotFoundException::new);
+        return clientMapper.toDto(client);
+    }
 
-    List<ClientDTO> findClientsByIsActive(boolean isActive);
+    public ClientDTO findClientByContractList(String contractList) {
+        Client existingClient = clientRepository.findClientByContractList(contractList).orElseThrow(EntityNotFoundException::new);
+        return clientMapper.toDto(existingClient);
+    }
 
-    ClientDTO createClient(ClientDTO clientRequestDTO);
+    public List<ClientDTO> findClientsByIsActive(boolean isActive) {
+        List<Client> activeClients = clientRepository.findClientsByIsActive(isActive);
+        return activeClients.stream().map(clientMapper::toDto).toList();
+    }
 
-    ClientDTO updateClient(ClientDTO clientRequestDTO);
+    public ClientDTO createClient(ClientDTO clientRequestDTO) {
+        Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
+        ClientDTO responseDTO = clientMapper.toDto(client);
+        log.info("Client saved: {}", responseDTO);
+        return responseDTO;
+    }
 
-    void deleteClientById(UUID id);
+    public void deleteClientById(UUID id) {
+        clientRepository.deleteClientById(id);
+        log.info("Client deleted: {}", id);
+    }
+
+    public ClientDTO updateClient(ClientDTO clientRequestDTO) {
+        Client client = clientRepository.save(clientMapper.toEntity(clientRequestDTO));
+        ClientDTO responseDTO = clientMapper.toDto(client);
+        log.info("Updated client: {}", responseDTO);
+        return responseDTO;
+    }
 }

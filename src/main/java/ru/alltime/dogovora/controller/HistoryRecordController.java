@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.alltime.dogovora.service.HistoryRecordService;
 
 @RestController
-@RequestMapping("/api/v1/history")
+@RequestMapping("/history")
 public class HistoryRecordController {
 
     private HistoryRecordService historyRecordService;

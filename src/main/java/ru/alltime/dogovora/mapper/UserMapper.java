@@ -2,7 +2,8 @@ package ru.alltime.dogovora.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.alltime.dogovora.dto.UserDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;
@@ -11,31 +12,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserMapper {
 
-    public UserDTO toDto(User user) {
-        return new UserDTO(
+    public UserResponseDTO toDto(User user) {
+        return new UserResponseDTO(
                 user.getId(),
+                user.getLogin(),
                 user.getFirstName(),
                 user.getSecondName(),
                 user.getThirdName(),
                 user.getPosition(),
-                user.getLogin(),
                 user.isActive()
         );
     }
 
-    public List<UserDTO> toDto(List<User> users) {
+    public List<UserResponseDTO> toDto(List<User> users) {
         return users.stream().map(this::toDto).toList();
     }
 
-    public User toEntity(UserDTO dto) {
+    public User toEntity(UserRegisterDTO dto) {
         User user = new User();
-        user.setId(dto.id());
         user.setFirstName(dto.firstName());
         user.setSecondName(dto.secondName());
         user.setThirdName(dto.thirdName());
         user.setPosition(dto.position());
         user.setLogin(dto.login());
-        user.setActive(dto.isActive());
+        user.setPassword(dto.password());
         return user;
     }
 }
