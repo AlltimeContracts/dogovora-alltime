@@ -1,30 +1,59 @@
 package ru.alltime.dogovora.service;
 
-import ru.alltime.dogovora.dto.ContractRequestDTO;
-import ru.alltime.dogovora.dto.ContractResponseDTO;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ru.alltime.dogovora.dto.ContractDTO;
+import ru.alltime.dogovora.mapper.ContractMapper;
 import ru.alltime.dogovora.model.Contract;
+import ru.alltime.dogovora.repository.ContractRepository;
 
-import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-public interface ContractService {
+@Service
+@AllArgsConstructor
+@Slf4j
+public class ContractService {
 
-    List<ContractResponseDTO> findAllContracts();
+    private ContractRepository contractRepository;
+    private ContractMapper contractMapper;
 
-    ContractResponseDTO findContractById(UUID uuid);
+    public List<ContractDTO> findAllContracts() {
+        return contractRepository.findAll().stream().map(contractMapper::toDto).toList();
+    }
 
-    List<ContractResponseDTO> findContractsByContractNum(String contractNum);
+    public ContractDTO findContractById(UUID uuid) {
+        Contract foundContract = contractRepository.findById(uuid).orElseThrow(EntityNotFoundException::new);
+        return contractMapper.toDto(foundContract);
+    }
 
-    List<ContractResponseDTO> findContractsByIsActive(boolean isActive);
+    public List<ContractDTO> findContractsByContractNum(String contractNum) {
+        List<Contract> contractsByContractNum = contractRepository.findContractsByContractNum(contractNum);
+        return contractsByContractNum.stream().map(contractMapper::toDto).toList();
+    }
 
-    ContractResponseDTO createContract(ContractRequestDTO contractRequestDTO);
+    public List<ContractDTO> findContractsByIsActive(boolean isActive) {
+        return contractRepository.findContractsByIsActive(isActive).stream().map(contractMapper::toDto).toList();
+    }
 
-    ContractResponseDTO updateContract(ContractRequestDTO contractRequestDTO);
+    public ContractDTO createContract(ContractDTO contractRequestDTO) {
+        Contract createdContract = contractMapper.toEntity(contractRequestDTO);
+        contractRepository.save(createdContract);
+        log.info("Contract created: {}", createdContract);
+        return contractMapper.toDto(createdContract);
+    }
 
-    void deleteContractById(UUID uuid);
+    public ContractDTO updateContract(ContractDTO contractRequestDTO) {
+        Contract updatedContract = contractMapper.toEntity(contractRequestDTO);
+        contractRepository.save(updatedContract);
+        log.info("Contract updated: {}", updatedContract);
+        return contractMapper.toDto(updatedContract);
+    }
 
-    // Contract uploadContractFile(File contract);
-
-
+    public void deleteContractById(UUID uuid) {
+        contractRepository.deleteById(uuid);
+        log.info("Contract deleted: {}", uuid);
+    }
 }

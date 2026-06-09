@@ -2,55 +2,44 @@ package ru.alltime.dogovora.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alltime.dogovora.dto.ClientRequestDTO;
-import ru.alltime.dogovora.dto.ClientResponseDTO;
-import ru.alltime.dogovora.model.Client;
-import ru.alltime.dogovora.service.ClientServiceImpl;
+import ru.alltime.dogovora.dto.ClientDTO;
+import ru.alltime.dogovora.service.ClientService;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/clients")
+@RequestMapping("/clients")
 @AllArgsConstructor
 public class ClientController {
 
-    private ClientServiceImpl clientService;
+    private final ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients() {
-        List<Client> allClients = clientService.findAllClients();
-        return ResponseEntity.ok(allClients);
+    public List<ClientDTO> getAllClients(){
+        return clientService.findAllClients();
     }
 
-    @GetMapping("/by-id/{id}")
-    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable UUID id) {
-        ClientResponseDTO client = clientService.findClientById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable UUID id) {
+        ClientDTO client = clientService.findClientById(id);
         return ResponseEntity.ok(client);
     }
 
-    /**
-     *
-     * @param clientRequestDTO Создание пользователья!!!!
-     * @return
-     */
-
-    @PostMapping("/create-client")
-    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Parameter(description = "передается DTO для создания клиента") ClientRequestDTO clientRequestDTO) {
-        ClientResponseDTO createdClient = clientService.createClient(clientRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdClient);
+    @PostMapping
+    public ClientDTO createClient(@RequestBody @Parameter(description = "передается DTO для создания клиента") ClientDTO clientDTO) {
+        return clientService.createClient(clientDTO);
     }
 
-    @PutMapping("/update-clint-info")
-    public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody ClientRequestDTO clientRequestDTO) {
-        ClientResponseDTO updatedClient = clientService.updateClient(clientRequestDTO);
+    @PutMapping
+    public ResponseEntity<ClientDTO> updateClient(@RequestBody ClientDTO clientDTO) {
+        ClientDTO updatedClient = clientService.updateClient(clientDTO);
         return ResponseEntity.ok(updatedClient);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClient(@PathVariable UUID id) {
         var clientForDelete = clientService.findClientById(id);
         clientService.deleteClientById(id);

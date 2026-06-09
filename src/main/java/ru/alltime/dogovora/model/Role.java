@@ -1,6 +1,6 @@
 package ru.alltime.dogovora.model;
 
-public enum Roles {
+public enum Role {
     ADMIN, // вернуть потом Талии
     MANAGER,
     OWNER

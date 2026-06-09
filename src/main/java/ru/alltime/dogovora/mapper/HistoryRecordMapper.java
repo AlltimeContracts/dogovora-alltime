@@ -1,65 +1,57 @@
 package ru.alltime.dogovora.mapper;
 
-
-import org.mapstruct.*;
-import ru.alltime.dogovora.dto.HistoryRecordRequestDTO;
-import ru.alltime.dogovora.dto.HistoryRecordResponseDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.HistoryRecordDTO;
 import ru.alltime.dogovora.model.Contract;
 import ru.alltime.dogovora.model.HistoryRecord;
 import ru.alltime.dogovora.model.User;
 
 import java.util.List;
-import java.util.UUID;
 
-@Mapper(
-        componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
-public interface HistoryRecordMapper {
-    // ---- RequestDTO → Entity ----
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", source = "userId")
-    @Mapping(target = "contractBefore", source = "contractBeforeId")
-    @Mapping(target = "contractAfter", source = "contractAfterId")
-    HistoryRecord toEntity(HistoryRecordRequestDTO dto);
+@Component
+@RequiredArgsConstructor
+public class HistoryRecordMapper {
 
-    // ---- Entity → ResponseDTO ----
-    @Mapping(target = "userId", source = "user.id")
-    @Mapping(target = "contractBeforeId", source = "contractBefore.id")
-    @Mapping(target = "contractAfterId", source = "contractAfter.id")
-    HistoryRecordResponseDTO toResponseDTO(HistoryRecord entity);
-
-    // ---- Маппинг списков ----
-    List<HistoryRecordResponseDTO> toResponseDTOList(List<HistoryRecord> entities);
-
-    // ---- Обновление существующей сущности из DTO (опционально) ----
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "user", source = "userId")
-    @Mapping(target = "contractBefore", source = "contractBeforeId")
-    @Mapping(target = "contractAfter", source = "contractAfterId")
-    void updateEntityFromDto(HistoryRecordRequestDTO dto, @MappingTarget HistoryRecord entity);
-
-    // ====== Кастомные методы UUID <-> Entity ======
-
-    default User map(UUID id) {
-        if (id == null) return null;
-        User user = new User();
-        user.setId(id);
-        return user;
+    public HistoryRecordDTO toDto(HistoryRecord historyRecord) {
+        return new HistoryRecordDTO(
+                historyRecord.getId(),
+                historyRecord.getUser() != null ? historyRecord.getUser().getId() : null,
+                historyRecord.getStatusBefore(),
+                historyRecord.getStatusAfter(),
+                historyRecord.getContractBefore() != null ? historyRecord.getContractBefore().getId() : null,
+                historyRecord.getContractAfter() != null ? historyRecord.getContractAfter().getId() : null
+        );
     }
 
-    default Contract mapContract(UUID id) {
-        if (id == null) return null;
-        Contract contract = new Contract();
-        contract.setId(id);
-        return contract;
+    public List<HistoryRecordDTO> toDto(List<HistoryRecord> historyRecords) {
+        return historyRecords.stream().map(this::toDto).toList();
     }
 
-    default UUID map(User user) {
-        return user != null ? user.getId() : null;
-    }
+    public HistoryRecord toEntity(HistoryRecordDTO dto) {
+        HistoryRecord historyRecord = new HistoryRecord();
+        historyRecord.setId(dto.id());
+        historyRecord.setStatusBefore(dto.statusBefore());
+        historyRecord.setStatusAfter(dto.statusAfter());
 
-    default UUID map(Contract contract) {
-        return contract != null ? contract.getId() : null;
+        if (dto.userId() != null) {
+            User user = new User();
+            user.setId(dto.userId());
+            historyRecord.setUser(user);
+        }
+
+        if (dto.contractBeforeId() != null) {
+            Contract contractBefore = new Contract();
+            contractBefore.setId(dto.contractBeforeId());
+            historyRecord.setContractBefore(contractBefore);
+        }
+
+        if (dto.contractAfterId() != null) {
+            Contract contractAfter = new Contract();
+            contractAfter.setId(dto.contractAfterId());
+            historyRecord.setContractAfter(contractAfter);
+        }
+
+        return historyRecord;
     }
 }

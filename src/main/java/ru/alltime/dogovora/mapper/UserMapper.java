@@ -1,23 +1,41 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.*;
-import ru.alltime.dogovora.dto.UserRequestDTO;
-import ru.alltime.dogovora.dto.UserResponseDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
+import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.model.User;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserMapper {
-    // ---- Request → Entity ----
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", constant = "MANAGER") // при регистрации всем назначаем MANAGER
-    @Mapping(target = "active", constant = "true") // при создании пользователь активен
-    User toEntity(UserRequestDTO dto);
+import java.util.List;
 
-    // ---- Entity → Response ----
-    UserResponseDTO toResponseDto(User entity);
+@Component
+@RequiredArgsConstructor
+public class UserMapper {
 
-    // ---- Обновление сущности из DTO (опционально) ----
-    // используется для patch/update
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUserFromDto(UserRequestDTO dto, @MappingTarget User entity);
+    public UserResponseDTO toDto(User user) {
+        return new UserResponseDTO(
+                user.getId(),
+                user.getLogin(),
+                user.getFirstName(),
+                user.getSecondName(),
+                user.getThirdName(),
+                user.getPosition(),
+                user.isActive()
+        );
+    }
+
+    public List<UserResponseDTO> toDto(List<User> users) {
+        return users.stream().map(this::toDto).toList();
+    }
+
+    public User toEntity(UserRegisterDTO dto) {
+        User user = new User();
+        user.setFirstName(dto.firstName());
+        user.setSecondName(dto.secondName());
+        user.setThirdName(dto.thirdName());
+        user.setPosition(dto.position());
+        user.setLogin(dto.login());
+        user.setPassword(dto.password());
+        return user;
+    }
 }

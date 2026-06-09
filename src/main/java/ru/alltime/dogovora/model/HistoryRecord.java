@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "history_record")
+@Table(name = "history_records")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

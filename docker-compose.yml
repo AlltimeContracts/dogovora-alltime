@@ -1,23 +1,40 @@
 services:
-  postgres:
+  alltimeDb:
     image: postgres:18-alpine
-    container_name: dogovora-postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-dogovora_db}
-      POSTGRES_USER: ${POSTGRES_USER:-alltime}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-alltime}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-alltime} -d ${POSTGRES_DB:-dogovora_db}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - dogovora-network
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      # Don't require the user to login
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - ./${POSTGRES_DB}/pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - dogovora-network
+    depends_on:
+      - alltimeDb
     restart: unless-stopped
 
 volumes:

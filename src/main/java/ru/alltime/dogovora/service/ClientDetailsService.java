@@ -1,31 +1,63 @@
 package ru.alltime.dogovora.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.alltime.dogovora.model.ClientDetails;
+import ru.alltime.dogovora.repository.ClientDetailsRepository;
 
 import java.util.List;
 
-public interface ClientDetailsService {
+@Service
+@Slf4j
+@RequiredArgsConstructor
 
-    List<ClientDetails> findAllClientDetails();
+public class ClientDetailsService {
 
-    ClientDetails findClientDetailsByOgrnOgrnip(String ogrnOgrnip);
+    private ClientDetailsRepository clientDetailsRepository;
 
-    ClientDetails findClientDetailsByInn(String inn);
+    public List<ClientDetails> findAllClientDetails() {
+        return clientDetailsRepository.findAll();
+    }
 
-    ClientDetails createClientDetails(ClientDetails clientDetails);
+    public ClientDetails findClientDetailsByOgrnOgrnip(String ogrnOgrnip) {
+        return clientDetailsRepository.findClientDetailsByOgrnOgrnip(ogrnOgrnip).orElseThrow(() -> new EntityNotFoundException());
+    }
 
-    ClientDetails updateClientDetails(ClientDetails clientDetails);
+    public ClientDetails findClientDetailsByInn(String inn) {
+        return clientDetailsRepository.findClientDetailsByInn(inn).orElseThrow(() -> new EntityNotFoundException());
+    }
 
-    ClientDetails findClientDetailsByKpp(String kpp);
+    public ClientDetails createClientDetails(ClientDetails clientDetails) {
+        return clientDetailsRepository.save(clientDetails);
+    }
 
-    ClientDetails findClientDetailsByLegalAddress(String legalAddress);
+    public ClientDetails updateClientDetails(ClientDetails clientDetails) {
+        return clientDetailsRepository.save(clientDetails);
+    }
 
-    ClientDetails findClientDetailsByActualAddress(String actualAddress);
+    public ClientDetails findClientDetailsByKpp(String kpp) {
+        return clientDetailsRepository.findClientDetailsByKpp(kpp).orElseThrow(() -> new EntityNotFoundException());
+    }
 
-    ClientDetails findClientDetailsByCurrentAccount(String currentAccount);
+    public ClientDetails findClientDetailsByLegalAddress(String legalAddress) {
+        return clientDetailsRepository.findClientDetailsByLegalAddress(legalAddress).orElseThrow(() -> new EntityNotFoundException());
+    }
 
-    ClientDetails findClientDetailsByCorrespondentAccount(String correspondentAccount);
+    public ClientDetails findClientDetailsByActualAddress(String actualAddress) {
+        return clientDetailsRepository.findClientDetailsByActualAddress(actualAddress).orElseThrow(() -> new EntityNotFoundException());
+    }
 
-    void deleteClientDetailsByInn(String inn);
+    public ClientDetails findClientDetailsByCurrentAccount(String currentAccount) {
+        return clientDetailsRepository.findClientDetailsByCurrentAccount(currentAccount).orElseThrow(() -> new EntityNotFoundException());
+    }
 
+    public ClientDetails findClientDetailsByCorrespondentAccount(String correspondentAccount) {
+        return clientDetailsRepository.findClientDetailsByCorrespondentAccount(correspondentAccount).orElseThrow(() -> new EntityNotFoundException());
+    }
+
+    public void deleteClientDetailsByInn(String inn) {
+        clientDetailsRepository.deleteClientDetailsByInn(inn);
+    }
 }

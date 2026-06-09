@@ -1,47 +1,43 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import ru.alltime.dogovora.dto.ClientDetailsRequestDTO;
-import ru.alltime.dogovora.dto.ClientDetailsResponseDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.ClientDetailsDTO;
 import ru.alltime.dogovora.model.ClientDetails;
 
 import java.util.List;
 
-@Mapper(
-        componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
-public interface ClientDetailsMapper {
+@Component
+@RequiredArgsConstructor
+public class ClientDetailsMapper {
 
-    /**
-     * DTO-запрос -> сущность.
-     * Используется при создании новых реквизитов.
-     * ID игнорируем — генерируется БД.
-     */
-    @Mapping(target = "id", ignore = true)
-    ClientDetails toEntity(ClientDetailsRequestDTO dto);
+    public ClientDetailsDTO toDto(ClientDetails clientDetails) {
+        return new ClientDetailsDTO(
+                clientDetails.getId(),
+                clientDetails.getOgrnOgrnip(),
+                clientDetails.getInn(),
+                clientDetails.getKpp(),
+                clientDetails.getLegalAddress(),
+                clientDetails.getActualAddress(),
+                clientDetails.getCurrentAccount(),
+                clientDetails.getCorrespondentAccount()
+        );
+    }
 
-    /**
-     * Сущность -> DTO-ответ.
-     * Используется при возврате данных наружу.
-     */
-    ClientDetailsResponseDTO toResponseDto(ClientDetails entity);
+    public List<ClientDetailsDTO> toDto(List<ClientDetails> clientDetailsList) {
+        return clientDetailsList.stream().map(this::toDto).toList();
+    }
 
-    /**
-     * Частичное обновление существующей сущности из DTO-запроса.
-     * null-поля в DTO НЕ затирают существующие значения.
-     * Удобно для PATCH/частичного PUT.
-     */
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntityFromDto(ClientDetailsRequestDTO dto, @MappingTarget ClientDetails entity);
-
-    /**
-     * Маппинг списков (напр., для выдачи коллекций).
-     */
-    List<ClientDetailsResponseDTO> toResponseDtoList(List<ClientDetails> entities);
+    public ClientDetails toEntity(ClientDetailsDTO dto) {
+        ClientDetails clientDetails = new ClientDetails();
+        clientDetails.setId(dto.id());
+        clientDetails.setOgrnOgrnip(dto.ogrnOgrnip());
+        clientDetails.setInn(dto.inn());
+        clientDetails.setKpp(dto.kpp());
+        clientDetails.setLegalAddress(dto.legalAddress());
+        clientDetails.setActualAddress(dto.actualAddress());
+        clientDetails.setCurrentAccount(dto.currentAccount());
+        clientDetails.setCorrespondentAccount(dto.correspondentAccount());
+        return clientDetails;
+    }
 }

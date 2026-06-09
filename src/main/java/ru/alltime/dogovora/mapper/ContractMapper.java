@@ -1,39 +1,52 @@
 package ru.alltime.dogovora.mapper;
 
-import org.mapstruct.*;
-import ru.alltime.dogovora.dto.ContractRequestDTO;
-import ru.alltime.dogovora.dto.ContractResponseDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import ru.alltime.dogovora.dto.ContractDTO;
+import ru.alltime.dogovora.model.Client;
 import ru.alltime.dogovora.model.Contract;
 
 import java.util.List;
 
-@Mapper(
-        componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
-)
-public interface ContractMapper {
+@Component
+@RequiredArgsConstructor
+public class ContractMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
-    @Mapping(target = "historyList", ignore = true)
-    @Mapping(target = "active", source = "isActive")
-    @Mapping(target = "contractNum", source = "contractNum")
-    Contract toEntity(ContractRequestDTO dto);
+    public ContractDTO toDto(Contract contract) {
+        return new ContractDTO(
+                contract.getId(),
+                contract.getContractNum(),
+                contract.isActive(),
+                contract.getContractDateFrom(),
+                contract.getContractDateTo(),
+                contract.getClient() != null ? contract.getClient().getId() : null,
+                contract.getManagerIds(),
+                contract.getDescriptionText(),
+                contract.getCurrentStatus()
+        );
+    }
 
-    @Mapping(target = "contractStatus", source = "currentStatus")
-    @Mapping(target = "managerList", source = "managerIdList")
-    @Mapping(target = "isActive", source = "active")
-    ContractResponseDTO toResponseDTO(Contract entity);
+    public List<ContractDTO> toDto(List<Contract> contracts) {
+        return contracts.stream().map(this::toDto).toList();
+    }
 
-    List<ContractResponseDTO> toResponseDTOList(List<Contract> entities);
+    public Contract toEntity(ContractDTO dto) {
+        Contract contract = new Contract();
+        contract.setId(dto.id());
+        contract.setContractNum(dto.contractNum());
+        contract.setActive(dto.isActive());
+        contract.setContractDateFrom(dto.contractDateFrom());
+        contract.setContractDateTo(dto.contractDateTo());
+        contract.setManagerIds(dto.managerList());
+        contract.setDescriptionText(dto.descriptionText());
+        contract.setCurrentStatus(dto.contractStatus());
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "currentStatus", source = "contractStatus")
-    @Mapping(target = "managerIdList", source = "managerList")
-    @Mapping(target = "historyList", ignore = true)
-    @Mapping(target = "active", source = "isActive")
-    @Mapping(target = "contractNum", source = "contractNum")
-    void updateEntityFromDto(ContractRequestDTO dto, @MappingTarget Contract entity);
+        if (dto.clientId() != null) {
+            Client client = new Client();
+            client.setId(dto.clientId());
+            contract.setClient(client);
+        }
+
+        return contract;
+    }
 }
