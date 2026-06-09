@@ -73,6 +73,15 @@ button:focus {
   color: red;
 }
 
+.error-message {
+  color: #c0392b;
+  background: #fdecea;
+  border: 1px solid #e74c3c;
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
 .auth-tabs {
   display: flex;
   justify-content: space-between;
@@ -231,6 +240,55 @@ button:focus {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+}
+
+.no-contracts-message {
+  text-align: center;
+}
+
+.page-contracts__search {
+  padding: 10px;
+  margin: 0;
+  margin-bottom: 10px;
+  min-height: 40px;
+}
+
+.contract {
+  text-align: center;
+}
+
+.contract:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.status-badge {
+  border-radius: 12px;
+  padding: 4px 10px;
+  color: white;
+  display: inline-block;
+}
+
+.status--active {
+  background-color: green;
+}
+
+.status--draft {
+  background-color: purple;
+}
+
+.status--approving {
+  background-color: orange;
+}
+
+.status--signed {
+  background-color: blue;
+}
+
+.status--finished {
+  background-color: gray ;
+
 }
 
 @keyframes fadeIn {

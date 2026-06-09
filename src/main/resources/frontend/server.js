@@ -6,7 +6,7 @@ const users = [{login: 'admin', password: '1234'}];
 
 const contracts = [
       { id: 1, title: 'Договор с ООО "Ромашка"', date: '2023-10-01', status: 'Активен' },
-      { id: 2, title: 'Контракт на поставку кофе', date: '2023-11-15', status: 'В работе' },
+      { id: 2, title: 'Контракт на поставку кофе', date: '2023-11-15', status: 'На согласовании' },
       { id: 3, title: 'Аренда офиса (Центр)', date: '2024-01-10', status: 'Завершен' }
     ];
 
@@ -14,7 +14,7 @@ const server = http.createServer((req, res) => {
   // Разрешаем запросы с любого источника (CORS), чтобы наш фронтенд мог достучаться до сервера
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   // Ответ на предварительный запрос (Preflight OPTIONS query)
   if (req.method === 'OPTIONS') {
@@ -71,8 +71,10 @@ const server = http.createServer((req, res) => {
 
   // Обработка получения списка договоров
   if (req.url === '/contracts' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(contracts));
+    setTimeout(() => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(contracts));
+    }, 1500); // Искусственная задержка для имитации интернета
     return;
   }
   if (req.url === '/register' && req.method === 'POST') {

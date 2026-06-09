@@ -1,3 +1,5 @@
+import { apiFetch } from "./api";
+
 const registerForm = document.querySelector('#register-form');
 
 registerForm.addEventListener('submit', async (e) => {
@@ -8,9 +10,8 @@ registerForm.addEventListener('submit', async (e) => {
     }
     const login = registerForm.login.value;
     const password = registerForm.password.value;
-    const response = await fetch('http://localhost:3000/register',{
+    const response = await apiFetch('/register',{
         method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify({ login, password })
     });
 });
