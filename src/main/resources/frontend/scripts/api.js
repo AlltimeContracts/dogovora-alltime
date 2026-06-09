@@ -1,11 +1,11 @@
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'http://localhost:8080'
 
 export async function apiFetch(url, options = {}) {
     const token = localStorage.getItem('token');
     const response = await fetch((BASE_URL + url), {
         headers: { 
         'Content-Type': 'application/json', 
-        'Authorization': 'Bearer ' + token,
+        ...(token ? {'Authorization': 'Bearer ' + token} : {}),
         ...options.headers
     },
         ...options
