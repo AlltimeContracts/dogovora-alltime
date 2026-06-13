@@ -1,6 +1,7 @@
 package ru.alltime.dogovora.security.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -21,12 +22,13 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
+    private enum TokenType { ACCESS, REFRESH }
+
     //TODO хранить где-то на диске, а не в оперативной памяти, на случай падения сервиса
     private final String secretKey;
-    /**
-     * Время существования accessToken в минутах
-     */
-    private final static int accessTokenExpirationTime = 15;
+    private static final int ACCESS_TOKEN_EXPIRATION_MINUTES = 15;
+    private static final int REFRESH_TOKEN_EXPIRATION_DAYS = 30;
+    private static final String TOKEN_TYPE_CLAIM = "type";
 
     public JWTService() {
         try {
@@ -38,15 +40,32 @@ public class JWTService {
         }
     }
 
-    public String generateToken(String login) {
+    public String generateAccessToken(String login) {
+        return buildToken(login, TokenType.ACCESS, ACCESS_TOKEN_EXPIRATION_MINUTES, ChronoUnit.MINUTES);
+    }
+
+    public String generateRefreshToken(String login) {
+        return buildToken(login, TokenType.REFRESH, REFRESH_TOKEN_EXPIRATION_DAYS, ChronoUnit.DAYS);
+    }
+
+    /**
+     * Генерация различных видов токенов
+     * @param login Логин пользователя
+     * @param type Тип обновляемого токена (access, refresh)
+     * @param amount Кол-во у.е. срока жизни токена
+     * @param unit Единица измерения срока жизни токена
+     * @return сгенерированный токен
+     */
+    private String buildToken(String login, TokenType type, long amount, ChronoUnit unit) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put(TOKEN_TYPE_CLAIM, type.name());
 
         return Jwts.builder()
                 .claims()
                 .add(claims)
                 .subject(login)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(Date.from(Instant.now().plus(accessTokenExpirationTime, ChronoUnit.MINUTES)))
+                .expiration(Date.from(Instant.now().plus(amount, unit)))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -80,7 +99,17 @@ public class JWTService {
 
     public boolean validateToken(String token, UserDetails userDetails) {
         String login = extractLogin(token);
-        return login.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        String type = extractClaim(token, claims -> claims.get(TOKEN_TYPE_CLAIM, String.class));
+        return login.equals(userDetails.getUsername()) && !isTokenExpired(token) && TokenType.ACCESS.name().equals(type);
+    }
+
+    public boolean validateRefreshToken(String token) {
+        try {
+            String type = extractClaim(token, claims -> claims.get(TOKEN_TYPE_CLAIM, String.class));
+            return TokenType.REFRESH.name().equals(type);
+        } catch (JwtException e) {
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {
