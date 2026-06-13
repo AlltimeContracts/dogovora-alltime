@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.alltime.dogovora.dto.JwtTokenDTO;
+import ru.alltime.dogovora.dto.RefreshTokenRequestDTO;
 import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
 import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.service.UserService;
@@ -27,6 +28,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public JwtTokenDTO login(@RequestBody UserRegisterDTO userDTO) {
-        return new JwtTokenDTO(userService.verify(userDTO), null);
+        return userService.verify(userDTO);
+    }
+
+    /**
+     * Обновление accessToken с помощью refreshToken
+     */
+    @PostMapping("/refresh-token")
+    public JwtTokenDTO refreshToken(@RequestBody RefreshTokenRequestDTO dto) {
+        return userService.refreshAccessToken(dto.refreshToken());
     }
 }

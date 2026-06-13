@@ -6,11 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import ru.alltime.dogovora.dto.JwtTokenDTO;
 import ru.alltime.dogovora.dto.userDTOs.UserRegisterDTO;
 import ru.alltime.dogovora.dto.userDTOs.UserResponseDTO;
 import ru.alltime.dogovora.mapper.UserMapper;
@@ -81,12 +81,24 @@ public class UserService {
         return userMapper.toDto(existingUser);
     }
 
-    public String verify(UserRegisterDTO userDTO) {
+    public JwtTokenDTO verify(UserRegisterDTO userDTO) {
         try {
-            authManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.login(), userDTO.password()));
-            return jwtService.generateToken(userDTO.login());
+            final var userLogin = userDTO.login();
+            authManager.authenticate(new UsernamePasswordAuthenticationToken(userLogin, userDTO.password()));
+            String accessToken = jwtService.generateAccessToken(userLogin);
+            String refreshToken = jwtService.generateRefreshToken(userLogin);
+            return new JwtTokenDTO(accessToken, refreshToken);
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
+    }
+
+    public JwtTokenDTO refreshAccessToken(String refreshToken) {
+        if (!jwtService.validateRefreshToken(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired refresh token");
+        }
+
+        String login = jwtService.extractLogin(refreshToken);
+        return new JwtTokenDTO(jwtService.generateAccessToken(login), null);
     }
 }
